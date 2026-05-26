@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1764,7 +1764,7 @@ footer{
 <li><a onclick="go('home','spenden')" class="nav-donate">&#9825; Spenden</a></li>
 <li><a onclick="go('members-page')" class="nav-cta">Mitgliederbereich</a></li>
 </ul>
-<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Theme wechseln" title="Hell/Dunkel wechseln">☀</button>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Theme wechseln" title="Hell/Dunkel wechseln">☾</button>
 <button class="hamburger" id="hbg" onclick="toggleNav()" aria-label="Menu">
 <span></span><span></span><span></span>
 </button>
@@ -3186,7 +3186,10 @@ function toggleTheme(){
 (function(){
   const saved=localStorage.getItem('ashor-theme');
   const btn=document.getElementById('themeToggle');
-  if(saved==='light'){
+  if(saved==='dark'){
+    document.documentElement.removeAttribute('data-theme');
+    if(btn) btn.textContent='☀';
+  } else {
     document.documentElement.setAttribute('data-theme','light');
     if(btn) btn.textContent='☾';
   }
