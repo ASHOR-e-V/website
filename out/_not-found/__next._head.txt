@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[43847,["/_next/static/chunks/a9f93e7dbe7168f6.js","/_next/static/chunks/5a77b8a5e8b631dd.js"],"ViewportBoundary"]
+3:I[43847,["/_next/static/chunks/a9f93e7dbe7168f6.js","/_next/static/chunks/5a77b8a5e8b631dd.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"a-0ja60yRIa8zBcm0a7tT","rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"ASHOR – Assyrische Hochschulgruppe Rhein-Main"}],["$","meta","1",{"name":"description","content":"ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V. Identität. Bildung. Gemeinschaft."}]]}]}]}],null]}],"loading":null,"isPartial":false}

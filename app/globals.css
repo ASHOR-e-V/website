@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #07090E;
+  --surface: rgba(255,255,255,0.045);
+  --surface2: rgba(255,255,255,0.028);
+  --text: #E4DAC8;
+  --muted: rgba(228,218,200,0.65);
+  --muted2: rgba(228,218,200,0.40);
+  --gold: #C9A84C;
+  --gold-dim: rgba(201,168,76,0.15);
+  --gold-line: rgba(201,168,76,0.20);
+  --clay: #9E4628;
+  --lapis: #3D6FAA;
+  --line: rgba(255,255,255,0.08);
+  --shadow: 0 24px 70px rgba(0,0,0,0.65);
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --max: 1240px;
+}
+
+[data-theme="light"] {
+  --bg: #F4EFE6;
+  --surface: rgba(26,21,16,0.055);
+  --surface2: rgba(26,21,16,0.035);
+  --text: #1A1510;
+  --muted: rgba(26,21,16,0.65);
+  --muted2: rgba(26,21,16,0.40);
+  --gold: #A0741C;
+  --gold-dim: rgba(160,116,28,0.12);
+  --gold-line: rgba(160,116,28,0.22);
+  --lapis: #2B5A9E;
+  --line: rgba(26,21,16,0.10);
+  --shadow: 0 24px 70px rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Lora', Georgia, serif;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse 1000px 650px at 90% 0%, rgba(201,168,76,.08) 0%, transparent 65%),
+    radial-gradient(ellipse 800px 600px at 0% 100%, rgba(61,111,170,.07) 0%, transparent 65%),
+    var(--bg);
+  overflow-x: hidden;
+  line-height: 1.75;
+  transition: background 0.3s, color 0.3s;
+}
+
+[data-theme="light"] body {
+  background:
+    radial-gradient(ellipse 1000px 650px at 90% 0%, rgba(160,116,28,.06) 0%, transparent 65%),
+    radial-gradient(ellipse 800px 600px at 0% 100%, rgba(43,90,158,.05) 0%, transparent 65%),
+    var(--bg);
+}
+
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes lineGrow { to { width: 40px; } }
+@keyframes scrollAnim { 0%, 100% { opacity: .2; } 50% { opacity: .8; } }
+@keyframes geoSpin { from { transform: translateY(-50%) rotate(0); } to { transform: translateY(-50%) rotate(360deg); } }
