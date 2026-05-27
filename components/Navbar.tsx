@@ -36,7 +36,7 @@ export default function Navbar() {
       >
         <div style={{ maxWidth: "var(--max)", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 74 }}>
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: ".9rem", textDecoration: "none", flexShrink: 0 }}>
-            <Image src="/logo.png" alt="ASHOR Logo" width={44} height={44} style={{ objectFit: "contain" }} />
+            <Image src="/logo.png" alt="ASHOR Logo" width={44} height={44} className="logo-img" style={{ objectFit: "contain" }} />
             <span>
               <span style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "1.2rem", fontWeight: 700, letterSpacing: ".1em", color: "var(--text)" }}>ASHOR</span>
               <span style={{ display: "block", fontFamily: "'Jost', sans-serif", fontSize: ".58rem", color: "var(--muted2)", letterSpacing: ".2em", textTransform: "uppercase", marginTop: 2 }}>Assyrische Hochschulgruppe Rhein-Main e.V.</span>

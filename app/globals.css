@@ -72,6 +72,10 @@ body {
 @keyframes lineGrow { to { width: 40px; } }
 @keyframes scrollAnim { 0%, 100% { opacity: .2; } 50% { opacity: .8; } }
 
+/* ── Logo theme filter ── */
+.logo-img { filter: none; transition: filter 0.3s; }
+[data-theme="light"] .logo-img { filter: brightness(0) saturate(100%); }
+
 /* ── Responsive layout classes ── */
 .grid-hero {
   display: grid;

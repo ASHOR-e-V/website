@@ -45,7 +45,7 @@ export default function LoginCard() {
       <div style={{ width: "100%", maxWidth: 420, background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-lg)", padding: "2.5rem", boxShadow: "var(--shadow)", position: "relative" }}>
         <div style={{ position: "absolute", top: 0, left: "2rem", right: "2rem", height: 1, background: "var(--gold)" }} />
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-          <Image src="/logo.png" alt="ASHOR Logo" width={64} height={64} style={{ objectFit: "contain", marginBottom: "1rem" }} />
+          <Image src="/logo.png" alt="ASHOR Logo" width={64} height={64} className="logo-img" style={{ objectFit: "contain", marginBottom: "1rem" }} />
           <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.4rem", fontWeight: 700, marginBottom: ".3rem" }}>Mitgliederbereich</h1>
           <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".72rem", color: "var(--muted2)", letterSpacing: ".1em" }}>
             {mode === "login" ? "Melde dich an" : "Registriere dich"}

@@ -46,7 +46,7 @@ export default function Hero() {
         </div>
 
         <motion.div {...fadeUp(0.78)} className="hero-visual" style={{ alignItems: "center", justifyContent: "flex-end" }}>
-          <Image src="/logo.png" alt="ASHOR Logo" width={360} height={360} style={{ objectFit: "contain", filter: "drop-shadow(0 0 50px rgba(201,168,76,.3))" }} priority />
+          <Image src="/logo.png" alt="ASHOR Logo" width={360} height={360} className="logo-img" style={{ objectFit: "contain" }} priority />
         </motion.div>
       </div>
 
