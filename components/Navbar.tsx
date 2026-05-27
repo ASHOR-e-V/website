@@ -27,19 +27,22 @@ export default function Navbar() {
       <nav
         style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
-          padding: "0 1.5rem",
+          padding: "0 1rem",
           background: scrolled ? "rgba(7,9,14,.88)" : "transparent",
           backdropFilter: scrolled ? "blur(18px)" : "none",
           borderBottom: scrolled ? "1px solid rgba(201,168,76,.12)" : "1px solid transparent",
           transition: "all .5s cubic-bezier(.25,.46,.45,.94)",
+          boxSizing: "border-box",
+          width: "100%",
+          overflow: "hidden",
         }}
       >
-        <div style={{ maxWidth: "var(--max)", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 74 }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: ".9rem", textDecoration: "none", flexShrink: 0 }}>
-            <Image src="/logo.png" alt="ASHOR Logo" width={44} height={44} className="logo-img" style={{ objectFit: "contain" }} />
-            <span>
-              <span style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "1.2rem", fontWeight: 700, letterSpacing: ".1em", color: "var(--text)" }}>ASHOR</span>
-              <span style={{ display: "block", fontFamily: "'Jost', sans-serif", fontSize: ".58rem", color: "var(--muted2)", letterSpacing: ".2em", textTransform: "uppercase", marginTop: 2 }}>Assyrische Hochschulgruppe Rhein-Main e.V.</span>
+        <div style={{ maxWidth: "var(--max)", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 74, width: "100%", minWidth: 0 }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: ".75rem", textDecoration: "none", flexShrink: 0, minWidth: 0, overflow: "hidden" }}>
+            <Image src="/logo.png" alt="ASHOR Logo" width={40} height={40} className="logo-img" style={{ objectFit: "contain", flexShrink: 0 }} />
+            <span style={{ minWidth: 0 }}>
+              <span style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "1.1rem", fontWeight: 700, letterSpacing: ".1em", color: "var(--text)", display: "block" }}>ASHOR</span>
+              <span className="nav-subtitle" style={{ display: "block", fontFamily: "'Jost', sans-serif", fontSize: ".55rem", color: "var(--muted2)", letterSpacing: ".15em", textTransform: "uppercase", marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Assyrische Hochschulgruppe Rhein-Main e.V.</span>
             </span>
           </Link>
 
@@ -100,9 +103,10 @@ export default function Navbar() {
       )}
 
       <style>{`
-        @media (max-width: 900px) {
+        @media (max-width: 960px) {
           .nav-desktop { display: none !important; }
           .nav-hamburger { display: flex !important; }
+          .nav-subtitle { display: none !important; }
         }
       `}</style>
     </>
