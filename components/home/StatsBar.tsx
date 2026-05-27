@@ -1,5 +1,5 @@
 const stats = [
-  { number: "2023", label: "Gründungsjahr" },
+  { number: "2024", label: "Gründungsjahr" },
   { number: "20+", label: "Veranstaltungen seit Gründung" },
   { number: "7", label: "Vorstandsmitglieder" },
   { number: "JGU", label: "Mainz – Anerkannte Hochschulgruppe" },
