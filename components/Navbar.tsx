@@ -15,6 +15,10 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const navText   = scrolled ? "#e8dcc8"                 : "var(--text)";
+  const navMuted  = scrolled ? "rgba(232,220,200,.65)"   : "var(--muted)";
+  const navMuted2 = scrolled ? "rgba(232,220,200,.45)"   : "var(--muted2)";
+
   const links = [
     { label: "Über uns", href: "/#ueber-uns" },
     { label: "Veranstaltungen", href: "/events" },
@@ -39,17 +43,17 @@ export default function Navbar() {
       >
         <div style={{ maxWidth: "var(--max)", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 74, width: "100%", minWidth: 0 }}>
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: ".75rem", textDecoration: "none", flexShrink: 0, minWidth: 0, overflow: "hidden" }}>
-            <Image src="/logo.png" alt="ASHOR Logo" width={40} height={40} className="logo-img" style={{ objectFit: "contain", flexShrink: 0 }} />
+            <Image src="/logo.png" alt="ASHOR Logo" width={40} height={40} className="logo-img" style={{ objectFit: "contain", flexShrink: 0, filter: scrolled ? "none" : undefined }} />
             <span style={{ minWidth: 0 }}>
-              <span style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "1.1rem", fontWeight: 700, letterSpacing: ".1em", color: "var(--text)", display: "block" }}>ASHOR</span>
-              <span className="nav-subtitle" style={{ display: "block", fontFamily: "'Jost', sans-serif", fontSize: ".55rem", color: "var(--muted2)", letterSpacing: ".15em", textTransform: "uppercase", marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Assyrische Hochschulgruppe Rhein-Main e.V.</span>
+              <span style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "1.1rem", fontWeight: 700, letterSpacing: ".1em", color: navText, display: "block" }}>ASHOR</span>
+              <span className="nav-subtitle" style={{ display: "block", fontFamily: "'Jost', sans-serif", fontSize: ".55rem", color: navMuted2, letterSpacing: ".15em", textTransform: "uppercase", marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Assyrische Hochschulgruppe Rhein-Main e.V.</span>
             </span>
           </Link>
 
           <ul style={{ display: "flex", alignItems: "center", gap: "1.2rem", listStyle: "none" }} className="nav-desktop">
             {links.map(l => (
               <li key={l.href}>
-                <Link href={l.href} style={{ fontFamily: "'Jost', sans-serif", color: "var(--muted)", textDecoration: "none", fontSize: ".72rem", letterSpacing: ".18em", textTransform: "uppercase", fontWeight: 500 }}>
+                <Link href={l.href} style={{ fontFamily: "'Jost', sans-serif", color: navMuted, textDecoration: "none", fontSize: ".72rem", letterSpacing: ".18em", textTransform: "uppercase", fontWeight: 500 }}>
                   {l.label}
                 </Link>
               </li>
@@ -68,7 +72,7 @@ export default function Navbar() {
               <button
                 onClick={toggle}
                 aria-label="Theme wechseln"
-                style={{ background: "none", border: "1px solid var(--line)", color: "var(--muted)", width: 34, height: 34, borderRadius: "50%", cursor: "pointer", fontSize: "1rem", display: "flex", alignItems: "center", justifyContent: "center" }}
+                style={{ background: "none", border: `1px solid ${scrolled ? "rgba(232,220,200,.25)" : "var(--line)"}`, color: navMuted, width: 34, height: 34, borderRadius: "50%", cursor: "pointer", fontSize: "1rem", display: "flex", alignItems: "center", justifyContent: "center" }}
               >
                 {theme === "light" ? "☾" : "☀"}
               </button>
