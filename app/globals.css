@@ -130,6 +130,7 @@ body {
 .stat-border { border-right: 1px solid var(--line); }
 
 @media (max-width: 960px) {
+  .scroll-hint { display: none !important; }
   .grid-hero { grid-template-columns: 1fr !important; }
   .hero-visual { display: none !important; }
   .grid-stats { grid-template-columns: repeat(2, 1fr) !important; }

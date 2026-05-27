@@ -50,7 +50,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      <div style={{ position: "absolute", bottom: "2rem", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: ".5rem", fontFamily: "'Jost', sans-serif", color: "var(--muted2)", fontSize: ".62rem", letterSpacing: ".25em", textTransform: "uppercase" }}>
+      <div className="scroll-hint" style={{ position: "absolute", bottom: "2rem", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: ".5rem", fontFamily: "'Jost', sans-serif", color: "var(--muted2)", fontSize: ".62rem", letterSpacing: ".25em", textTransform: "uppercase" }}>
         <span>Scroll</span>
         <span style={{ display: "block", width: 1, height: 42, background: "linear-gradient(to bottom,transparent,var(--gold))", borderRadius: 999, animation: "scrollAnim 2.4s ease-in-out infinite" }} />
       </div>
