@@ -8,7 +8,7 @@ const events = [
 
 export default function EventsPreview() {
   return (
-    <section style={{ padding: "6.5rem 1.5rem", position: "relative", overflow: "hidden" }}>
+    <section style={{ padding: "6.5rem 1.5rem", position: "relative", overflow: "hidden" }} className="section-pad">
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(700px 400px at 15% 20%,rgba(61,111,170,.09),transparent 65%), radial-gradient(600px 380px at 85% 75%,rgba(201,168,76,.07),transparent 65%)", pointerEvents: "none" }} />
       <div style={{ maxWidth: "var(--max)", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div className="section-header-flex" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1rem", marginBottom: "2.2rem" }}>
@@ -26,7 +26,7 @@ export default function EventsPreview() {
 
         <div className="grid-3col">
           {events.map((e, i) => (
-            <div key={i} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.8rem", position: "relative", overflow: "hidden" }}>
+            <div key={i} className={i === 2 ? "hide-mobile" : ""} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.8rem", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--lapis),var(--gold))" }} />
               <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".63rem", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: ".6rem", display: "flex", alignItems: "center", gap: ".55rem" }}>
                 <span style={{ display: "block", width: 12, height: 1, background: "var(--gold)", borderRadius: 999 }} />

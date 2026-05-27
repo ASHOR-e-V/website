@@ -22,7 +22,7 @@ function BoardCard({ name, role, desc }: { name: string; role: string; desc: str
 
 export default function Board() {
   return (
-    <section id="vorstand" style={{ padding: "6.5rem 1.5rem", scrollMarginTop: 74 }}>
+    <section id="vorstand" style={{ padding: "6.5rem 1.5rem", scrollMarginTop: 74 }} className="section-pad">
       <div style={{ maxWidth: "var(--max)", margin: "0 auto" }}>
         <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".3em", textTransform: "uppercase", color: "var(--muted2)", fontWeight: 600, display: "flex", alignItems: "center", gap: ".8rem", marginBottom: "1.2rem" }}>
           <span style={{ display: "block", width: 30, height: 1, background: "var(--gold)", borderRadius: 999 }} />

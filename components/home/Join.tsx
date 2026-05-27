@@ -7,7 +7,7 @@ const perks = [
 
 export default function Join() {
   return (
-    <section id="mitmachen" style={{ padding: "6.5rem 1.5rem", position: "relative", scrollMarginTop: 74 }}>
+    <section id="mitmachen" style={{ padding: "6.5rem 1.5rem", position: "relative", scrollMarginTop: 74 }} className="section-pad">
       <div style={{ position: "absolute", inset: 0, background: "var(--surface2)" }} />
       <div style={{ maxWidth: "var(--max)", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div className="grid-2col">

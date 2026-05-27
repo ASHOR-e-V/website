@@ -13,7 +13,7 @@ export default function Hero() {
   return (
     <section style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 700px 450px at 75% 40%,rgba(61,111,170,.14),transparent 65%), radial-gradient(ellipse 500px 350px at 20% 65%,rgba(201,168,76,.09),transparent 65%)" }} />
-      <div style={{ position: "relative", zIndex: 2, maxWidth: "var(--max)", margin: "0 auto", padding: "9rem 1.5rem 5rem" }} className="grid-hero">
+      <div style={{ position: "relative", zIndex: 2, maxWidth: "var(--max)", margin: "0 auto", padding: "9rem 1.5rem 5rem" }} className="grid-hero hero-pad">
         <div>
           <motion.div {...fadeUp(0.15)} style={{ fontFamily: "'Jost', sans-serif", fontSize: ".68rem", letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 500, display: "flex", alignItems: "center", gap: ".8rem", marginBottom: "1.5rem" }}>
             <span style={{ display: "block", width: 40, height: 1, background: "var(--gold)", borderRadius: 999 }} />

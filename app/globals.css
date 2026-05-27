@@ -131,6 +131,9 @@ body {
 
 @media (max-width: 960px) {
   .scroll-hint { display: none !important; }
+  .section-pad { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
+  .hero-pad { padding-top: 6rem !important; padding-bottom: 3rem !important; }
+  .hide-mobile { display: none !important; }
   .grid-hero { grid-template-columns: 1fr !important; }
   .hero-visual { display: none !important; }
   .grid-stats { grid-template-columns: repeat(2, 1fr) !important; }
