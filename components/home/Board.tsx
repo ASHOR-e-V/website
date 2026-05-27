@@ -29,17 +29,17 @@ export default function Board() {
           Vorstand
         </div>
         <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.8rem,3.7vw,3rem)", fontWeight: 700, lineHeight: 1.1, marginBottom: "1rem", letterSpacing: "-.01em" }}>Unser Leitungsgremium</h2>
-        <p style={{ color: "var(--muted)", maxWidth: 640, marginBottom: "2.5rem" }}>
-          Der Vorstand von ASHOR besteht aus sieben Mitgliedern, gewählt für zwei Semester. Er repräsentiert den Verein nach außen und gestaltet Inhalte und Ausrichtung der Hochschulgruppe.
+        <p style={{ color: "var(--muted)", maxWidth: 640, marginBottom: "2.5rem", fontFamily: "'Lora', serif" }}>
+          Der Vorstand von ASHOR besteht aus sieben Mitgliedern, gewählt für zwei Semester.
         </p>
 
         <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".22em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: "1rem", paddingBottom: ".6rem", borderBottom: "1px solid var(--line)" }}>Geschäftsführender Vorstand</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1rem", marginBottom: "2rem" }}>
+        <div className="grid-4col" style={{ marginBottom: "2rem" }}>
           {main.map(m => <BoardCard key={m.name} {...m} />)}
         </div>
 
         <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".22em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: "1rem", paddingBottom: ".6rem", borderBottom: "1px solid var(--line)" }}>Beisitzer</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "1rem", maxWidth: 640 }}>
+        <div className="grid-2col" style={{ maxWidth: 640 }}>
           {bei.map(m => <BoardCard key={m.name} {...m} />)}
         </div>
       </div>

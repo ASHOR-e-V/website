@@ -13,17 +13,17 @@ export default function Mission() {
           <span style={{ display: "block", width: 30, height: 1, background: "var(--gold)", borderRadius: 999 }} />
           Über uns
         </div>
-        <h2 style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "clamp(1.8rem,3.7vw,3rem)", fontWeight: 700, lineHeight: 1.1, marginBottom: "3rem", letterSpacing: "-.01em" }}>
+        <h2 style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "clamp(1.8rem,3.7vw,3rem)", fontWeight: 700, lineHeight: 1.1, marginBottom: "1rem", letterSpacing: "-.01em" }}>
           Akademisch verankert.<br />Kulturell verwurzelt.
         </h2>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1.15fr .85fr", gap: "3.5rem", alignItems: "start" }}>
+        <div className="grid-mission">
           <div style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-lg)", padding: "2.5rem", boxShadow: "var(--shadow)" }}>
             <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", lineHeight: 2, marginBottom: "1.1rem" }}>
               Das heutige assyrische Volk hat seine Wurzeln in Mesopotamien – einer Region, die Teile des heutigen Irak, Syrien, der Türkei und des Iran umfasst. Als Nachfahren der antiken Zivilisationen Assyriens, Akkads, Babylons und Sumers tragen wir ein Erbe, das Jahrtausende überspannt.
             </p>
             <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", lineHeight: 2, marginBottom: "1.1rem" }}>
-              ASHOR wurde gegründet, um assyrischen Studierenden und Alumnis im Rhein-Main-Gebiet einen Ort des interdisziplinären Austauschs, der kulturellen Verortung und der akademischen Weiterentwicklung zu bieten. Unsere Hochschulgruppe ist offen für alle, die sich für das moderne assyrische Volk interessieren.
+              ASHOR wurde gegründet, um assyrischen Studierenden und Alumnis im Rhein-Main-Gebiet einen Ort des interdisziplinären Austauschs, der kulturellen Verortung und der akademischen Weiterentwicklung zu bieten.
             </p>
             <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", lineHeight: 2 }}>
               Wir sind eine anerkannte Hochschulgruppe der Johannes Gutenberg-Universität Mainz und kooperieren mit Institutionen und Partnerorganisationen in der gesamten Rhein-Main-Region.
