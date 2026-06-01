@@ -2,7 +2,7 @@ const stats = [
   { number: "2024", label: "Gründungsjahr" },
   { number: "20+", label: "Veranstaltungen seit Gründung" },
   { number: "7", label: "Vorstandsmitglieder" },
-  { number: "JGU", label: "Mainz – Anerkannte Hochschulgruppe" },
+  { number: "JGU", label: "Mainz – Offizielle Hochschulgruppe" },
 ];
 
 export default function StatsBar() {

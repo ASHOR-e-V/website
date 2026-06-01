@@ -9,7 +9,7 @@ export default function Footer() {
             <div style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "1.1rem", fontWeight: 700, letterSpacing: ".1em", color: "#E4DAC8", marginBottom: ".4rem" }}>ASHOR</div>
             <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", color: "rgba(228,218,200,0.3)", letterSpacing: ".2em", textTransform: "uppercase", marginBottom: "1rem" }}>Assyrische Hochschulgruppe Rhein-Main e.V.</div>
             <p style={{ fontFamily: "'Lora', serif", color: "rgba(228,218,200,0.5)", fontSize: ".85rem", lineHeight: 1.8, maxWidth: 280 }}>
-              Anerkannte Hochschulgruppe der Johannes Gutenberg-Universität Mainz. Identität. Bildung. Gemeinschaft.
+              Offizielle Hochschulgruppe der Johannes Gutenberg-Universität Mainz. Identität. Bildung. Gemeinschaft.
             </p>
             <div style={{ display: "flex", gap: ".75rem", marginTop: "1rem", flexWrap: "wrap" }}>
               {[{ href: "https://www.instagram.com/ashor_e.v/", label: "Instagram" }, { href: "https://www.tiktok.com/@ashor_e.v", label: "TikTok" }].map(s => (
