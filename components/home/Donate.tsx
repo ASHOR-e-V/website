@@ -18,6 +18,14 @@ export default function Donate() {
           >
             ♡ Per PayPal spenden
           </a>
+          <div style={{ marginTop: "1.5rem", padding: "1.2rem 1.5rem", background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)" }}>
+            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: ".75rem" }}>Banküberweisung</div>
+            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".82rem", color: "var(--muted)", lineHeight: 2 }}>
+              <span style={{ color: "var(--text)", fontWeight: 600 }}>Empfänger</span><br />Assyrische Hochschulgruppe Rhein-Main e.V.<br />
+              <span style={{ color: "var(--text)", fontWeight: 600 }}>IBAN</span><br />DE53 5535 0010 0022 9713 96<br />
+              <span style={{ color: "var(--text)", fontWeight: 600 }}>BIC</span><br />MALADE51WOR
+            </div>
+          </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: ".75rem" }}>
           <a href="https://paypal.me/ashorev" target="_blank" rel="noopener">
