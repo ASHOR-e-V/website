@@ -32,7 +32,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.p {...fadeUp(0.55)} style={{ fontFamily: "'Lora', Georgia, serif", color: "var(--muted)", fontSize: "1rem", lineHeight: 1.9, maxWidth: 540, marginBottom: "2.6rem" }}>
-            ASHOR ist eine anerkannte Hochschulgruppe der Johannes Gutenberg-Universität Mainz. Wir verbinden assyrische Studierende und Akademiker in der Rhein-Main-Region.
+            ASHOR ist eine offizielle Hochschulgruppe der Johannes Gutenberg-Universität Mainz. Wir verbinden assyrische Studierende und Akademiker in der Rhein-Main-Region.
           </motion.p>
 
           <motion.div {...fadeUp(0.68)} style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>

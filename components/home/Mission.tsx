@@ -26,7 +26,7 @@ export default function Mission() {
               ASHOR wurde gegründet, um assyrischen Studierenden und Alumnis im Rhein-Main-Gebiet einen Ort des interdisziplinären Austauschs, der kulturellen Verortung und der akademischen Weiterentwicklung zu bieten.
             </p>
             <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", lineHeight: 2 }}>
-              Wir sind eine anerkannte Hochschulgruppe der Johannes Gutenberg-Universität Mainz und kooperieren mit Institutionen und Partnerorganisationen in der gesamten Rhein-Main-Region.
+              Wir sind eine offizielle Hochschulgruppe der Johannes Gutenberg-Universität Mainz und kooperieren mit Institutionen und Partnerorganisationen in der gesamten Rhein-Main-Region.
             </p>
           </div>
 

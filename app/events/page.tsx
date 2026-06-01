@@ -6,7 +6,7 @@ const events = [
   { date: "März 2025", title: "ASHORs Khigga #2", desc: "Assyrische Tänze Schritt für Schritt lernen und gemeinsam tanzen – Vorkenntnisse nicht nötig. Ein Abend voller Bewegung, Musik und Gemeinschaft.", tag: "Kultur", location: "Mainz" },
   { date: "Januar 2025", title: "ASHOR Talks #1", desc: "Der Auftakt unserer Debattierreihe: Informationsvortrag über ein gesellschaftliches Thema mit anschließender Teamdebatte.", tag: "Vortrag & Debatte", location: "Mainz" },
   { date: "November 2024", title: "ASHORs Khigga #1", desc: "Der erste Tanzabend von ASHOR – ein voller Erfolg mit über 30 Teilnehmenden.", tag: "Kultur", location: "Mainz" },
-  { date: "Oktober 2024", title: "Gründungsversammlung & Kickoff", desc: "Offizieller Start von ASHOR als anerkannte Hochschulgruppe der JGU Mainz. Wahl des ersten Vorstands.", tag: "Intern", location: "Mainz" },
+  { date: "Oktober 2024", title: "Gründungsversammlung & Kickoff", desc: "Offizieller Start von ASHOR als offizielle Hochschulgruppe der JGU Mainz. Wahl des ersten Vorstands.", tag: "Intern", location: "Mainz" },
 ];
 
 export default function EventsPage() {
