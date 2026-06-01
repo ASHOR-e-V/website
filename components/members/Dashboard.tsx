@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 
-type Tab = "announcements" | "protocols";
+type Tab = "announcements" | "protocols" | "verwaltung";
 
 type Announcement = { id: string; title: string; content: string; created_at: string };
 type Protocol = { id: string; title: string; date: string; file_url: string | null; created_at: string };
@@ -51,13 +51,15 @@ export default function Dashboard({ user }: { user: User }) {
         </div>
         <div style={{ maxWidth: "var(--max)", margin: "1.5rem auto 0", display: "flex", gap: ".75rem", flexWrap: "wrap" }}>
           <button style={tabStyle("announcements")} onClick={() => setTab("announcements")}>Ankündigungen</button>
-          <button style={tabStyle("protocols")} onClick={() => setTab("protocols")}>Protokolle</button>
+          {profile?.is_board && <button style={tabStyle("protocols")} onClick={() => setTab("protocols")}>Protokolle</button>}
+          {profile?.is_board && <button style={tabStyle("verwaltung")} onClick={() => setTab("verwaltung")}>Verwaltung</button>}
         </div>
       </div>
 
       <div style={{ maxWidth: "var(--max)", margin: "0 auto", padding: "3rem 1.5rem" }}>
         {tab === "announcements" && <AnnouncementsTab isBoard={profile?.is_board ?? false} />}
-        {tab === "protocols" && <ProtocolsTab isBoard={profile?.is_board ?? false} />}
+        {tab === "protocols" && profile?.is_board && <ProtocolsTab isBoard={true} />}
+        {tab === "verwaltung" && profile?.is_board && <VerwaltungTab />}
       </div>
     </div>
   );
@@ -117,6 +119,56 @@ function AnnouncementsTab({ isBoard }: { isBoard: boolean }) {
           </div>
           <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.05rem", fontWeight: 700, color: "var(--text)", marginBottom: ".6rem" }}>{a.title}</h3>
           <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".92rem", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{a.content}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+type ProfileEntry = { id: string; full_name: string | null; is_board: boolean };
+
+function VerwaltungTab() {
+  const [members, setMembers] = useState<ProfileEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState<string | null>(null);
+
+  const load = async () => {
+    const { data } = await supabase.from("profiles").select("id, full_name, is_board").order("full_name");
+    setMembers(data ?? []);
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const toggle = async (id: string, current: boolean) => {
+    setSaving(id);
+    await supabase.from("profiles").update({ is_board: !current }).eq("id", id);
+    await load();
+    setSaving(null);
+  };
+
+  return (
+    <div>
+      <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.3rem", fontWeight: 700, marginBottom: ".5rem" }}>Mitgliederverwaltung</h2>
+      <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".88rem", marginBottom: "2rem" }}>Hier kannst du Mitgliedern Vorstandsrechte geben oder entziehen.</p>
+
+      {loading ? (
+        <div style={{ color: "var(--muted2)", fontFamily: "'Jost', sans-serif", fontSize: ".78rem" }}>Laden…</div>
+      ) : members.map(m => (
+        <div key={m.id} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.2rem 1.8rem", marginBottom: ".75rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
+          <div>
+            <div style={{ fontFamily: "'Cinzel', serif", fontSize: ".95rem", fontWeight: 700, color: "var(--text)", marginBottom: ".2rem" }}>{m.full_name ?? "—"}</div>
+            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".15em", textTransform: "uppercase", color: m.is_board ? "var(--gold)" : "var(--muted2)" }}>
+              {m.is_board ? "Vorstand" : "Mitglied"}
+            </div>
+          </div>
+          <button
+            onClick={() => toggle(m.id, m.is_board)}
+            disabled={saving === m.id}
+            style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", padding: ".5rem 1.1rem", borderRadius: 999, border: "1px solid", borderColor: m.is_board ? "var(--line)" : "var(--gold-line)", background: m.is_board ? "transparent" : "var(--gold-dim)", color: m.is_board ? "var(--muted)" : "var(--gold)" }}
+          >
+            {saving === m.id ? "…" : m.is_board ? "Zu Mitglied" : "Zu Vorstand"}
+          </button>
         </div>
       ))}
     </div>
