@@ -8,7 +8,7 @@ export default function Donate() {
           <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, marginBottom: ".6rem" }}>Unterstützen</div>
           <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.4rem,2.5vw,2rem)", fontWeight: 700, lineHeight: 1.2, marginBottom: ".6rem" }}>ASHOR fördern</h2>
           <p style={{ color: "var(--muted)", fontSize: ".9rem", maxWidth: 500, marginBottom: "1.5rem" }}>
-            Jede Spende unterstützt unsere Veranstaltungen, Bildungsreisen und kulturellen Projekte. Als eingetragener Verein verwenden wir Mittel ausschließlich für gemeinnützige Zwecke.
+            Jede Spende unterstützt unsere Veranstaltungen, Bildungsreisen und kulturellen Projekte. Als eingetragener Verein verwenden wir Mittel ausschließlich für gemeinnützige Zwecke. Du kannst entweder per PayPal oder per Banküberweisung spenden.
           </p>
           <a
             href="https://paypal.me/ashorev"
