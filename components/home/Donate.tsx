@@ -10,7 +10,7 @@ export default function Donate() {
           </p>
         </div>
         <a
-          href="https://www.paypal.com/donate"
+          href="https://paypal.me/ashorev"
           target="_blank"
           rel="noopener"
           style={{ fontFamily: "'Jost', sans-serif", background: "var(--gold-dim)", color: "var(--gold)", padding: "1rem 2rem", borderRadius: 999, textDecoration: "none", fontWeight: 700, fontSize: ".8rem", letterSpacing: ".16em", textTransform: "uppercase", border: "1px solid var(--gold-line)", whiteSpace: "nowrap" }}
