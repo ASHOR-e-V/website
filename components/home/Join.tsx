@@ -20,7 +20,7 @@ export default function Join() {
               Teil von ASHOR<br />werden.
             </h2>
             <p style={{ color: "var(--muted)", lineHeight: 1.9, marginBottom: "2rem", maxWidth: 400, fontFamily: "'Lora', serif" }}>
-              Mitglied kann jede eingeschriebene Studierende und jeder Alumnus im Rhein-Main-Gebiet werden. Die Mitgliedschaft ist beitragsfrei.
+              Mitglied können alle eingeschriebenen Studierenden und Alumnis im Rhein-Main-Gebiet werden. Die Mitgliedschaft ist beitragsfrei.
             </p>
             {perks.map((p, i) => (
               <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "flex-start", marginBottom: ".9rem" }}>
