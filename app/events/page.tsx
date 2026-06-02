@@ -2,7 +2,7 @@ export const metadata = { title: "Veranstaltungen – ASHOR" };
 
 const events = [
   { date: "Mai 2025", title: "ASHOR Talks #2", desc: "Infovortrag und Live-Debatte: Frei geboren, traditionell geprägt – Wie modern darf ich in der Diaspora sein? Ein Abend mit zwei Debattierteams, Publikumsfragen und viel Diskussionsraum.", tag: "Vortrag & Debatte", location: "Mainz" },
-  { date: "April 2025", title: "Spanienreise & Symposium Salamanca", desc: "Teilnahme am Niniveh Academic Chair of Salamanca 2025 – akademischer Austausch auf europäischer Bühne mit assyrischen Akademikern aus ganz Europa.", tag: "Bildungsreise", location: "Salamanca, Spanien" },
+  { date: "April 2025", title: "Spanienreise & Symposium Salamanca", desc: "Teilnahme am Niniveh Academic Chair of Salamanca 2025 – akademischer Austausch mit assyrischen Professoren und Akademikern aus der ganzen Welt.", tag: "Bildungsreise", location: "Salamanca, Spanien" },
   { date: "März 2025", title: "ASHORs Khigga #2", desc: "Assyrische Tänze Schritt für Schritt lernen und gemeinsam tanzen – Vorkenntnisse nicht nötig. Ein Abend voller Bewegung, Musik und Gemeinschaft.", tag: "Kultur", location: "Mainz" },
   { date: "Januar 2025", title: "ASHOR Talks #1", desc: "Der Auftakt unserer Debattierreihe: Informationsvortrag über ein gesellschaftliches Thema mit anschließender Teamdebatte.", tag: "Vortrag & Debatte", location: "Mainz" },
   { date: "November 2024", title: "ASHORs Khigga #1", desc: "Der erste Tanzabend von ASHOR – ein voller Erfolg mit über 30 Teilnehmenden.", tag: "Kultur", location: "Mainz" },
