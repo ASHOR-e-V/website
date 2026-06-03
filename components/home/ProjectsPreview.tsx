@@ -24,7 +24,7 @@ export default function ProjectsPreview() {
         </div>
         <div className="grid-3col">
           {projects.map((p, i) => (
-            <div key={i} className={i === 2 ? "hide-mobile" : ""} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "2rem", position: "relative", overflow: "hidden" }}>
+            <div key={i} className={`${i === 2 ? "hide-mobile" : ""} card-hover`} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "2rem", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--gold),var(--lapis))" }} />
               <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.1rem", fontWeight: 700, color: "var(--text)", marginBottom: ".6rem", lineHeight: 1.3 }}>{p.title}</h3>
               <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".9rem", lineHeight: 1.8, marginBottom: "1rem" }}>{p.desc}</p>

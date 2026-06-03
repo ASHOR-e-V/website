@@ -26,7 +26,7 @@ export default function EventsPreview() {
 
         <div className="grid-3col">
           {events.map((e, i) => (
-            <div key={i} className={i === 2 ? "hide-mobile" : ""} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.8rem", position: "relative", overflow: "hidden" }}>
+            <div key={i} className={`${i === 2 ? "hide-mobile" : ""} card-hover`} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.8rem", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--lapis),var(--gold))" }} />
               <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".63rem", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: ".6rem", display: "flex", alignItems: "center", gap: ".55rem" }}>
                 <span style={{ display: "block", width: 12, height: 1, background: "var(--gold)", borderRadius: 999 }} />
