@@ -15,12 +15,12 @@ function BoardCard({ name, role, desc, photo }: { name: string; role: string; de
   return (
     <div className="card-hover" style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.8rem", position: "relative", overflow: "hidden" }}>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--lapis),var(--gold))" }} />
-      <div style={{ width: 64, height: 64, borderRadius: "50%", overflow: "hidden", marginBottom: "1rem", border: "2px solid var(--gold-line)" }}>
-        <Image src={photo} alt={name} width={64} height={64} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+      <div style={{ width: 100, height: 100, borderRadius: "50%", overflow: "hidden", margin: "0 auto 1.2rem", border: "2px solid var(--gold-line)" }}>
+        <Image src={photo} alt={name} width={100} height={100} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
       </div>
-      <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.05rem", fontWeight: 700, color: "var(--text)", marginBottom: ".3rem" }}>{name}</h4>
-      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".18em", textTransform: "uppercase", color: "var(--gold)", marginBottom: ".8rem", fontWeight: 600 }}>{role}</div>
-      <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".88rem", lineHeight: 1.8 }}>{desc}</p>
+      <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.05rem", fontWeight: 700, color: "var(--text)", marginBottom: ".3rem", textAlign: "center" }}>{name}</h4>
+      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".18em", textTransform: "uppercase", color: "var(--gold)", marginBottom: ".8rem", fontWeight: 600, textAlign: "center" }}>{role}</div>
+      <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".88rem", lineHeight: 1.8, textAlign: "center" }}>{desc}</p>
     </div>
   );
 }
