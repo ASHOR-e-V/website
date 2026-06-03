@@ -1,3 +1,5 @@
+import ContactForm from "./ContactForm";
+
 const perks = [
   "Zugang zum internen Mitgliederbereich",
   "Einladungen zu allen Veranstaltungen und Formaten",
@@ -37,12 +39,7 @@ export default function Join() {
             <div style={{ position: "absolute", top: 0, left: "2rem", right: "2rem", height: 1, background: "var(--gold)" }} />
             <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.35rem", fontWeight: 700, color: "var(--text)", marginBottom: ".4rem" }}>Kontakt aufnehmen</h3>
             <p style={{ color: "var(--muted2)", fontSize: ".78rem", marginBottom: "1.5rem", fontFamily: "'Jost', sans-serif" }}>Für Mitgliedschaft, Kooperationen und Pressekontakt</p>
-            <a href="mailto:ashor.jgu@gmail.com" style={{ display: "block", fontFamily: "'Jost', sans-serif", fontSize: ".85rem", color: "var(--gold)", textDecoration: "none", marginBottom: "1rem", letterSpacing: ".05em" }}>
-              ashor.jgu@gmail.com
-            </a>
-            <p style={{ color: "var(--muted2)", fontSize: ".78rem", lineHeight: 1.7, fontFamily: "'Lora', serif" }}>
-              Oder schreib uns direkt auf Instagram – wir antworten in der Regel innerhalb von 24 Stunden.
-            </p>
+            <ContactForm />
           </div>
         </div>
       </div>
