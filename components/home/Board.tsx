@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const main = [
   { name: "Caroline Barsoum", role: "Präsidentin", desc: "Leitet den Verein, vertritt ASHOR nach außen und koordiniert die strategische Ausrichtung.", photo: "/team/caroline.jpeg" },
-  { name: "Robina Lajin", role: "Vizepräsidentin", desc: "Unterstützt die Präsidentin, koordiniert interne Prozesse und trägt zur inhaltlichen Weiterentwicklung bei.", photo: "/team/robina.jpeg" },
+  { name: "Robina Lajin", role: "Vizepräsidentin", desc: "Unterstützt die Präsidentin, koordiniert interne Prozesse und trägt zur inhaltlichen Weiterentwicklung bei.", photo: "/team/robina.jpeg", photoZoom: 1.8 },
   { name: "Severios Isac", role: "Protokolldirektor", desc: "Erstellt und verwaltet Sitzungsprotokolle und sichert die Transparenz der Vereinsarbeit.", photo: "/team/severios.png" },
   { name: "Ninous Andersson", role: "Finanzdirektor", desc: "Verantwortet Finanzen, Mittelverwendung und Finanzberichte des Vereins.", photo: "/team/ninous.jpeg" },
 ];
@@ -11,12 +11,12 @@ const bei = [
   { name: "Roben Lajin", role: "Beisitzer", desc: "Unterstützt den Vorstand bei Planung und Durchführung von Veranstaltungen.", photo: "/team/roben.jpeg" },
 ];
 
-function BoardCard({ name, role, desc, photo }: { name: string; role: string; desc: string; photo: string }) {
+function BoardCard({ name, role, desc, photo, photoZoom }: { name: string; role: string; desc: string; photo: string; photoZoom?: number }) {
   return (
     <div className="card-hover" style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.8rem", position: "relative", overflow: "hidden" }}>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--lapis),var(--gold))" }} />
       <div style={{ width: 100, height: 100, borderRadius: "50%", overflow: "hidden", margin: "0 auto 1.2rem", border: "2px solid var(--gold-line)" }}>
-        <Image src={photo} alt={name} width={100} height={100} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+        <Image src={photo} alt={name} width={100} height={100} style={{ objectFit: "cover", width: "100%", height: "100%", transform: photoZoom ? `scale(${photoZoom})` : undefined }} />
       </div>
       <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.05rem", fontWeight: 700, color: "var(--text)", marginBottom: ".3rem", textAlign: "center" }}>{name}</h4>
       <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".18em", textTransform: "uppercase", color: "var(--gold)", marginBottom: ".8rem", fontWeight: 600, textAlign: "center" }}>{role}</div>
