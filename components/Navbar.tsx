@@ -95,7 +95,16 @@ export default function Navbar() {
       {menuOpen && (
         <div style={{ position: "fixed", inset: 0, zIndex: 999, background: "rgba(7,9,14,.96)", backdropFilter: "blur(22px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "2rem" }}>
           <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "1px solid var(--line)", color: "var(--muted)", width: 42, height: 42, borderRadius: "50%", cursor: "pointer", fontSize: "1rem" }}>✕</button>
-          {[{ label: "Startseite", href: "/" }, ...links, { label: "Mitmachen", href: "/#mitmachen" }, { label: "♡ Spenden", href: "/#spenden" }, { label: "Mitgliederbereich", href: "/members" }].map(l => (
+          {[
+            { label: "Startseite", href: "/" },
+            { label: "Veranstaltungen", href: "/events" },
+            { label: "Projekte", href: "/projects" },
+            { label: "Vorstand", href: "/vorstand" },
+            { label: "Mitmachen", href: "/mitmachen" },
+            { label: "♡ Spenden", href: "/spenden" },
+            { label: "Satzung", href: "/satzung" },
+            { label: "Mitgliederbereich", href: "/members" },
+          ].map(l => (
             <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ fontFamily: "'Cinzel', Georgia, serif", color: "var(--text)", textDecoration: "none", fontSize: "1.9rem", fontWeight: 600, letterSpacing: ".06em" }}>
               {l.label}
             </Link>

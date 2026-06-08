@@ -140,6 +140,8 @@ body {
 .nav-desktop { display: flex !important; }
 .nav-hamburger { display: none !important; }
 .stat-border { border-right: 1px solid var(--line); }
+.desktop-section { display: block; }
+.mobile-quicknav { display: none; }
 
 @media (max-width: 960px) {
   .scroll-hint { display: none !important; }
@@ -158,6 +160,8 @@ body {
   .nav-desktop { display: none !important; }
   .nav-hamburger { display: flex !important; }
   .stat-border { border-right: none !important; border-bottom: 1px solid var(--line); padding-bottom: 1rem; }
+  .desktop-section { display: none !important; }
+  .mobile-quicknav { display: grid !important; }
 }
 
 @media (max-width: 600px) {
