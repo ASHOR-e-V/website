@@ -10,11 +10,14 @@ export default function ContactForm() {
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }));
 
+  const [errorMsg, setErrorMsg] = useState("");
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
     const { error } = await supabase.from("contact_submissions").insert(form);
-    setStatus(error ? "error" : "success");
+    if (error) { setErrorMsg(error.message); setStatus("error"); }
+    else setStatus("success");
   };
 
   const inputStyle = {
@@ -53,7 +56,7 @@ export default function ContactForm() {
       <textarea required value={form.message} onChange={e => set("message", e.target.value)} placeholder="Ihre Nachricht an den Vorstand …" rows={5} style={{ ...inputStyle, resize: "vertical" }} />
 
       {status === "error" && (
-        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".78rem", color: "#e05555", marginBottom: ".75rem" }}>Fehler beim Senden — bitte versuche es erneut.</p>
+        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".78rem", color: "#e05555", marginBottom: ".75rem" }}>Fehler: {errorMsg || "Bitte versuche es erneut."}</p>
       )}
 
       <button type="submit" disabled={status === "sending"} style={{ width: "100%", fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: 700, background: "var(--gold-dim)", color: "var(--gold)", border: "1px solid var(--gold-line)", borderRadius: "var(--r-sm)", padding: "1rem", cursor: "pointer" }}>
