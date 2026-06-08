@@ -94,7 +94,7 @@ export default function Navbar() {
 
       {menuOpen && (
         <div style={{ position: "fixed", inset: 0, zIndex: 999, background: "rgba(7,9,14,.96)", backdropFilter: "blur(22px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "2rem" }}>
-          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "1px solid var(--line)", color: "var(--muted)", width: 42, height: 42, borderRadius: "50%", cursor: "pointer", fontSize: "1rem" }}>✕</button>
+          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(232,220,200,.6)", width: 42, height: 42, borderRadius: "50%", cursor: "pointer", fontSize: "1rem" }}>✕</button>
           {[
             { label: "Startseite", href: "/" },
             { label: "Veranstaltungen", href: "/events" },
@@ -105,11 +105,11 @@ export default function Navbar() {
             { label: "Satzung", href: "/satzung" },
             { label: "Mitgliederbereich", href: "/members" },
           ].map(l => (
-            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ fontFamily: "'Cinzel', Georgia, serif", color: "var(--text)", textDecoration: "none", fontSize: "1.9rem", fontWeight: 600, letterSpacing: ".06em" }}>
+            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ fontFamily: "'Cinzel', Georgia, serif", color: "#E4DAC8", textDecoration: "none", fontSize: "1.9rem", fontWeight: 600, letterSpacing: ".06em" }}>
               {l.label}
             </Link>
           ))}
-          <button onClick={() => { toggle(); setMenuOpen(false); }} style={{ background: "none", border: "1px solid var(--line)", color: "var(--muted)", padding: ".4rem 1rem", borderRadius: 999, cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: ".75rem", letterSpacing: ".1em" }}>
+          <button onClick={() => { toggle(); setMenuOpen(false); }} style={{ background: "none", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(232,220,200,.5)", padding: ".4rem 1rem", borderRadius: 999, cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: ".75rem", letterSpacing: ".1em" }}>
             {theme === "light" ? "☾ Dunkel" : "☀ Hell"}
           </button>
         </div>
