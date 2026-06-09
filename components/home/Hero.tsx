@@ -29,7 +29,7 @@ export default function Hero() {
         <div>
 
           {/* Authority badge */}
-          <motion.div {...fadeUp(0.1)} style={{ display: "inline-flex", alignItems: "center", gap: ".55rem", background: "var(--gold-dim)", border: "1px solid var(--gold-line)", borderRadius: 999, padding: ".38rem .9rem", marginBottom: "2rem" }}>
+          <motion.div {...fadeUp(0.1)} style={{ display: "inline-flex", alignItems: "center", gap: ".55rem", marginBottom: "2rem" }}>
             <span style={{ color: "var(--gold)", fontSize: ".55rem", lineHeight: 1 }}>✦</span>
             <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600 }}>
               Offizielle Hochschulgruppe · JGU Mainz
