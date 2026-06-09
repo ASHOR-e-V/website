@@ -28,7 +28,7 @@ export default function EventsPage() {
       <div style={{ padding: "4rem 1.5rem", maxWidth: "var(--max)", margin: "0 auto" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
           {events.map((e, i) => (
-            <div key={i} style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: "2rem", padding: "2rem", background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", alignItems: "start" }}>
+            <div key={i} className="grid-events-list" style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: "2rem", padding: "2rem", background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", alignItems: "start" }}>
               <div style={{ borderRight: "1px solid var(--line)", paddingRight: "2rem" }}>
                 <div style={{ fontFamily: "'Cinzel', serif", fontSize: "1rem", fontWeight: 700, color: "var(--gold)", marginBottom: ".3rem" }}>{e.date}</div>
                 <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".12em", textTransform: "uppercase", color: "var(--muted2)" }}>{e.location}</div>
