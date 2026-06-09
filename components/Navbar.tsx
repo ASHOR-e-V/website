@@ -94,7 +94,6 @@ export default function Navbar() {
 
       {menuOpen && (
         <div style={{ position: "fixed", inset: 0, zIndex: 999, background: "rgba(7,9,14,.96)", backdropFilter: "blur(22px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "2rem", paddingTop: 74 }}>
-          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(232,220,200,.6)", width: 42, height: 42, borderRadius: "50%", cursor: "pointer", fontSize: "1rem" }}>✕</button>
           {[
             { label: "Startseite", href: "/" },
             { label: "Veranstaltungen", href: "/events" },
