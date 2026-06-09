@@ -23,7 +23,7 @@ export default function ProjectsPage() {
       </div>
 
       <div style={{ padding: "4rem 1.5rem", maxWidth: "var(--max)", margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "1.5rem", marginBottom: "5rem" }}>
+        <div className="grid-3col" style={{ marginBottom: "5rem" }}>
           {projects.map((p, i) => (
             <div key={i} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "2.5rem", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--gold),var(--lapis))" }} />

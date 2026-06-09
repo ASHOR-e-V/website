@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Donate() {
   return (
     <section id="spenden" style={{ padding: "4rem 1.5rem", background: "var(--surface2)", borderTop: "1px solid var(--line)", scrollMarginTop: 74 }}>
-      <div style={{ maxWidth: "var(--max)", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "2rem", flexWrap: "wrap" }}>
+      <div className="donate-flex" style={{ maxWidth: "var(--max)", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "2rem", flexWrap: "wrap" }}>
         <div>
           <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, marginBottom: ".6rem" }}>Unterstützen</div>
           <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.4rem,2.5vw,2rem)", fontWeight: 700, lineHeight: 1.2, marginBottom: ".6rem" }}>ASHOR fördern</h2>

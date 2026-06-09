@@ -8,7 +8,7 @@ const stats = [
 export default function StatsBar() {
   return (
     <div style={{ background: "var(--surface2)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", overflow: "hidden" }}>
-      <div style={{ maxWidth: "var(--max)", margin: "0 auto", padding: "3rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+      <div className="stats-wrap" style={{ maxWidth: "var(--max)", margin: "0 auto", padding: "3rem 1.5rem" }}>
         {stats.map((s, i) => (
           <div key={i} style={{ display: "flex", alignItems: "center" }}>
             <div style={{ textAlign: "center", padding: "0 clamp(1.5rem,4vw,3.5rem)" }}>
@@ -39,7 +39,7 @@ export default function StatsBar() {
               </span>
             </div>
             {i < stats.length - 1 && (
-              <span style={{ color: "var(--gold)", fontSize: ".55rem", opacity: 0.35, flexShrink: 0 }}>✦</span>
+              <span className="stat-sep" style={{ color: "var(--gold)", fontSize: ".55rem", opacity: 0.35, flexShrink: 0 }}>✦</span>
             )}
           </div>
         ))}

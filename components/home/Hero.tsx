@@ -80,19 +80,16 @@ export default function Hero() {
           </motion.div>
 
           {/* Social proof */}
-          <motion.div {...fadeUp(0.68)} style={{ marginTop: "2.8rem", display: "flex", alignItems: "center", gap: "1.4rem", flexWrap: "wrap" }}>
+          <motion.div {...fadeUp(0.68)} style={{ marginTop: "2.8rem", display: "flex", alignItems: "center", gap: ".6rem 2rem", flexWrap: "wrap" }}>
             {[
               { num: "20+", label: "Veranstaltungen" },
               { num: "7", label: "Vorstandsmitglieder" },
               { num: "2024", label: "Gegründet" },
-            ].map((s, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: "1.4rem" }}>
-                <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted2)" }}>
-                  <span style={{ fontFamily: "'Cinzel', serif", color: "var(--text)", fontWeight: 700, fontSize: ".85rem", marginRight: ".35rem" }}>{s.num}</span>
-                  {s.label}
-                </span>
-                {i < 2 && <span style={{ width: 1, height: 14, background: "var(--line)", display: "block", flexShrink: 0 }} />}
-              </div>
+            ].map((s) => (
+              <span key={s.num} style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted2)", whiteSpace: "nowrap" }}>
+                <span style={{ fontFamily: "'Cinzel', serif", color: "var(--text)", fontWeight: 700, fontSize: ".85rem", marginRight: ".35rem" }}>{s.num}</span>
+                {s.label}
+              </span>
             ))}
           </motion.div>
         </div>
