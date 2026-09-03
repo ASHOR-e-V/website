@@ -14,13 +14,8 @@ export default function EventsPage() {
     <div style={{ paddingTop: 74 }}>
       <div style={{ padding: "5rem 1.5rem 2rem", background: "var(--surface2)", borderBottom: "1px solid var(--line)" }}>
         <div style={{ maxWidth: "var(--max)", margin: "0 auto" }}>
-          <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".3em", textTransform: "uppercase", color: "var(--muted2)", fontWeight: 600, display: "flex", alignItems: "center", gap: ".8rem", marginBottom: "1.2rem" }}>
-            <span style={{ display: "block", width: 30, height: 1, background: "var(--gold)", borderRadius: 999 }} />
-            Alle Veranstaltungen
-          </div>
           <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2rem,4vw,3.5rem)", fontWeight: 700, lineHeight: 1.05, letterSpacing: "-.01em" }}>
-            Chronologische<br />
-            <em style={{ fontStyle: "normal", background: "linear-gradient(100deg,var(--gold),#e8c96a)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>Übersicht.</em>
+            Chronologische Übersicht.
           </h1>
         </div>
       </div>

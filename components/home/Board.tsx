@@ -13,8 +13,7 @@ const bei = [
 
 function BoardCard({ name, role, desc, photo, photoZoom }: { name: string; role: string; desc: string; photo: string; photoZoom?: number }) {
   return (
-    <div className="card-hover" style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.8rem", position: "relative", overflow: "hidden" }}>
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--lapis),var(--gold))" }} />
+    <div className="card-hover" style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.8rem" }}>
       <div style={{ width: 100, height: 100, borderRadius: "50%", overflow: "hidden", margin: "0 auto 1.2rem", border: "2px solid var(--gold-line)" }}>
         <Image src={photo} alt={name} width={100} height={100} style={{ objectFit: "cover", width: "100%", height: "100%", transform: photoZoom ? `scale(${photoZoom})` : undefined }} />
       </div>
@@ -29,10 +28,6 @@ export default function Board() {
   return (
     <section id="vorstand" style={{ padding: "6.5rem 1.5rem", scrollMarginTop: 74 }} className="section-pad">
       <div style={{ maxWidth: "var(--max)", margin: "0 auto" }}>
-        <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".3em", textTransform: "uppercase", color: "var(--muted2)", fontWeight: 600, display: "flex", alignItems: "center", gap: ".8rem", marginBottom: "1.2rem" }}>
-          <span style={{ display: "block", width: 30, height: 1, background: "var(--gold)", borderRadius: 999 }} />
-          Vorstand
-        </div>
         <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.8rem,3.7vw,3rem)", fontWeight: 700, lineHeight: 1.1, marginBottom: "1rem", letterSpacing: "-.01em" }}>Unser Leitungsgremium</h2>
         <p style={{ color: "var(--muted)", maxWidth: 640, marginBottom: "2.5rem", fontFamily: "'Lora', serif" }}>
           Der Vorstand von ASHOR besteht aus sieben Mitgliedern, gewählt für zwei Semester.

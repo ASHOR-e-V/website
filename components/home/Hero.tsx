@@ -28,17 +28,8 @@ export default function Hero() {
       <div style={{ position: "relative", zIndex: 2, maxWidth: "var(--max)", margin: "0 auto", padding: "9rem 1.5rem 5rem", width: "100%" }} className="grid-hero hero-pad">
         <div>
 
-          {/* Authority badge */}
-          <motion.div {...fadeUp(0.1)} style={{ display: "inline-flex", alignItems: "center", gap: ".55rem", marginBottom: "2rem" }}>
-            <span style={{ color: "var(--gold)", fontSize: ".55rem", lineHeight: 1 }}>✦</span>
-            <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600 }}>
-              Offizielle Hochschulgruppe · JGU Mainz
-            </span>
-          </motion.div>
-
-          <motion.h1 {...fadeUp(0.28)} style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "clamp(2.4rem,5.5vw,5rem)", fontWeight: 700, lineHeight: 1.05, marginBottom: "1.5rem", letterSpacing: "-.01em" }}>
-            Zwischen Geschichte<br />und{" "}
-            <em style={{ fontStyle: "normal", background: "linear-gradient(100deg,var(--gold),#e8c96a,var(--gold))", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>Zukunft.</em>
+          <motion.h1 {...fadeUp(0.1)} style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "clamp(2.4rem,5.5vw,5rem)", fontWeight: 700, lineHeight: 1.05, marginBottom: "1.5rem", letterSpacing: "-.01em" }}>
+            Zwischen Geschichte<br />und Zukunft.
           </motion.h1>
 
           <motion.p {...fadeUp(0.42)} style={{ fontFamily: "'Lora', Georgia, serif", color: "var(--muted)", fontSize: "1rem", lineHeight: 1.95, maxWidth: 500, marginBottom: "2.6rem" }}>
@@ -48,7 +39,7 @@ export default function Hero() {
           <motion.div {...fadeUp(0.55)} style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
             <Link href="/mitmachen" style={{
               fontFamily: "'Jost', sans-serif",
-              background: "#C9A84C",
+              background: "var(--gold)",
               color: "#07090E",
               padding: ".9rem 2rem",
               borderRadius: 999,
@@ -81,6 +72,9 @@ export default function Hero() {
 
           {/* Social proof */}
           <motion.div {...fadeUp(0.68)} style={{ marginTop: "2.8rem", display: "flex", alignItems: "center", gap: ".6rem 2rem", flexWrap: "wrap" }}>
+            <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted2)", whiteSpace: "nowrap" }}>
+              Offizielle Hochschulgruppe der JGU Mainz
+            </span>
             {[
               { num: "20+", label: "Veranstaltungen" },
               { num: "7", label: "Vorstandsmitglieder" },
@@ -97,8 +91,8 @@ export default function Hero() {
         {/* Logo with rings */}
         <motion.div {...fadeUp(0.78)} className="hero-visual" style={{ alignItems: "center", justifyContent: "flex-end" }}>
           <div style={{ position: "relative", width: 340, height: 340, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ position: "absolute", inset: -48, borderRadius: "50%", border: "1px solid rgba(201,168,76,0.10)" }} />
-            <div style={{ position: "absolute", inset: -24, borderRadius: "50%", border: "1px solid rgba(201,168,76,0.07)" }} />
+            <div style={{ position: "absolute", inset: -48, borderRadius: "50%", border: "1px solid rgba(209,162,74,0.10)" }} />
+            <div style={{ position: "absolute", inset: -24, borderRadius: "50%", border: "1px solid rgba(209,162,74,0.07)" }} />
             <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(61,111,170,0.10), transparent 70%)" }} />
             <Image src="/logo.png" alt="ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V." width={280} height={280} className="logo-img" style={{ objectFit: "contain", position: "relative", zIndex: 1 }} priority />
           </div>

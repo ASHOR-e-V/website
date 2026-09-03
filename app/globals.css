@@ -6,10 +6,10 @@
   --surface2: rgba(255,255,255,0.028);
   --text: #E4DAC8;
   --muted: rgba(228,218,200,0.65);
-  --muted2: rgba(228,218,200,0.40);
-  --gold: #C9A84C;
-  --gold-dim: rgba(201,168,76,0.15);
-  --gold-line: rgba(201,168,76,0.20);
+  --muted2: rgba(228,218,200,0.55);
+  --gold: #D1A24A;
+  --gold-dim: rgba(209,162,74,0.15);
+  --gold-line: rgba(209,162,74,0.20);
   --clay: #9E4628;
   --lapis: #3D6FAA;
   --line: rgba(255,255,255,0.08);
@@ -21,15 +21,15 @@
 }
 
 [data-theme="light"] {
-  --bg: #F4EFE6;
-  --surface: #EDE5D5;
-  --surface2: #E8E0CF;
+  --bg: #EFE7D6;
+  --surface: #E7DEC9;
+  --surface2: #E2D8C0;
   --text: #1A1510;
   --muted: rgba(26,21,16,0.72);
-  --muted2: rgba(26,21,16,0.52);
-  --gold: #8B6015;
-  --gold-dim: rgba(139,96,21,0.12);
-  --gold-line: rgba(139,96,21,0.30);
+  --muted2: rgba(26,21,16,0.65);
+  --gold: #7C5410;
+  --gold-dim: rgba(124,84,16,0.12);
+  --gold-line: rgba(124,84,16,0.30);
   --lapis: #2B5A9E;
   --line: rgba(26,21,16,0.14);
   --shadow: 0 24px 70px rgba(0,0,0,0.10);
@@ -42,7 +42,7 @@ body {
   font-family: 'Lora', Georgia, serif;
   color: var(--text);
   background:
-    radial-gradient(ellipse 1000px 650px at 90% 0%, rgba(201,168,76,.08) 0%, transparent 65%),
+    radial-gradient(ellipse 1000px 650px at 90% 0%, rgba(209,162,74,.08) 0%, transparent 65%),
     radial-gradient(ellipse 800px 600px at 0% 100%, rgba(61,111,170,.07) 0%, transparent 65%),
     var(--bg);
   overflow-x: hidden;
@@ -52,7 +52,7 @@ body {
 
 [data-theme="light"] body {
   background:
-    radial-gradient(ellipse 1000px 650px at 90% 0%, rgba(139,96,21,.06) 0%, transparent 65%),
+    radial-gradient(ellipse 1000px 650px at 90% 0%, rgba(124,84,16,.06) 0%, transparent 65%),
     radial-gradient(ellipse 800px 600px at 0% 100%, rgba(43,90,158,.05) 0%, transparent 65%),
     var(--bg);
 }
@@ -132,7 +132,7 @@ body {
 .card-hover:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(0,0,0,0.25);
-  border-color: rgba(201,168,76,0.22) !important;
+  border-color: rgba(209,162,74,0.22) !important;
 }
 [data-theme="light"] .card-hover:hover {
   box-shadow: 0 12px 32px rgba(0,0,0,0.1);

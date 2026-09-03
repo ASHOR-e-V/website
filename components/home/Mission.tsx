@@ -10,11 +10,6 @@ export default function Mission() {
     <section id="ueber-uns" style={{ padding: "6.5rem 1.5rem", scrollMarginTop: 74 }} className="section-pad">
       <div style={{ maxWidth: "var(--max)", margin: "0 auto" }}>
 
-        <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".32em", textTransform: "uppercase", color: "var(--muted2)", fontWeight: 600, display: "flex", alignItems: "center", gap: ".8rem", marginBottom: "1.2rem" }}>
-          <span style={{ display: "block", width: 28, height: 1, background: "var(--gold)", borderRadius: 999, opacity: .6 }} />
-          Über uns
-        </div>
-
         <div className="grid-mission" style={{ gap: "5rem" }}>
 
           {/* Left: prose */}
@@ -44,12 +39,9 @@ export default function Mission() {
               Unsere Grundsätze
             </div>
             {values.map((v, i) => (
-              <div key={i} style={{ display: "grid", gridTemplateColumns: "2.5rem 1fr", gap: "1rem", paddingTop: "1.4rem", paddingBottom: "1.4rem", borderBottom: i < values.length - 1 ? "1px solid var(--line)" : "none" }}>
-                <span style={{ fontFamily: "'Cinzel', serif", fontSize: "1.1rem", fontWeight: 700, color: "var(--gold)", opacity: .45, lineHeight: 1, paddingTop: ".1rem" }}>{v.num}</span>
-                <div>
-                  <h4 style={{ fontFamily: "'Jost', sans-serif", fontSize: ".78rem", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--text)", marginBottom: ".4rem" }}>{v.title}</h4>
-                  <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".88rem", lineHeight: 1.8, margin: 0 }}>{v.desc}</p>
-                </div>
+              <div key={i} style={{ paddingTop: "1.4rem", paddingBottom: "1.4rem", borderBottom: i < values.length - 1 ? "1px solid var(--line)" : "none" }}>
+                <h4 style={{ fontFamily: "'Jost', sans-serif", fontSize: ".78rem", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--text)", marginBottom: ".4rem" }}>{v.title}</h4>
+                <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".88rem", lineHeight: 1.8, margin: 0 }}>{v.desc}</p>
               </div>
             ))}
           </div>

@@ -1,4 +1,5 @@
 import ContactForm from "./ContactForm";
+import { DotIcon } from "@/components/icons";
 
 const perks = [
   "Zugang zum internen Mitgliederbereich",
@@ -14,10 +15,6 @@ export default function Join() {
       <div style={{ maxWidth: "var(--max)", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div className="grid-2col">
           <div>
-            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, display: "flex", alignItems: "center", gap: ".8rem", marginBottom: "1.2rem" }}>
-              <span style={{ display: "block", width: 30, height: 1, background: "var(--gold)", borderRadius: 999 }} />
-              Mitmachen
-            </div>
             <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.8rem,3.7vw,3rem)", fontWeight: 700, lineHeight: 1.1, marginBottom: "1.2rem", letterSpacing: "-.01em" }}>
               Teil von ASHOR<br />werden.
             </h2>
@@ -26,7 +23,7 @@ export default function Join() {
             </p>
             {perks.map((p, i) => (
               <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "flex-start", marginBottom: ".9rem" }}>
-                <span style={{ color: "var(--gold)", fontSize: "1.1rem", flexShrink: 0, lineHeight: 1.6 }}>✦</span>
+                <span style={{ color: "var(--gold)", flexShrink: 0, marginTop: ".55rem" }}><DotIcon size={6} /></span>
                 <p style={{ color: "var(--muted)", fontSize: ".88rem", margin: 0, fontFamily: "'Lora', serif" }}>{p}</p>
               </div>
             ))}
@@ -35,8 +32,7 @@ export default function Join() {
               <a href="https://www.tiktok.com/@ashor_e.v" target="_blank" rel="noopener" style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".12em", textTransform: "uppercase", color: "var(--muted)", border: "1px solid var(--line)", padding: ".4rem .9rem", borderRadius: 999, textDecoration: "none" }}>TikTok</a>
             </div>
           </div>
-          <div style={{ background: "var(--surface)", border: "1px solid var(--gold-line)", borderRadius: "var(--r-lg)", padding: "2.5rem", position: "relative" }}>
-            <div style={{ position: "absolute", top: 0, left: "2rem", right: "2rem", height: 1, background: "var(--gold)" }} />
+          <div style={{ background: "var(--surface)", border: "1px solid var(--gold-line)", borderRadius: "var(--r-lg)", padding: "2.5rem" }}>
             <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.35rem", fontWeight: 700, color: "var(--text)", marginBottom: ".4rem" }}>Kontakt aufnehmen</h3>
             <p style={{ color: "var(--muted2)", fontSize: ".78rem", marginBottom: "1.5rem", fontFamily: "'Jost', sans-serif" }}>Für Mitgliedschaft, Kooperationen und Pressekontakt</p>
             <ContactForm />

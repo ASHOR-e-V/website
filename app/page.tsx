@@ -9,12 +9,12 @@ import Join from "@/components/home/Join";
 import Donate from "@/components/home/Donate";
 
 const quickLinks = [
-  { num: "01", label: "Veranstaltungen", sub: "Events & Rückblick", href: "/events" },
-  { num: "02", label: "Projekte", sub: "Unsere Formate", href: "/projects" },
-  { num: "03", label: "Vorstand", sub: "Das Leitungsgremium", href: "/vorstand" },
-  { num: "04", label: "Mitmachen", sub: "Kostenlose Mitgliedschaft", href: "/mitmachen" },
-  { num: "05", label: "Spenden", sub: "ASHOR unterstützen", href: "/spenden" },
-  { num: "06", label: "Mitgliederbereich", sub: "Interner Bereich", href: "/members" },
+  { label: "Veranstaltungen", sub: "Events & Rückblick", href: "/events" },
+  { label: "Projekte", sub: "Unsere Formate", href: "/projects" },
+  { label: "Vorstand", sub: "Das Leitungsgremium", href: "/vorstand" },
+  { label: "Mitmachen", sub: "Kostenlose Mitgliedschaft", href: "/mitmachen" },
+  { label: "Spenden", sub: "ASHOR unterstützen", href: "/spenden" },
+  { label: "Mitgliederbereich", sub: "Interner Bereich", href: "/members" },
 ];
 
 export default function Home() {
@@ -42,9 +42,6 @@ export default function Home() {
             }}
             className="mobile-nav-item"
           >
-            <span style={{ fontFamily: "'Cinzel', serif", fontSize: ".78rem", fontWeight: 700, color: "var(--gold)", opacity: .45, minWidth: "2rem", flexShrink: 0 }}>
-              {item.num}
-            </span>
             <span style={{ flex: 1 }}>
               <span style={{ fontFamily: "'Cinzel', serif", fontSize: ".95rem", fontWeight: 700, color: "var(--text)", display: "block", lineHeight: 1.2, marginBottom: ".2rem" }}>
                 {item.label}

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "@/lib/theme";
+import { HeartIcon, MoonIcon, SunIcon } from "@/components/icons";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -59,8 +60,8 @@ export default function Navbar() {
               </li>
             ))}
             <li>
-              <Link href="/#spenden" style={{ fontFamily: "'Jost', sans-serif", color: "var(--gold)", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, border: "1px solid var(--gold-line)", padding: ".45rem .95rem", borderRadius: 999, textDecoration: "none" }}>
-                ♡ Spenden
+              <Link href="/#spenden" style={{ display: "inline-flex", alignItems: "center", gap: ".4rem", fontFamily: "'Jost', sans-serif", color: "var(--gold)", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, border: "1px solid var(--gold-line)", padding: ".45rem .95rem", borderRadius: 999, textDecoration: "none" }}>
+                <HeartIcon size={12} /> Spenden
               </Link>
             </li>
             <li>
@@ -72,9 +73,9 @@ export default function Navbar() {
               <button
                 onClick={toggle}
                 aria-label="Theme wechseln"
-                style={{ background: "none", border: `1px solid ${scrolled ? "rgba(232,220,200,.25)" : "var(--line)"}`, color: navMuted, width: 34, height: 34, borderRadius: "50%", cursor: "pointer", fontSize: "1rem", display: "flex", alignItems: "center", justifyContent: "center" }}
+                style={{ background: "none", border: `1px solid ${scrolled ? "rgba(232,220,200,.25)" : "var(--line)"}`, color: navMuted, width: 34, height: 34, borderRadius: "50%", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
               >
-                {theme === "light" ? "☾" : "☀"}
+                {theme === "light" ? <MoonIcon /> : <SunIcon />}
               </button>
             </li>
           </ul>
@@ -100,16 +101,16 @@ export default function Navbar() {
             { label: "Projekte", href: "/projects" },
             { label: "Vorstand", href: "/vorstand" },
             { label: "Mitmachen", href: "/mitmachen" },
-            { label: "♡ Spenden", href: "/spenden" },
+            { label: "Spenden", href: "/spenden", icon: true },
             { label: "Satzung", href: "/satzung" },
             { label: "Mitgliederbereich", href: "/members" },
           ].map(l => (
-            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ fontFamily: "'Cinzel', Georgia, serif", color: "#E4DAC8", textDecoration: "none", fontSize: "1.9rem", fontWeight: 600, letterSpacing: ".06em" }}>
-              {l.label}
+            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ display: "inline-flex", alignItems: "center", gap: ".6rem", fontFamily: "'Cinzel', Georgia, serif", color: "#E4DAC8", textDecoration: "none", fontSize: "1.9rem", fontWeight: 600, letterSpacing: ".06em" }}>
+              {l.icon && <HeartIcon size={22} />} {l.label}
             </Link>
           ))}
-          <button onClick={() => { toggle(); setMenuOpen(false); }} style={{ background: "none", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(232,220,200,.5)", padding: ".4rem 1rem", borderRadius: 999, cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: ".75rem", letterSpacing: ".1em" }}>
-            {theme === "light" ? "☾ Dunkel" : "☀ Hell"}
+          <button onClick={() => { toggle(); setMenuOpen(false); }} style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", background: "none", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(232,220,200,.5)", padding: ".4rem 1rem", borderRadius: 999, cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: ".75rem", letterSpacing: ".1em" }}>
+            {theme === "light" ? <MoonIcon size={13} /> : <SunIcon size={13} />} {theme === "light" ? "Dunkel" : "Hell"}
           </button>
         </div>
       )}

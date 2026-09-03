@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { CheckIcon } from "@/components/icons";
 
 const types = ["Mitgliedschaft", "Kooperation", "Pressekontakt", "Sonstiges"];
 
@@ -10,13 +11,11 @@ export default function ContactForm() {
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }));
 
-  const [errorMsg, setErrorMsg] = useState("");
-
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
     const { error } = await supabase.from("contact_submissions").insert(form);
-    if (error) { setErrorMsg(error.message); setStatus("error"); }
+    if (error) { console.error(error); setStatus("error"); }
     else setStatus("success");
   };
 
@@ -29,7 +28,7 @@ export default function ContactForm() {
 
   if (status === "success") return (
     <div style={{ textAlign: "center", padding: "2.5rem 1rem" }}>
-      <div style={{ fontSize: "1.8rem", marginBottom: "1rem" }}>✦</div>
+      <div style={{ color: "var(--gold)", marginBottom: "1rem", display: "flex", justifyContent: "center" }}><CheckIcon size={30} /></div>
       <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.1rem", fontWeight: 700, color: "var(--text)", marginBottom: ".6rem" }}>Anfrage eingegangen</h3>
       <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".88rem", lineHeight: 1.8 }}>Wir melden uns in Kürze bei dir.</p>
     </div>
@@ -56,7 +55,7 @@ export default function ContactForm() {
       <textarea required value={form.message} onChange={e => set("message", e.target.value)} placeholder="Ihre Nachricht an den Vorstand …" rows={5} style={{ ...inputStyle, resize: "vertical" }} />
 
       {status === "error" && (
-        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".78rem", color: "#e05555", marginBottom: ".75rem" }}>Fehler: {errorMsg || "Bitte versuche es erneut."}</p>
+        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".78rem", color: "#e05555", marginBottom: ".75rem" }}>Deine Nachricht konnte nicht gesendet werden. Bitte versuche es in ein paar Minuten erneut oder schreib uns direkt an ashor.jgu@gmail.com.</p>
       )}
 
       <button type="submit" disabled={status === "sending"} style={{ width: "100%", fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: 700, background: "var(--gold-dim)", color: "var(--gold)", border: "1px solid var(--gold-line)", borderRadius: "var(--r-sm)", padding: "1rem", cursor: "pointer" }}>

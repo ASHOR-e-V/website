@@ -1,3 +1,5 @@
+import { DotIcon } from "@/components/icons";
+
 const stats = [
   { number: "2024", label: "Gründungsjahr" },
   { number: "20+", label: "Veranstaltungen" },
@@ -16,10 +18,7 @@ export default function StatsBar() {
                 fontFamily: "'Cinzel', Georgia, serif",
                 fontSize: "clamp(2.2rem,4.5vw,4rem)",
                 fontWeight: 700,
-                background: "linear-gradient(135deg,var(--lapis),var(--gold))",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                color: "transparent",
+                color: "var(--gold)",
                 display: "block",
                 lineHeight: 1,
                 letterSpacing: "-.02em",
@@ -39,7 +38,7 @@ export default function StatsBar() {
               </span>
             </div>
             {i < stats.length - 1 && (
-              <span className="stat-sep" style={{ color: "var(--gold)", fontSize: ".55rem", opacity: 0.35, flexShrink: 0 }}>✦</span>
+              <span className="stat-sep" style={{ color: "var(--gold)", opacity: 0.35, flexShrink: 0 }}><DotIcon /></span>
             )}
           </div>
         ))}
