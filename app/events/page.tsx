@@ -1,3 +1,5 @@
+import { eventAccent } from "@/lib/tagColors";
+
 export const metadata = { title: "Veranstaltungen – ASHOR" };
 
 const events = [
@@ -31,7 +33,7 @@ export default function EventsPage() {
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: ".6rem", flexWrap: "wrap" }}>
                   <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.2rem", fontWeight: 700, color: "var(--text)" }}>{e.title}</h2>
-                  <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".16em", textTransform: "uppercase", color: "var(--gold)", background: "var(--gold-dim)", padding: ".2rem .6rem", borderRadius: 999, border: "1px solid var(--gold-line)", flexShrink: 0 }}>{e.tag}</span>
+                  <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".16em", textTransform: "uppercase", color: eventAccent(e.tag).text, background: eventAccent(e.tag).dim, padding: ".2rem .6rem", borderRadius: 999, border: `1px solid ${eventAccent(e.tag).line}`, flexShrink: 0 }}>{e.tag}</span>
                 </div>
                 <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".95rem", lineHeight: 1.85 }}>{e.desc}</p>
               </div>

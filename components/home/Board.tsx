@@ -11,14 +11,14 @@ const bei = [
   { name: "Roben Lajin", role: "Beisitzer", desc: "Unterstützt den Vorstand bei Planung und Durchführung von Veranstaltungen.", photo: "/team/roben.jpeg" },
 ];
 
-function BoardCard({ name, role, desc, photo, photoZoom }: { name: string; role: string; desc: string; photo: string; photoZoom?: number }) {
+function BoardCard({ name, role, desc, photo, photoZoom, accent = "var(--gold)", accentLine = "var(--gold-line)" }: { name: string; role: string; desc: string; photo: string; photoZoom?: number; accent?: string; accentLine?: string }) {
   return (
     <div className="card-hover" style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.8rem" }}>
-      <div style={{ width: 100, height: 100, borderRadius: "50%", overflow: "hidden", margin: "0 auto 1.2rem", border: "2px solid var(--gold-line)" }}>
+      <div style={{ width: 100, height: 100, borderRadius: "50%", overflow: "hidden", margin: "0 auto 1.2rem", border: `2px solid ${accentLine}` }}>
         <Image src={photo} alt={name} width={100} height={100} style={{ objectFit: "cover", width: "100%", height: "100%", transform: photoZoom ? `scale(${photoZoom})` : undefined }} />
       </div>
       <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.05rem", fontWeight: 700, color: "var(--text)", marginBottom: ".3rem", textAlign: "center" }}>{name}</h4>
-      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".18em", textTransform: "uppercase", color: "var(--gold)", marginBottom: ".8rem", fontWeight: 600, textAlign: "center" }}>{role}</div>
+      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".18em", textTransform: "uppercase", color: accent, marginBottom: ".8rem", fontWeight: 600, textAlign: "center" }}>{role}</div>
       <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".88rem", lineHeight: 1.8, textAlign: "center" }}>{desc}</p>
     </div>
   );
@@ -40,7 +40,7 @@ export default function Board() {
 
         <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".22em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: "1rem", paddingBottom: ".6rem", borderBottom: "1px solid var(--line)" }}>Beisitzer</div>
         <div className="grid-2col" style={{ maxWidth: 640 }}>
-          {bei.map(m => <BoardCard key={m.name} {...m} />)}
+          {bei.map(m => <BoardCard key={m.name} {...m} accent="var(--lapis-text)" accentLine="var(--lapis-line)" />)}
         </div>
       </div>
     </section>

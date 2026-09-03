@@ -7,11 +7,24 @@
   --text: #E4DAC8;
   --muted: rgba(228,218,200,0.65);
   --muted2: rgba(228,218,200,0.55);
+
+  /* Sun — gold, the disc at the center of the Assyrian flag */
   --gold: #D1A24A;
   --gold-dim: rgba(209,162,74,0.15);
   --gold-line: rgba(209,162,74,0.20);
-  --clay: #9E4628;
+
+  /* Star of Shamash — the flag's tranquil blue; two weights, one for
+     borders/rings (deeper, lapis-lazuli), one for small text (lighter, legible) */
   --lapis: #3D6FAA;
+  --lapis-text: #6C9CD1;
+  --lapis-dim: rgba(108,156,209,0.15);
+  --lapis-line: rgba(108,156,209,0.24);
+
+  /* Tigris — the flag's red stripe, warmed toward fired clay/terracotta */
+  --clay: #C96A45;
+  --clay-dim: rgba(201,106,69,0.15);
+  --clay-line: rgba(201,106,69,0.24);
+
   --line: rgba(255,255,255,0.08);
   --shadow: 0 24px 70px rgba(0,0,0,0.65);
   --r-sm: 8px;
@@ -27,10 +40,20 @@
   --text: #1A1510;
   --muted: rgba(26,21,16,0.72);
   --muted2: rgba(26,21,16,0.65);
+
   --gold: #7C5410;
   --gold-dim: rgba(124,84,16,0.12);
   --gold-line: rgba(124,84,16,0.30);
+
   --lapis: #2B5A9E;
+  --lapis-text: #2B5A9E;
+  --lapis-dim: rgba(43,90,158,0.10);
+  --lapis-line: rgba(43,90,158,0.28);
+
+  --clay: #8B3A1F;
+  --clay-dim: rgba(139,58,31,0.10);
+  --clay-line: rgba(139,58,31,0.28);
+
   --line: rgba(26,21,16,0.14);
   --shadow: 0 24px 70px rgba(0,0,0,0.10);
 }

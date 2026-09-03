@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { projectAccent } from "@/lib/tagColors";
 
 const projects = [
   { title: "ASHOR Talks", desc: "Unsere Debattierreihe: Infovortrag plus Live-Debatte zweier Teams – lebendig, lehrreich und immer mit Überraschungen.", badge: "Laufende Serie" },
@@ -23,7 +24,7 @@ export default function ProjectsPreview() {
             <div key={i} className={`${i === 2 ? "hide-mobile" : ""} card-hover`} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "2rem" }}>
               <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.1rem", fontWeight: 700, color: "var(--text)", marginBottom: ".6rem", lineHeight: 1.3 }}>{p.title}</h3>
               <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".9rem", lineHeight: 1.8, marginBottom: "1rem" }}>{p.desc}</p>
-              <span style={{ display: "inline-block", fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".16em", textTransform: "uppercase", color: "var(--gold)", background: "var(--gold-dim)", padding: ".26rem .7rem", borderRadius: 999, border: "1px solid var(--gold-line)" }}>
+              <span style={{ display: "inline-block", fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".16em", textTransform: "uppercase", color: projectAccent(p.title).text, background: projectAccent(p.title).dim, padding: ".26rem .7rem", borderRadius: 999, border: `1px solid ${projectAccent(p.title).line}` }}>
                 {p.badge}
               </span>
             </div>

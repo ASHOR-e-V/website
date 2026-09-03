@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { eventAccent } from "@/lib/tagColors";
 
 const events = [
   { date: "Mai 2025", title: "ASHOR Talks #2", desc: "Infovortrag und Live-Debatte: Frei geboren, traditionell geprägt – Wie modern darf ich in der Diaspora sein?", tag: "Vortrag & Debatte" },
@@ -29,7 +30,7 @@ export default function EventsPreview() {
               </div>
               <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.1rem", fontWeight: 700, color: "var(--text)", marginBottom: ".55rem", lineHeight: 1.3 }}>{e.title}</h3>
               <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".9rem", lineHeight: 1.8 }}>{e.desc}</p>
-              <span style={{ display: "inline-block", marginTop: ".9rem", fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)", background: "var(--gold-dim)", padding: ".26rem .7rem", borderRadius: 999, border: "1px solid var(--gold-line)" }}>
+              <span style={{ display: "inline-block", marginTop: ".9rem", fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".16em", textTransform: "uppercase", color: eventAccent(e.tag).text, background: eventAccent(e.tag).dim, padding: ".26rem .7rem", borderRadius: 999, border: `1px solid ${eventAccent(e.tag).line}` }}>
                 {e.tag}
               </span>
             </div>

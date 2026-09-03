@@ -1,10 +1,10 @@
 import { DotIcon } from "@/components/icons";
 
 const stats = [
-  { number: "2024", label: "Gründungsjahr" },
-  { number: "20+", label: "Veranstaltungen" },
-  { number: "7", label: "Vorstandsmitglieder" },
-  { number: "JGU", label: "Mainz" },
+  { number: "2024", label: "Gründungsjahr", color: "var(--gold)" },
+  { number: "20+", label: "Veranstaltungen", color: "var(--lapis-text)" },
+  { number: "7", label: "Vorstandsmitglieder", color: "var(--clay)" },
+  { number: "JGU", label: "Mainz", color: "var(--gold)" },
 ];
 
 export default function StatsBar() {
@@ -18,7 +18,7 @@ export default function StatsBar() {
                 fontFamily: "'Cinzel', Georgia, serif",
                 fontSize: "clamp(2.2rem,4.5vw,4rem)",
                 fontWeight: 700,
-                color: "var(--gold)",
+                color: s.color,
                 display: "block",
                 lineHeight: 1,
                 letterSpacing: "-.02em",

@@ -1,4 +1,5 @@
 import { HeartIcon } from "@/components/icons";
+import { projectAccent } from "@/lib/tagColors";
 
 export const metadata = { title: "Projekte – ASHOR" };
 
@@ -23,7 +24,7 @@ export default function ProjectsPage() {
         <div className="grid-3col" style={{ marginBottom: "5rem" }}>
           {projects.map((p, i) => (
             <div key={i} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "2.5rem" }}>
-              <span style={{ display: "inline-block", fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".16em", textTransform: "uppercase", color: "var(--gold)", background: "var(--gold-dim)", padding: ".26rem .7rem", borderRadius: 999, border: "1px solid var(--gold-line)", marginBottom: "1rem" }}>{p.badge}</span>
+              <span style={{ display: "inline-block", fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".16em", textTransform: "uppercase", color: projectAccent(p.title).text, background: projectAccent(p.title).dim, padding: ".26rem .7rem", borderRadius: 999, border: `1px solid ${projectAccent(p.title).line}`, marginBottom: "1rem" }}>{p.badge}</span>
               <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.3rem", fontWeight: 700, color: "var(--text)", marginBottom: ".8rem", lineHeight: 1.3 }}>{p.title}</h2>
               <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".95rem", lineHeight: 1.85 }}>{p.desc}</p>
             </div>

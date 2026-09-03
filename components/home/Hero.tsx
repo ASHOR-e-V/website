@@ -22,7 +22,7 @@ export default function Hero() {
         maskImage: "radial-gradient(ellipse 90% 85% at 50% 50%, black 20%, transparent 100%)",
         WebkitMaskImage: "radial-gradient(ellipse 90% 85% at 50% 50%, black 20%, transparent 100%)",
       }} />
-      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 800px 500px at 75% 40%,rgba(61,111,170,.16),transparent 65%), radial-gradient(ellipse 600px 400px at 10% 70%,rgba(201,168,76,.10),transparent 65%)" }} />
+      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 800px 500px at 75% 40%,rgba(61,111,170,.16),transparent 65%), radial-gradient(ellipse 600px 400px at 10% 70%,rgba(201,168,76,.10),transparent 65%), radial-gradient(ellipse 500px 400px at 30% 15%,rgba(201,106,69,.07),transparent 65%)" }} />
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", background: "linear-gradient(to top, var(--bg), transparent)" }} />
 
       <div style={{ position: "relative", zIndex: 2, maxWidth: "var(--max)", margin: "0 auto", padding: "9rem 1.5rem 5rem", width: "100%" }} className="grid-hero hero-pad">
