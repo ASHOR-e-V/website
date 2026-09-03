@@ -12,6 +12,9 @@
   --gold: #D1A24A;
   --gold-dim: rgba(209,162,74,0.15);
   --gold-line: rgba(209,162,74,0.20);
+  /* True gold for solid fills (buttons) — paired with dark text, so it
+     doesn't need to be muted for text-on-background contrast like --gold above */
+  --gold-solid: #D1A24A;
 
   /* Star of Shamash — the flag's tranquil blue; two weights, one for
      borders/rings (deeper, lapis-lazuli), one for small text (lighter, legible) */
@@ -44,6 +47,7 @@
   --gold: #7C5410;
   --gold-dim: rgba(124,84,16,0.12);
   --gold-line: rgba(124,84,16,0.30);
+  --gold-solid: #D1A24A;
 
   --lapis: #2B5A9E;
   --lapis-text: #2B5A9E;

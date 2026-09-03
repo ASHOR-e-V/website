@@ -39,7 +39,7 @@ export default function Hero() {
           <motion.div {...fadeUp(0.55)} style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
             <Link href="/mitmachen" style={{
               fontFamily: "'Jost', sans-serif",
-              background: "var(--gold)",
+              background: "var(--gold-solid)",
               color: "#07090E",
               padding: ".9rem 2rem",
               borderRadius: 999,
