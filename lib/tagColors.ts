@@ -23,7 +23,7 @@ export function eventAccent(tag: string): Accent {
 // badge, so the badge text alone can't tell them apart).
 const projectMap: Record<string, Accent> = {
   "ASHOR Talks": gold,
-  "ASHORs Khigga": clay,
+  "ASHORs Stammtisch": clay,
   "Bildungsreisen & Symposien": lapis,
 };
 

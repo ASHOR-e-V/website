@@ -167,10 +167,6 @@ body {
 .nav-desktop { display: flex !important; }
 .nav-hamburger { display: none !important; }
 .stat-border { border-right: 1px solid var(--line); }
-.desktop-section { display: block; }
-.mobile-quicknav { display: none; }
-.mobile-nav-item { transition: background .18s ease; }
-.mobile-nav-item:hover { background: var(--surface); }
 .stat-sep { display: inline-block; }
 .stats-wrap { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
 
@@ -191,8 +187,6 @@ body {
   .nav-desktop { display: none !important; }
   .nav-hamburger { display: flex !important; }
   .stat-border { border-right: none !important; border-bottom: 1px solid var(--line); padding-bottom: 1rem; }
-  .desktop-section { display: none !important; }
-  .mobile-quicknav { display: flex !important; }
   .stat-sep { display: none !important; }
   .stats-wrap { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 0 !important; }
   .donate-flex { flex-direction: column !important; align-items: flex-start !important; }

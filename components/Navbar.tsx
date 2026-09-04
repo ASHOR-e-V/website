@@ -95,7 +95,7 @@ export default function Navbar() {
       </nav>
 
       {menuOpen && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 999, background: "rgba(7,9,14,.96)", backdropFilter: "blur(22px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "2rem", paddingTop: 74 }}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 999, background: "rgba(7,9,14,.96)", backdropFilter: "blur(22px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", gap: "1.6rem", paddingTop: "6.5rem", paddingBottom: "3rem", overflowY: "auto" }}>
           {[
             { label: "Startseite", href: "/" },
             { label: "Veranstaltungen", href: "/events" },
@@ -106,11 +106,11 @@ export default function Navbar() {
             { label: "Satzung", href: "/satzung" },
             { label: "Mitgliederbereich", href: "/members" },
           ].map(l => (
-            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ display: "inline-flex", alignItems: "center", gap: ".6rem", fontFamily: "'Cinzel', Georgia, serif", color: "#E4DAC8", textDecoration: "none", fontSize: "1.9rem", fontWeight: 600, letterSpacing: ".06em" }}>
+            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ display: "inline-flex", alignItems: "center", gap: ".6rem", fontFamily: "'Cinzel', Georgia, serif", color: "#E4DAC8", textDecoration: "none", fontSize: "clamp(1.5rem,6vw,1.9rem)", fontWeight: 600, letterSpacing: ".06em" }}>
               {l.icon && <HeartIcon size={22} />} {l.label}
             </Link>
           ))}
-          <button onClick={() => { toggle(); setMenuOpen(false); }} style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", background: "none", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(232,220,200,.5)", padding: ".4rem 1rem", borderRadius: 999, cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: ".75rem", letterSpacing: ".1em" }}>
+          <button onClick={() => { toggle(); setMenuOpen(false); }} style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", background: "none", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(232,220,200,.5)", padding: ".4rem 1rem", borderRadius: 999, cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: ".75rem", letterSpacing: ".1em", marginTop: ".5rem", flexShrink: 0 }}>
             {theme === "light" ? <MoonIcon size={13} /> : <SunIcon size={13} />} {theme === "light" ? "Dunkel" : "Hell"}
           </button>
         </div>

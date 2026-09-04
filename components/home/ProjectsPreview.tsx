@@ -6,7 +6,7 @@ import { fadeUp, stagger } from "@/lib/motion";
 
 const projects = [
   { title: "ASHOR Talks", desc: "Unsere Debattierreihe: Infovortrag plus Live-Debatte zweier Teams – lebendig, lehrreich und immer mit Überraschungen.", badge: "Laufende Serie" },
-  { title: "ASHORs Khigga", desc: "Tanzabende, bei denen assyrische Tänze vermittelt und gemeinsam getanzt werden – kulturelle Praxis als Gemeinschaftserfahrung.", badge: "Laufende Serie" },
+  { title: "ASHORs Stammtisch", desc: "Regelmäßige, zwanglose Treffen bei Essen und Getränken – zum gemütlichen Austausch und Kennenlernen abseits des Uni-Alltags.", badge: "Laufende Serie" },
   { title: "Bildungsreisen & Symposien", desc: "Gemeinsame Reisen zu internationalen Konferenzen – zuletzt das Niniveh Academic Chair Symposium in Salamanca.", badge: "Jährlich" },
 ];
 
