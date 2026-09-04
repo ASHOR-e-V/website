@@ -1,22 +1,24 @@
 "use client";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-
-const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 22 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.75, delay, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
-});
+import { motion, useScroll, useTransform } from "framer-motion";
+import { fadeUp } from "@/lib/motion";
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+  const logoY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const logoOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.15]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, 40]);
+
   return (
-    <section style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", overflow: "hidden" }}>
+    <section ref={sectionRef} style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", overflow: "hidden" }}>
 
       {/* Layered background */}
       <div style={{ position: "absolute", inset: 0, background: "var(--bg)" }} />
-      <div style={{
-        position: "absolute", inset: 0,
+      <motion.div style={{
+        position: "absolute", inset: 0, y: bgY,
         backgroundImage: "linear-gradient(rgba(201,168,76,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.035) 1px, transparent 1px)",
         backgroundSize: "72px 72px",
         maskImage: "radial-gradient(ellipse 90% 85% at 50% 50%, black 20%, transparent 100%)",
@@ -25,18 +27,18 @@ export default function Hero() {
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 800px 500px at 75% 40%,rgba(61,111,170,.16),transparent 65%), radial-gradient(ellipse 600px 400px at 10% 70%,rgba(201,168,76,.10),transparent 65%), radial-gradient(ellipse 500px 400px at 30% 15%,rgba(201,106,69,.07),transparent 65%)" }} />
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", background: "linear-gradient(to top, var(--bg), transparent)" }} />
 
-      <div style={{ position: "relative", zIndex: 2, maxWidth: "var(--max)", margin: "0 auto", padding: "9rem 1.5rem 5rem", width: "100%" }} className="grid-hero hero-pad">
+      <div style={{ position: "relative", zIndex: 2, maxWidth: "var(--max)", margin: "0 auto", padding: "10rem 1.5rem 6rem", width: "100%" }} className="grid-hero hero-pad">
         <div>
 
-          <motion.h1 {...fadeUp(0.1)} style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "clamp(2.4rem,5.5vw,5rem)", fontWeight: 700, lineHeight: 1.05, marginBottom: "1.5rem", letterSpacing: "-.01em" }}>
+          <motion.h1 {...fadeUp(0.1, 24)} style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "clamp(2.6rem,6.2vw,5.75rem)", fontWeight: 700, lineHeight: 1.04, marginBottom: "1.7rem", letterSpacing: "-.01em" }}>
             Zwischen Geschichte<br />und Zukunft.
           </motion.h1>
 
-          <motion.p {...fadeUp(0.42)} style={{ fontFamily: "'Lora', Georgia, serif", color: "var(--muted)", fontSize: "1rem", lineHeight: 1.95, maxWidth: 500, marginBottom: "2.6rem" }}>
+          <motion.p {...fadeUp(0.35, 24)} style={{ fontFamily: "'Lora', Georgia, serif", color: "var(--muted)", fontSize: "1.08rem", lineHeight: 1.95, maxWidth: 520, marginBottom: "2.8rem" }}>
             ASHOR verbindet assyrische Studierende und Akademiker in der Rhein-Main-Region — für akademischen Austausch, kulturelle Identität und nachhaltige Vernetzung. Mitgliedschaft ist kostenlos.
           </motion.p>
 
-          <motion.div {...fadeUp(0.55)} style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
+          <motion.div {...fadeUp(0.55, 20)} style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
             <Link href="/mitmachen" style={{
               fontFamily: "'Jost', sans-serif",
               background: "var(--gold-solid)",
@@ -71,7 +73,7 @@ export default function Hero() {
           </motion.div>
 
           {/* Social proof */}
-          <motion.div {...fadeUp(0.68)} style={{ marginTop: "2.8rem", display: "flex", alignItems: "center", gap: ".6rem 2rem", flexWrap: "wrap" }}>
+          <motion.div {...fadeUp(0.72, 18)} style={{ marginTop: "3rem", display: "flex", alignItems: "center", gap: ".6rem 2rem", flexWrap: "wrap" }}>
             <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted2)", whiteSpace: "nowrap" }}>
               Offizielle Hochschulgruppe der JGU Mainz
             </span>
@@ -88,14 +90,14 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Logo with rings */}
-        <motion.div {...fadeUp(0.78)} className="hero-visual" style={{ alignItems: "center", justifyContent: "flex-end" }}>
-          <div style={{ position: "relative", width: 340, height: 340, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {/* Logo with rings — subtle parallax drift + fade as the page scrolls past */}
+        <motion.div {...fadeUp(0.85, 20)} className="hero-visual" style={{ alignItems: "center", justifyContent: "flex-end" }}>
+          <motion.div style={{ position: "relative", width: 340, height: 340, display: "flex", alignItems: "center", justifyContent: "center", y: logoY, opacity: logoOpacity }}>
             <div style={{ position: "absolute", inset: -48, borderRadius: "50%", border: "1px solid rgba(209,162,74,0.10)" }} />
             <div style={{ position: "absolute", inset: -24, borderRadius: "50%", border: "1px solid rgba(209,162,74,0.07)" }} />
             <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(61,111,170,0.10), transparent 70%)" }} />
             <Image src="/logo.png" alt="ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V." width={280} height={280} className="logo-img" style={{ objectFit: "contain", position: "relative", zIndex: 1 }} priority />
-          </div>
+          </motion.div>
         </motion.div>
       </div>
 
