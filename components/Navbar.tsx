@@ -61,12 +61,12 @@ export default function Navbar() {
               </li>
             ))}
             <li>
-              <Link href="/#spenden" style={{ display: "inline-flex", alignItems: "center", gap: ".4rem", fontFamily: "'Jost', sans-serif", color: "var(--gold)", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, border: "1px solid var(--gold-line)", padding: ".45rem .95rem", borderRadius: 999, textDecoration: "none" }}>
+              <Link href="/#spenden" style={{ display: "inline-flex", alignItems: "center", gap: ".4rem", fontFamily: "'Jost', sans-serif", color: "#07090E", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, background: "var(--gold-solid)", padding: ".45rem .95rem", borderRadius: 999, textDecoration: "none" }}>
                 <HeartIcon size={12} /> Spenden
               </Link>
             </li>
             <li>
-              <Link href="/members" style={{ fontFamily: "'Jost', sans-serif", color: "var(--gold)", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, border: "1px solid var(--gold-line)", padding: ".45rem .95rem", borderRadius: 999, textDecoration: "none" }}>
+              <Link href="/members" style={{ fontFamily: "'Jost', sans-serif", color: "#07090E", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, background: "var(--gold-solid)", padding: ".45rem .95rem", borderRadius: 999, textDecoration: "none" }}>
                 Mitgliederbereich
               </Link>
             </li>
