@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { useTheme } from "@/lib/theme";
 import { HeartIcon, MoonIcon, SunIcon } from "@/components/icons";
 
@@ -10,11 +11,33 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { theme, toggle } = useTheme();
 
+  // A hairline of gold along the bottom edge of the bar, tracking how far
+  // through the page you are. Spring-smoothed so it glides instead of ticking.
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 });
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", onScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // The mobile overlay must not leave the page scrollable underneath it.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previous; };
+  }, [menuOpen]);
+
+  // Escape closes the mobile menu.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   const navText   = scrolled ? "#e8dcc8"                 : "var(--text)";
   const navMuted  = scrolled ? "rgba(232,220,200,.65)"   : "var(--muted)";
@@ -55,7 +78,7 @@ export default function Navbar() {
           <ul style={{ display: "flex", alignItems: "center", gap: "1rem", listStyle: "none" }} className="nav-desktop">
             {links.map(l => (
               <li key={l.href}>
-                <Link href={l.href} style={{ fontFamily: "'Jost', sans-serif", color: navMuted, textDecoration: "none", fontSize: ".72rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 500, whiteSpace: "nowrap" }}>
+                <Link href={l.href} className="nav-link" style={{ fontFamily: "'Jost', sans-serif", color: navMuted, textDecoration: "none", fontSize: ".72rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 500, whiteSpace: "nowrap" }}>
                   {l.label}
                 </Link>
               </li>
@@ -66,7 +89,20 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/members" style={{ fontFamily: "'Jost', sans-serif", color: "#07090E", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, background: "var(--gold-solid)", padding: ".45rem .95rem", borderRadius: 999, textDecoration: "none" }}>
+              {/* Secondary to "Spenden": a utility link, not a call to action.
+                  Neutral text on an outline — deliberately not gold text, which
+                  reads muddy against these backgrounds. */}
+              <Link
+                href="/members"
+                className="btn-ghost"
+                style={{
+                  fontFamily: "'Jost', sans-serif", color: navText, fontSize: ".72rem",
+                  letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600,
+                  background: "transparent", padding: ".45rem .95rem", borderRadius: 999,
+                  textDecoration: "none", border: `1px solid ${scrolled ? "rgba(232,220,200,.28)" : "var(--line-strong)"}`,
+                  whiteSpace: "nowrap",
+                }}
+              >
                 Mitgliederbereich
               </Link>
             </li>
@@ -83,7 +119,9 @@ export default function Navbar() {
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
+            aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
             style={{ display: "none", flexDirection: "column", gap: 6, background: "none", border: "none", cursor: "pointer", padding: 6 }}
             className="nav-hamburger"
           >
@@ -92,10 +130,21 @@ export default function Navbar() {
             <span style={{ display: "block", width: 24, height: 1.5, background: "linear-gradient(90deg,var(--lapis),var(--gold))", borderRadius: 999, transition: "all .35s", transform: menuOpen ? "translateY(-7.5px) rotate(-45deg)" : "none" }} />
           </button>
         </div>
+
+        {/* Reading progress for the whole page */}
+        <motion.div
+          aria-hidden="true"
+          style={{
+            position: "absolute", left: 0, right: 0, bottom: 0, height: 2,
+            background: "var(--gold-solid)", transformOrigin: "0% 50%",
+            scaleX: progress, opacity: scrolled ? 1 : 0,
+            transition: "opacity .4s ease",
+          }}
+        />
       </nav>
 
       {menuOpen && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 999, background: "rgba(7,9,14,.96)", backdropFilter: "blur(22px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", gap: "1.6rem", paddingTop: "6.5rem", paddingBottom: "3rem", overflowY: "auto" }}>
+        <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation" style={{ position: "fixed", inset: 0, zIndex: 999, background: "rgba(7,9,14,.96)", backdropFilter: "blur(22px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", gap: "1.6rem", paddingTop: "6.5rem", paddingBottom: "3rem", overflowY: "auto" }}>
           {[
             { label: "Startseite", href: "/" },
             { label: "Veranstaltungen", href: "/events" },

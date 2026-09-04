@@ -1,46 +1,151 @@
 "use client";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
+import Link from "next/link";
+import { EVENTS } from "@/lib/events";
 import { eventAccent } from "@/lib/tagColors";
-import { fadeUp, stagger } from "@/lib/motion";
+import { Rise } from "@/components/Reveal";
+import PageHeader from "@/components/PageHeader";
+import { ArrowRightIcon } from "@/components/icons";
 
-const events = [
-  { date: "Mai 2025", title: "ASHOR Talks #2", desc: "Infovortrag und Live-Debatte: Frei geboren, traditionell geprägt – Wie modern darf ich in der Diaspora sein? Ein Abend mit zwei Debattierteams, Publikumsfragen und viel Diskussionsraum.", tag: "Vortrag & Debatte", location: "Mainz" },
-  { date: "April 2025", title: "Spanienreise & Symposium Salamanca", desc: "Teilnahme am Niniveh Academic Chair of Salamanca 2025 – akademischer Austausch mit assyrischen Professoren und Akademikern aus der ganzen Welt.", tag: "Bildungsreise", location: "Salamanca, Spanien" },
-  { date: "März 2025", title: "ASHORs Khigga #2", desc: "Assyrische Tänze Schritt für Schritt lernen und gemeinsam tanzen – Vorkenntnisse nicht nötig. Ein Abend voller Bewegung, Musik und Gemeinschaft.", tag: "Kultur", location: "Mainz" },
-  { date: "Januar 2025", title: "ASHOR Talks #1", desc: "Der Auftakt unserer Debattierreihe: Informationsvortrag über ein gesellschaftliches Thema mit anschließender Teamdebatte.", tag: "Vortrag & Debatte", location: "Mainz" },
-  { date: "November 2024", title: "ASHORs Khigga #1", desc: "Der erste Tanzabend von ASHOR – ein voller Erfolg mit über 30 Teilnehmenden.", tag: "Kultur", location: "Mainz" },
-  { date: "Oktober 2024", title: "Gründungsversammlung & Kickoff", desc: "Offizieller Start von ASHOR als offizielle Hochschulgruppe der JGU Mainz. Wahl des ersten Vorstands.", tag: "Intern", location: "Mainz" },
-];
-
+/**
+ * The chronicle as a timeline with a rail that fills as you scroll.
+ *
+ * The rail is two stacked lines: a static faint one for the full extent, and
+ * a gold one on top whose scaleY is bound to scroll progress through the
+ * list. That gives a continuous sense of position without any per-item
+ * scroll listeners.
+ */
 export default function EventsContent() {
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({ target: listRef, offset: ["start 65%", "end 60%"] });
+  const railScale = useSpring(scrollYProgress, { stiffness: 110, damping: 30, restDelta: 0.001 });
+
   return (
     <div style={{ paddingTop: 74 }}>
-      <div style={{ padding: "6.5rem 1.5rem 3rem", background: "var(--surface2)", borderBottom: "1px solid var(--line)" }}>
-        <motion.div {...fadeUp(0, 22)} style={{ maxWidth: "var(--max)", margin: "0 auto" }}>
-          <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2.2rem,4.6vw,4rem)", fontWeight: 700, lineHeight: 1.05, letterSpacing: "-.01em" }}>
-            Chronologische Übersicht.
-          </h1>
-        </motion.div>
-      </div>
+      <PageHeader
+        kicker="Seit Oktober 2024"
+        title="Was bisher geschah"
+        lede="Jede Veranstaltung, die ASHOR seit der Gründung organisiert hat — Vorträge, Debatten, Tanzabende und Reisen."
+      />
 
-      <div style={{ padding: "5rem 1.5rem", maxWidth: "var(--max)", margin: "0 auto" }}>
-        <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={{ hidden: {}, show: { transition: { staggerChildren: stagger } } }} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-          {events.map((e, i) => (
-            <motion.div key={i} variants={{ hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0, transition: { duration: 0.75 } } }} className="grid-events-list" style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: "2rem", padding: "2rem", background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", alignItems: "start" }}>
-              <div style={{ borderRight: "1px solid var(--line)", paddingRight: "2rem" }}>
-                <div style={{ fontFamily: "'Cinzel', serif", fontSize: "1rem", fontWeight: 700, color: "var(--gold)", marginBottom: ".3rem" }}>{e.date}</div>
-                <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".12em", textTransform: "uppercase", color: "var(--muted2)" }}>{e.location}</div>
-              </div>
-              <div>
-                <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: ".6rem", flexWrap: "wrap" }}>
-                  <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.2rem", fontWeight: 700, color: "var(--text)" }}>{e.title}</h2>
-                  <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".16em", textTransform: "uppercase", color: eventAccent(e.tag).text, background: eventAccent(e.tag).dim, padding: ".2rem .6rem", borderRadius: 999, border: `1px solid ${eventAccent(e.tag).line}`, flexShrink: 0 }}>{e.tag}</span>
+      {/* Timeline */}
+      <div style={{ maxWidth: 940, margin: "0 auto", padding: "5rem 1.5rem 6rem" }}>
+        <div ref={listRef} style={{ position: "relative" }}>
+        {/* The rail — one continuous spine behind every row. Its horizontal
+            position matches the grid column width set in globals.css. */}
+        <div className="timeline-rail" aria-hidden="true">
+          <span style={{ position: "absolute", inset: 0, background: "var(--line)" }} />
+          <motion.span
+            data-rail=""
+            style={{
+              position: "absolute", inset: 0, background: "linear-gradient(to bottom, var(--gold-solid), var(--clay))",
+              transformOrigin: "top center", scaleY: railScale,
+            }}
+          />
+        </div>
+
+        {EVENTS.map((e, i) => {
+          const accent = eventAccent(e.tag);
+          const showYear = i === 0 || EVENTS[i - 1].year !== e.year;
+
+          return (
+            <div key={`${e.title}-${e.date}`}>
+              {showYear && (
+                <Rise y={14}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "1.2rem", marginBottom: "2rem", marginTop: i === 0 ? 0 : "2.5rem" }}>
+                    <span style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2rem,4vw,3rem)", fontWeight: 700, color: "var(--gold)", lineHeight: 1, letterSpacing: "-.02em", fontVariantNumeric: "tabular-nums" }}>
+                      {e.year}
+                    </span>
+                    <span aria-hidden="true" style={{ flex: 1, height: 1, background: "var(--line)" }} />
+                  </div>
+                </Rise>
+              )}
+
+              <div className="timeline-row" style={{ position: "relative", zIndex: 1, paddingBottom: "2.5rem" }}>
+                {/* Rail column */}
+                <div className="timeline-date" style={{ position: "relative", display: "flex", justifyContent: "flex-end", paddingRight: "1.6rem", alignSelf: "stretch" }}>
+                  <div className="timeline-date-inner" style={{ textAlign: "right", paddingTop: ".15rem" }}>
+                    <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".72rem", fontWeight: 600, letterSpacing: ".08em", color: "var(--text)", whiteSpace: "nowrap" }}>
+                      {e.date.split(" ")[0]}
+                    </div>
+                    <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)", marginTop: ".3rem" }}>
+                      {e.location}
+                    </div>
+                  </div>
+
+                  {/* Node on the rail */}
+                  <span
+                    aria-hidden="true"
+                    className="timeline-node"
+                    style={{
+                      position: "absolute", right: -5.5, top: ".45rem",
+                      width: 11, height: 11, borderRadius: "50%",
+                      background: "var(--bg)", border: `1.5px solid ${accent.text}`, zIndex: 2,
+                    }}
+                  />
                 </div>
-                <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".95rem", lineHeight: 1.85 }}>{e.desc}</p>
+
+                <div style={{ minWidth: 0 }}>
+                  <Rise y={22}>
+                    <div
+                      className="card-hover timeline-card"
+                      style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-lg)", padding: "1.9rem 2rem" }}
+                    >
+                      <div style={{ display: "flex", alignItems: "baseline", gap: ".9rem", marginBottom: ".7rem", flexWrap: "wrap" }}>
+                        <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.18rem", fontWeight: 700, color: "var(--text)", lineHeight: 1.3 }}>
+                          {e.title}
+                        </h2>
+                        <span
+                          style={{
+                            fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".16em",
+                            textTransform: "uppercase", color: accent.text, background: accent.dim,
+                            padding: ".22rem .65rem", borderRadius: 999, border: `1px solid ${accent.line}`,
+                            flexShrink: 0, whiteSpace: "nowrap",
+                          }}
+                        >
+                          {e.tag}
+                        </span>
+                      </div>
+                      <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".94rem", lineHeight: 1.9, margin: 0 }}>
+                        {e.desc}
+                      </p>
+                    </div>
+                  </Rise>
+                </div>
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            </div>
+          );
+        })}
+
+        </div>
+
+        {/* Closing note */}
+        <Rise y={18}>
+          <div
+            style={{
+              marginTop: "1rem", padding: "2.2rem 2rem", borderRadius: "var(--r-lg)",
+              border: "1px dashed var(--gold-line)", textAlign: "center",
+            }}
+          >
+            <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".95rem", lineHeight: 1.9, marginBottom: "1.3rem" }}>
+              Die nächsten Termine kündigen wir über Instagram und im Mitgliederbereich an.
+            </p>
+            <Link
+              href="/mitmachen"
+              className="btn-solid"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: ".55rem",
+                fontFamily: "'Jost', sans-serif", background: "var(--gold-solid)", color: "var(--on-gold)",
+                padding: ".9rem 1.9rem", borderRadius: 999, textDecoration: "none", fontWeight: 700,
+                fontSize: ".7rem", letterSpacing: ".16em", textTransform: "uppercase",
+              }}
+            >
+              Nichts verpassen <ArrowRightIcon size={13} />
+            </Link>
+          </div>
+        </Rise>
       </div>
     </div>
   );

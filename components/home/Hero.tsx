@@ -3,108 +3,173 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { fadeUp } from "@/lib/motion";
+import { MaskReveal, Rise } from "@/components/Reveal";
+import Shamash from "@/components/Shamash";
+import { ArrowRightIcon, UserPlusIcon } from "@/components/icons";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
-  const logoY = useTransform(scrollYProgress, [0, 1], [0, 90]);
-  const logoOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.15]);
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 40]);
+
+  // Three parallax planes moving at different rates — the disc drifts slowly,
+  // the texture behind it slower still, so depth reads without any jank.
+  const discY = useTransform(scrollYProgress, [0, 1], [0, 130]);
+  const discRotate = useTransform(scrollYProgress, [0, 1], [0, 42]);
+  const discScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  const discOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.1]);
+  const textureY = useTransform(scrollYProgress, [0, 1], [0, 55]);
+  const copyY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const copyOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
 
   return (
-    <section ref={sectionRef} style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", overflow: "hidden" }}>
+    <section
+      ref={sectionRef}
+      style={{ minHeight: "100svh", position: "relative", display: "flex", alignItems: "center", overflow: "hidden" }}
+    >
+      {/* ── Background planes ── */}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "var(--bg)" }} />
 
-      {/* Layered background */}
-      <div style={{ position: "absolute", inset: 0, background: "var(--bg)" }} />
-      <motion.div style={{
-        position: "absolute", inset: 0, y: bgY,
-        backgroundImage: "linear-gradient(rgba(201,168,76,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.035) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-        maskImage: "radial-gradient(ellipse 90% 85% at 50% 50%, black 20%, transparent 100%)",
-        WebkitMaskImage: "radial-gradient(ellipse 90% 85% at 50% 50%, black 20%, transparent 100%)",
-      }} />
-      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 800px 500px at 75% 40%,rgba(61,111,170,.16),transparent 65%), radial-gradient(ellipse 600px 400px at 10% 70%,rgba(201,168,76,.10),transparent 65%), radial-gradient(ellipse 500px 400px at 30% 15%,rgba(201,106,69,.07),transparent 65%)" }} />
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", background: "linear-gradient(to top, var(--bg), transparent)" }} />
+      <motion.div
+        aria-hidden="true"
+        style={{
+          position: "absolute", inset: "-10%",
+          y: textureY,
+          backgroundImage:
+            "linear-gradient(rgba(209,162,74,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(209,162,74,0.045) 1px, transparent 1px)",
+          backgroundSize: "84px 84px",
+          maskImage: "radial-gradient(ellipse 85% 80% at 55% 45%, black 10%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(ellipse 85% 80% at 55% 45%, black 10%, transparent 100%)",
+        }}
+      />
 
-      <div style={{ position: "relative", zIndex: 2, maxWidth: "var(--max)", margin: "0 auto", padding: "10rem 1.5rem 6rem", width: "100%" }} className="grid-hero hero-pad">
-        <div>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute", inset: 0,
+          background:
+            "radial-gradient(ellipse 900px 560px at 74% 42%, rgba(61,111,170,.17), transparent 66%), radial-gradient(ellipse 640px 420px at 8% 72%, rgba(209,162,74,.11), transparent 66%), radial-gradient(ellipse 520px 400px at 32% 12%, rgba(201,106,69,.075), transparent 66%)",
+        }}
+      />
 
-          <motion.h1 {...fadeUp(0.1, 24)} style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "clamp(2.6rem,6.2vw,5.75rem)", fontWeight: 700, lineHeight: 1.04, marginBottom: "1.7rem", letterSpacing: "-.01em" }}>
-            Zwischen Geschichte<br />und Zukunft.
-          </motion.h1>
+      <div aria-hidden="true" style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "32%", background: "linear-gradient(to top, var(--bg), transparent)" }} />
 
-          <motion.p {...fadeUp(0.35, 24)} style={{ fontFamily: "'Lora', Georgia, serif", color: "var(--muted)", fontSize: "1.08rem", lineHeight: 1.95, maxWidth: 520, marginBottom: "2.8rem" }}>
-            ASHOR verbindet assyrische Studierende und Akademiker in der Rhein-Main-Region — für akademischen Austausch, kulturelle Identität und nachhaltige Vernetzung. Mitgliedschaft ist kostenlos.
-          </motion.p>
-
-          <motion.div {...fadeUp(0.55, 20)} style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
-            <Link href="/mitmachen" style={{
-              fontFamily: "'Jost', sans-serif",
-              background: "var(--gold-solid)",
-              color: "#07090E",
-              padding: ".9rem 2rem",
-              borderRadius: 999,
-              textDecoration: "none",
-              fontWeight: 700,
-              fontSize: ".72rem",
-              letterSpacing: ".18em",
-              textTransform: "uppercase",
-              whiteSpace: "nowrap",
-            }}>
-              Jetzt Mitglied werden
-            </Link>
-            <Link href="/events" style={{
-              fontFamily: "'Jost', sans-serif",
-              background: "transparent",
-              color: "var(--muted)",
-              padding: ".9rem 1.5rem",
-              borderRadius: 999,
-              textDecoration: "none",
-              fontWeight: 500,
-              fontSize: ".72rem",
-              letterSpacing: ".18em",
-              textTransform: "uppercase",
-              border: "1px solid var(--line)",
-              whiteSpace: "nowrap",
-            }}>
-              Veranstaltungen →
-            </Link>
-          </motion.div>
-
-          {/* Social proof */}
-          <motion.div {...fadeUp(0.72, 18)} style={{ marginTop: "3rem", display: "flex", alignItems: "center", gap: ".6rem 2rem", flexWrap: "wrap" }}>
-            <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted2)", whiteSpace: "nowrap" }}>
-              Offizielle Hochschulgruppe der JGU Mainz
-            </span>
-            {[
-              { num: "20+", label: "Veranstaltungen" },
-              { num: "7", label: "Vorstandsmitglieder" },
-              { num: "2024", label: "Gegründet" },
-            ].map((s) => (
-              <span key={s.num} style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted2)", whiteSpace: "nowrap" }}>
-                <span style={{ fontFamily: "'Cinzel', serif", color: "var(--text)", fontWeight: 700, fontSize: ".85rem", marginRight: ".35rem" }}>{s.num}</span>
-                {s.label}
+      {/* ── Content ── */}
+      <motion.div
+        style={{
+          position: "relative", zIndex: 2, maxWidth: "var(--max)", margin: "0 auto",
+          padding: "8.5rem 1.5rem 5.5rem", width: "100%",
+          y: copyY, opacity: copyOpacity,
+        }}
+        className="grid-hero hero-pad"
+        data-parallax=""
+      >
+        <div style={{ minWidth: 0 }}>
+          <Rise duration={0.75} y={14}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: ".85rem", marginBottom: "2rem" }}>
+              <span aria-hidden="true" style={{ display: "block", width: 26, height: 1, background: "var(--gold-solid)", flexShrink: 0 }} />
+              <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".26em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 500 }}>
+                Hochschulgruppe der JGU Mainz
               </span>
-            ))}
-          </motion.div>
+            </div>
+          </Rise>
+
+          <h1
+            style={{
+              fontFamily: "'Cinzel', Georgia, serif",
+              fontSize: "clamp(2.7rem,6.6vw,6rem)",
+              fontWeight: 700,
+              lineHeight: 1.02,
+              marginBottom: "1.9rem",
+              letterSpacing: "-.022em",
+            }}
+          >
+            <MaskReveal delay={0.08} duration={1.15}>Zwischen</MaskReveal>
+            <MaskReveal delay={0.19} duration={1.15}>
+              <span style={{ color: "var(--gold)" }}>Geschichte</span>
+            </MaskReveal>
+            <MaskReveal delay={0.3} duration={1.15}>und Zukunft.</MaskReveal>
+          </h1>
+
+          <Rise delay={0.5} y={22}>
+            <p style={{ fontFamily: "'Lora', Georgia, serif", color: "var(--muted)", fontSize: "1.08rem", lineHeight: 1.95, maxWidth: 500, marginBottom: "2.8rem" }}>
+              Wir verbinden assyrische Studierende und Akademiker in der Rhein-Main-Region — für akademischen Austausch, kulturelle Verortung und ein Netzwerk, das über das Studium hinaus trägt.
+            </p>
+          </Rise>
+
+          <Rise delay={0.66} y={18}>
+            <div style={{ display: "flex", gap: ".85rem", flexWrap: "wrap", alignItems: "center" }}>
+              <Link
+                href="/mitmachen"
+                className="btn-solid"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: ".6rem",
+                  fontFamily: "'Jost', sans-serif", background: "var(--gold-solid)", color: "var(--on-gold)",
+                  padding: "1rem 2.1rem", borderRadius: 999, textDecoration: "none", fontWeight: 700,
+                  fontSize: ".72rem", letterSpacing: ".18em", textTransform: "uppercase", whiteSpace: "nowrap",
+                }}
+              >
+                <UserPlusIcon size={14} /> Mitglied werden
+              </Link>
+              <Link
+                href="/events"
+                className="btn-ghost link-arrow"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: ".55rem",
+                  fontFamily: "'Jost', sans-serif", background: "transparent", color: "var(--muted)",
+                  padding: "1rem 1.7rem", borderRadius: 999, textDecoration: "none", fontWeight: 500,
+                  fontSize: ".72rem", letterSpacing: ".18em", textTransform: "uppercase",
+                  border: "1px solid var(--line-strong)", whiteSpace: "nowrap",
+                }}
+              >
+                Veranstaltungen <ArrowRightIcon size={13} />
+              </Link>
+            </div>
+          </Rise>
+
         </div>
 
-        {/* Logo with rings — subtle parallax drift + fade as the page scrolls past */}
-        <motion.div {...fadeUp(0.85, 20)} className="hero-visual" style={{ alignItems: "center", justifyContent: "flex-end" }}>
-          <motion.div style={{ position: "relative", width: 340, height: 340, display: "flex", alignItems: "center", justifyContent: "center", y: logoY, opacity: logoOpacity }}>
-            <div style={{ position: "absolute", inset: -48, borderRadius: "50%", border: "1px solid rgba(209,162,74,0.10)" }} />
-            <div style={{ position: "absolute", inset: -24, borderRadius: "50%", border: "1px solid rgba(209,162,74,0.07)" }} />
-            <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(61,111,170,0.10), transparent 70%)" }} />
-            <Image src="/logo.png" alt="ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V." width={280} height={280} className="logo-img" style={{ objectFit: "contain", position: "relative", zIndex: 1 }} priority />
-          </motion.div>
-        </motion.div>
-      </div>
+        {/* ── The sun disc, with the association mark at its centre ── */}
+        <div className="hero-visual" style={{ alignItems: "center", justifyContent: "center" }}>
+          <motion.div
+            style={{
+              position: "relative", width: 400, height: 400,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              y: discY, scale: discScale, opacity: discOpacity,
+            }}
+          >
+            {/* The sun disc sits concentric with the mark and far behind it —
+                an aura rather than a second emblem — and turns with the scroll. */}
+            <motion.div
+              aria-hidden="true"
+              style={{
+                position: "absolute", top: "50%", left: "50%",
+                x: "-50%", y: "-50%", rotate: discRotate,
+                opacity: 0.07, pointerEvents: "none", lineHeight: 0,
+              }}
+            >
+              <Shamash size={760} rayWidth={2.8} />
+            </motion.div>
 
-      <div className="scroll-hint" style={{ position: "absolute", bottom: "2rem", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: ".5rem", fontFamily: "'Jost', sans-serif", color: "var(--muted2)", fontSize: ".62rem", letterSpacing: ".25em", textTransform: "uppercase" }}>
-        <span>Scroll</span>
-        <span style={{ display: "block", width: 1, height: 42, background: "linear-gradient(to bottom,transparent,var(--gold))", borderRadius: 999, animation: "scrollAnim 2.4s ease-in-out infinite" }} />
-      </div>
+            {/* Concentric rings hold the mark without decorating it. */}
+            <div aria-hidden="true" style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--gold-line)", opacity: 0.45 }} />
+            <div aria-hidden="true" style={{ position: "absolute", inset: 42, borderRadius: "50%", border: "1px solid var(--gold-line)", opacity: 0.28 }} />
+            <div aria-hidden="true" style={{ position: "absolute", inset: 70, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(61,111,170,0.15), transparent 70%)" }} />
+
+            <Image
+              src="/logo.png"
+              alt="ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V."
+              width={232}
+              height={232}
+              sizes="232px"
+              className="logo-img"
+              style={{ objectFit: "contain", position: "relative", zIndex: 1 }}
+              priority
+            />
+          </motion.div>
+        </div>
+      </motion.div>
+
     </section>
   );
 }

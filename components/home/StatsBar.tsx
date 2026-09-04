@@ -1,62 +1,83 @@
 "use client";
-import { motion } from "framer-motion";
-import { DotIcon } from "@/components/icons";
 import { useCountUp } from "@/lib/useCountUp";
-import { fadeUp } from "@/lib/motion";
+import { Rise, RiseGroup, RiseItem } from "@/components/Reveal";
 
-const stats: { target: number; suffix: string; label: string; color: string }[] = [
-  { target: 2024, suffix: "", label: "Gründungsjahr", color: "var(--gold)" },
-  { target: 20, suffix: "+", label: "Veranstaltungen", color: "var(--lapis-text)" },
-  { target: 7, suffix: "", label: "Vorstandsmitglieder", color: "var(--clay)" },
+type Stat = { target?: number; text?: string; suffix?: string; label: string; sub: string; color: string };
+
+const stats: Stat[] = [
+  { target: 2024, label: "Gründungsjahr", sub: "Oktober", color: "var(--gold)" },
+  { target: 20, suffix: "+", label: "Veranstaltungen", sub: "seit der Gründung", color: "var(--lapis-text)" },
+  { target: 7, label: "Vorstandssitze", sub: "gewählt für 2 Semester", color: "var(--clay)" },
+  { text: "JGU", label: "Mainz", sub: "anerkannte Hochschulgruppe", color: "var(--gold)" },
 ];
 
-function StatNumber({ target, suffix, color }: { target: number; suffix: string; color: string }) {
+const numberStyle = (color: string) => ({
+  fontFamily: "'Cinzel', Georgia, serif",
+  fontSize: "clamp(2.3rem,4.4vw,3.9rem)",
+  fontWeight: 700,
+  color,
+  display: "block",
+  lineHeight: 1,
+  letterSpacing: "-.025em",
+  fontVariantNumeric: "tabular-nums" as const,
+});
+
+function StatNumber({ target, suffix, color }: { target: number; suffix?: string; color: string }) {
   const { ref, value } = useCountUp<HTMLSpanElement>(target);
   return (
-    <span
-      ref={ref}
-      style={{
-        fontFamily: "'Cinzel', Georgia, serif",
-        fontSize: "clamp(2.4rem,4.8vw,4.4rem)",
-        fontWeight: 700,
-        color,
-        display: "block",
-        lineHeight: 1,
-        letterSpacing: "-.02em",
-        fontVariantNumeric: "tabular-nums",
-      }}
-    >
-      {value}{suffix}
+    <span ref={ref} style={numberStyle(color)}>
+      {value}
+      {suffix}
     </span>
-  );
-}
-
-function StatItem({ children, withSep }: { children: React.ReactNode; withSep: boolean }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ textAlign: "center", padding: "0 clamp(1.5rem,4vw,3.5rem)" }}>{children}</div>
-      {withSep && <span className="stat-sep" style={{ color: "var(--gold)", opacity: 0.35, flexShrink: 0 }}><DotIcon /></span>}
-    </div>
   );
 }
 
 export default function StatsBar() {
   return (
-    <div style={{ background: "var(--surface2)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", overflow: "hidden" }}>
-      <motion.div {...fadeUp(0, 22)} className="stats-wrap" style={{ maxWidth: "var(--max)", margin: "0 auto", padding: "3.5rem 1.5rem" }}>
-        {stats.map((s, i) => (
-          <StatItem key={s.label} withSep={i < stats.length - 1}>
-            <StatNumber target={s.target} suffix={s.suffix} color={s.color} />
-            <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".22em", textTransform: "uppercase", color: "var(--muted2)", marginTop: ".7rem", display: "block" }}>
-              {s.label}
-            </span>
-          </StatItem>
-        ))}
-        <StatItem withSep={false}>
-          <span style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: "clamp(2.4rem,4.8vw,4.4rem)", fontWeight: 700, color: "var(--gold)", display: "block", lineHeight: 1, letterSpacing: "-.02em" }}>JGU</span>
-          <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".22em", textTransform: "uppercase", color: "var(--muted2)", marginTop: ".7rem", display: "block" }}>Mainz</span>
-        </StatItem>
-      </motion.div>
-    </div>
+    <section
+      aria-label="ASHOR in Zahlen"
+      style={{ background: "var(--surface2)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", overflow: "hidden" }}
+    >
+      <Rise y={20} style={{ maxWidth: "var(--max)", margin: "0 auto", padding: "3.8rem 1.5rem" }}>
+        <RiseGroup className="stats-grid" stagger={0.11}>
+          {stats.map((s, i) => (
+            <RiseItem
+              key={s.label}
+              style={{
+                textAlign: "center",
+                padding: "1rem .75rem",
+                // Hairline dividers between columns, never on the last one.
+                borderRight: i < stats.length - 1 ? "1px solid var(--line)" : "none",
+              }}
+              className="stat-cell"
+            >
+              {s.target !== undefined ? (
+                <StatNumber target={s.target} suffix={s.suffix} color={s.color} />
+              ) : (
+                <span style={numberStyle(s.color)}>{s.text}</span>
+              )}
+
+              <span
+                style={{
+                  fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".22em",
+                  textTransform: "uppercase", color: "var(--text)", marginTop: ".95rem",
+                  display: "block", fontWeight: 600,
+                }}
+              >
+                {s.label}
+              </span>
+              <span
+                style={{
+                  fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".04em",
+                  color: "var(--muted2)", marginTop: ".35rem", display: "block",
+                }}
+              >
+                {s.sub}
+              </span>
+            </RiseItem>
+          ))}
+        </RiseGroup>
+      </Rise>
+    </section>
   );
 }

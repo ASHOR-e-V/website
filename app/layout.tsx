@@ -36,6 +36,15 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
 };
 
+// Tints the browser chrome on mobile to match each palette.
+export const viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#EFE7D6" },
+    { media: "(prefers-color-scheme: dark)", color: "#07090E" },
+  ],
+  colorScheme: "light dark",
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -66,9 +75,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="de" data-theme="light">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        {/* Applies the saved theme before the first paint. Without this, a
+            visitor who chose dark mode gets a flash of the light palette on
+            every navigation, because the attribute below is baked into the
+            static HTML and React only corrects it after hydration. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("ashor-theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t)}}catch(e){}})();`,
+          }}
+        />
+        {/* Fonts are self-hosted (see globals.css). Preloading the three
+            faces used above the fold removes the swap flash on first paint. */}
+        <link rel="preload" href="/fonts/cinzel-latin-700-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/lora-latin-400-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/jost-latin-500-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -76,8 +96,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ThemeProvider>
+          <a href="#inhalt" className="skip-link">Zum Inhalt springen</a>
           <Navbar />
-          <main>{children}</main>
+          <main id="inhalt">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

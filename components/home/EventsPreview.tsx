@@ -1,49 +1,95 @@
 "use client";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { EVENT_HIGHLIGHTS } from "@/lib/events";
 import { eventAccent } from "@/lib/tagColors";
-import { fadeUp, stagger } from "@/lib/motion";
-
-const events = [
-  { date: "Mai 2025", title: "ASHOR Talks #2", desc: "Infovortrag und Live-Debatte: Frei geboren, traditionell geprägt – Wie modern darf ich in der Diaspora sein?", tag: "Vortrag & Debatte" },
-  { date: "April 2025", title: "Spanienreise & Symposium Salamanca", desc: "Teilnahme am Niniveh Academic Chair of Salamanca 2025 – akademischer Austausch mit assyrischen Professoren und Akademikern aus der ganzen Welt.", tag: "Bildungsreise" },
-  { date: "März 2025", title: "ASHORs Khigga #2", desc: "Assyrische Tänze Schritt für Schritt lernen und gemeinsam tanzen – Vorkenntnisse nicht nötig.", tag: "Kultur" },
-];
+import { MaskReveal, Rise, RiseGroup, RiseItem } from "@/components/Reveal";
+import { ArrowRightIcon } from "@/components/icons";
 
 export default function EventsPreview() {
   return (
     <section style={{ padding: "8rem 1.5rem", position: "relative", overflow: "hidden" }} className="section-pad">
-      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(700px 400px at 15% 20%,rgba(61,111,170,.09),transparent 65%), radial-gradient(600px 380px at 85% 75%,rgba(201,168,76,.07),transparent 65%)", pointerEvents: "none" }} />
-      <div style={{ maxWidth: "var(--max)", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <motion.div {...fadeUp(0, 22)} className="section-header-flex" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1rem", marginBottom: "2.6rem" }}>
-          <div>
-            <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.9rem,3.8vw,3.2rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.01em" }}>Ausgewählte Highlights</h2>
-          </div>
-          <Link href="/events" style={{ fontFamily: "'Jost', sans-serif", background: "transparent", color: "var(--muted)", padding: ".88rem 1.5rem", borderRadius: 999, textDecoration: "none", fontWeight: 600, fontSize: ".72rem", letterSpacing: ".16em", textTransform: "uppercase", border: "1px solid var(--line)", whiteSpace: "nowrap" }}>
-            Alle Veranstaltungen
-          </Link>
-        </motion.div>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute", inset: 0, pointerEvents: "none",
+          background: "radial-gradient(700px 400px at 15% 20%, rgba(61,111,170,.09), transparent 65%), radial-gradient(600px 380px at 85% 75%, rgba(209,162,74,.07), transparent 65%)",
+        }}
+      />
 
-        <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={{ hidden: {}, show: { transition: { staggerChildren: stagger } } }} className="grid-3col">
-          {events.map((e, i) => (
-            <motion.div
-              key={i}
-              variants={{ hidden: { opacity: 0, y: 26 }, show: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}
-              className={`${i === 2 ? "hide-mobile" : ""} card-hover`}
-              style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-lg)", padding: "2rem" }}
-            >
-              <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".63rem", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: ".6rem", display: "flex", alignItems: "center", gap: ".55rem" }}>
-                <span style={{ display: "block", width: 12, height: 1, background: "var(--gold)", borderRadius: 999 }} />
-                {e.date}
+      <div style={{ maxWidth: "var(--max)", margin: "0 auto", position: "relative", zIndex: 1 }}>
+        <div className="section-header-flex" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1.4rem", marginBottom: "3rem" }}>
+          <div>
+            <Rise y={14}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: ".85rem", marginBottom: "1.1rem" }}>
+                <span aria-hidden="true" style={{ display: "block", width: 26, height: 1, background: "var(--gold-solid)" }} />
+                <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".26em", textTransform: "uppercase", color: "var(--gold)" }}>
+                  Veranstaltungen
+                </span>
               </div>
-              <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.1rem", fontWeight: 700, color: "var(--text)", marginBottom: ".55rem", lineHeight: 1.3 }}>{e.title}</h3>
-              <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".9rem", lineHeight: 1.8 }}>{e.desc}</p>
-              <span style={{ display: "inline-block", marginTop: ".9rem", fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".16em", textTransform: "uppercase", color: eventAccent(e.tag).text, background: eventAccent(e.tag).dim, padding: ".26rem .7rem", borderRadius: 999, border: `1px solid ${eventAccent(e.tag).line}` }}>
-                {e.tag}
-              </span>
-            </motion.div>
-          ))}
-        </motion.div>
+            </Rise>
+            <MaskReveal as="h2" duration={1.05} style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.9rem,4vw,3.2rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.02em" }}>
+              Zuletzt bei ASHOR
+            </MaskReveal>
+          </div>
+
+          <Rise delay={0.14} y={14}>
+            <Link
+              href="/events"
+              className="btn-ghost link-arrow"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: ".55rem",
+                fontFamily: "'Jost', sans-serif", background: "transparent", color: "var(--muted)",
+                padding: ".9rem 1.6rem", borderRadius: 999, textDecoration: "none", fontWeight: 600,
+                fontSize: ".7rem", letterSpacing: ".16em", textTransform: "uppercase",
+                border: "1px solid var(--line-strong)", whiteSpace: "nowrap",
+              }}
+            >
+              Alle Veranstaltungen <ArrowRightIcon size={13} />
+            </Link>
+          </Rise>
+        </div>
+
+        <RiseGroup className="grid-3col" style={{ alignItems: "stretch" }}>
+          {EVENT_HIGHLIGHTS.map((e, i) => {
+            const accent = eventAccent(e.tag);
+            return (
+              <RiseItem
+                key={e.title}
+                className={`${i === 2 ? "hide-mobile" : ""} card-hover`}
+                style={{
+                  background: "var(--surface)", border: "1px solid var(--line)",
+                  borderRadius: "var(--r-lg)", padding: "2rem",
+                  display: "flex", flexDirection: "column", height: "100%",
+                }}
+              >
+                <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: ".8rem", display: "flex", alignItems: "center", gap: ".55rem" }}>
+                  <span aria-hidden="true" style={{ display: "block", width: 14, height: 1, background: accent.text, borderRadius: 999 }} />
+                  {e.date}
+                </div>
+
+                <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.1rem", fontWeight: 700, color: "var(--text)", marginBottom: ".6rem", lineHeight: 1.3 }}>
+                  {e.title}
+                </h3>
+
+                {/* flex:1 pushes the tag to a shared baseline across all cards */}
+                <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".9rem", lineHeight: 1.85, flex: 1, margin: 0 }}>
+                  {e.desc}
+                </p>
+
+                <span
+                  style={{
+                    alignSelf: "flex-start", marginTop: "1.3rem",
+                    fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".16em",
+                    textTransform: "uppercase", color: accent.text, background: accent.dim,
+                    padding: ".24rem .7rem", borderRadius: 999, border: `1px solid ${accent.line}`,
+                  }}
+                >
+                  {e.tag}
+                </span>
+              </RiseItem>
+            );
+          })}
+        </RiseGroup>
       </div>
     </section>
   );
