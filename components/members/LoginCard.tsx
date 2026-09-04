@@ -26,6 +26,7 @@ export default function LoginCard() {
   const [mode, setMode] = useState<"login" | "register">("login");
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
+  const [sentTo, setSentTo] = useState("");
   const [loading, setLoading] = useState(false);
 
   const inputStyle = {
@@ -57,16 +58,56 @@ export default function LoginCard() {
     e.preventDefault();
     setError("");
     setInfo("");
+    setSentTo("");
     setLoading(true);
     try {
       if (mode === "login") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) setError(germanAuthError(error.message));
       } else {
-        const { error } = await supabase.auth.signUp({ email, password });
-        if (error) setError(germanAuthError(error.message));
-        else setInfo("Bestätigungs-E-Mail gesendet. Bitte prüf dein Postfach.");
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          // Without this the confirmation link points at whatever "Site URL"
+          // is configured in Supabase — often still localhost. The origin has
+          // to be listed under Authentication → URL Configuration → Redirect URLs.
+          options: { emailRedirectTo: `${window.location.origin}/members` },
+        });
+
+        if (error) {
+          setError(germanAuthError(error.message));
+        } else if (data.session) {
+          // A session came straight back, which means e-mail confirmation is
+          // switched off for this project. Nothing was sent and nothing needs
+          // confirming — MembersArea picks the session up and swaps the view.
+          setInfo("Konto erstellt. Du bist angemeldet.");
+        } else if (data.user && data.user.identities?.length === 0) {
+          // Supabase returns a success with an empty identities array when the
+          // address already has an account, so that sign-up cannot be used to
+          // probe which e-mail addresses are registered. No mail goes out.
+          setError("Für diese E-Mail-Adresse gibt es bereits ein Konto. Melde dich an oder setz dein Passwort zurück.");
+        } else {
+          setSentTo(email);
+          setInfo("Bestätigungs-E-Mail gesendet. Bitte prüf dein Postfach — auch den Spam-Ordner.");
+        }
       }
+    } catch {
+      setError("Keine Verbindung zum Server. Bitte prüf deine Internetverbindung.");
+    }
+    setLoading(false);
+  };
+
+  const resend = async () => {
+    setError("");
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email: sentTo,
+        options: { emailRedirectTo: `${window.location.origin}/members` },
+      });
+      if (error) setError(germanAuthError(error.message));
+      else setInfo("Bestätigungs-E-Mail erneut gesendet.");
     } catch {
       setError("Keine Verbindung zum Server. Bitte prüf deine Internetverbindung.");
     }
@@ -125,6 +166,21 @@ export default function LoginCard() {
             <p role="status" style={{ color: "var(--gold)", fontFamily: "'Jost', sans-serif", fontSize: ".78rem", marginBottom: "1rem", lineHeight: 1.65 }}>
               {info}
             </p>
+          )}
+          {sentTo && (
+            <button
+              type="button"
+              onClick={resend}
+              disabled={loading}
+              style={{
+                background: "none", border: "none", padding: 0, marginBottom: "1rem",
+                cursor: loading ? "wait" : "pointer", fontFamily: "'Jost', sans-serif",
+                fontSize: ".72rem", color: "var(--muted2)", textDecoration: "underline",
+                textUnderlineOffset: 3,
+              }}
+            >
+              Keine E-Mail erhalten? Erneut senden
+            </button>
           )}
 
           <button
