@@ -62,7 +62,7 @@ export default function LoginCard() {
           {error && <p style={{ color: "#e05c5c", fontFamily: "'Jost', sans-serif", fontSize: ".78rem", marginBottom: "1rem" }}>{error}</p>}
           {info && <p style={{ color: "var(--gold)", fontFamily: "'Jost', sans-serif", fontSize: ".78rem", marginBottom: "1rem" }}>{info}</p>}
 
-          <button type="submit" disabled={loading} style={{ width: "100%", background: "var(--gold-dim)", color: "var(--text)", padding: ".9rem", borderRadius: 999, fontFamily: "'Jost', sans-serif", fontWeight: 700, fontSize: ".75rem", letterSpacing: ".16em", textTransform: "uppercase", border: "1px solid var(--gold-line)", cursor: "pointer" }}>
+          <button type="submit" disabled={loading} style={{ width: "100%", background: "var(--gold-solid)", color: "#07090E", padding: ".9rem", borderRadius: 999, fontFamily: "'Jost', sans-serif", fontWeight: 700, fontSize: ".75rem", letterSpacing: ".16em", textTransform: "uppercase", border: "none", cursor: "pointer", opacity: loading ? 0.7 : 1 }}>
             {loading ? "…" : mode === "login" ? "Anmelden" : "Registrieren"}
           </button>
         </form>

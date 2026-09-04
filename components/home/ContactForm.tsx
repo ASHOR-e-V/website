@@ -58,7 +58,7 @@ export default function ContactForm() {
         <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".78rem", color: "#e05555", marginBottom: ".75rem" }}>Deine Nachricht konnte nicht gesendet werden. Bitte versuche es in ein paar Minuten erneut oder schreib uns direkt an ashor.jgu@gmail.com.</p>
       )}
 
-      <button type="submit" disabled={status === "sending"} style={{ width: "100%", fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: 700, background: "var(--gold-dim)", color: "var(--gold)", border: "1px solid var(--gold-line)", borderRadius: "var(--r-sm)", padding: "1rem", cursor: "pointer" }}>
+      <button type="submit" disabled={status === "sending"} style={{ width: "100%", fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: 700, background: "var(--gold-solid)", color: "#07090E", border: "none", borderRadius: "var(--r-sm)", padding: "1rem", cursor: "pointer", opacity: status === "sending" ? 0.7 : 1 }}>
         {status === "sending" ? "Wird gesendet …" : "Anfrage absenden"}
       </button>
     </form>

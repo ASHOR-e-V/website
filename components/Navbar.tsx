@@ -24,6 +24,7 @@ export default function Navbar() {
     { label: "Über uns", href: "/#ueber-uns" },
     { label: "Veranstaltungen", href: "/events" },
     { label: "Projekte", href: "/projects" },
+    { label: "Vorstand", href: "/vorstand" },
     { label: "Satzung", href: "/satzung" },
   ];
 
@@ -51,10 +52,10 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <ul style={{ display: "flex", alignItems: "center", gap: "1.2rem", listStyle: "none" }} className="nav-desktop">
+          <ul style={{ display: "flex", alignItems: "center", gap: "1rem", listStyle: "none" }} className="nav-desktop">
             {links.map(l => (
               <li key={l.href}>
-                <Link href={l.href} style={{ fontFamily: "'Jost', sans-serif", color: navMuted, textDecoration: "none", fontSize: ".72rem", letterSpacing: ".18em", textTransform: "uppercase", fontWeight: 500 }}>
+                <Link href={l.href} style={{ fontFamily: "'Jost', sans-serif", color: navMuted, textDecoration: "none", fontSize: ".72rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 500, whiteSpace: "nowrap" }}>
                   {l.label}
                 </Link>
               </li>
@@ -65,7 +66,7 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/members" style={{ fontFamily: "'Jost', sans-serif", color: "var(--gold)", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, border: "1px solid var(--gold-line)", padding: ".45rem .95rem", borderRadius: 999, textDecoration: "none", background: "var(--gold-dim)" }}>
+              <Link href="/members" style={{ fontFamily: "'Jost', sans-serif", color: "var(--gold)", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, border: "1px solid var(--gold-line)", padding: ".45rem .95rem", borderRadius: 999, textDecoration: "none" }}>
                 Mitgliederbereich
               </Link>
             </li>
@@ -116,7 +117,7 @@ export default function Navbar() {
       )}
 
       <style>{`
-        @media (max-width: 960px) {
+        @media (max-width: 1140px) {
           .nav-desktop { display: none !important; }
           .nav-hamburger { display: flex !important; }
           .nav-subtitle { display: none !important; }

@@ -1,8 +1,8 @@
 const values = [
-  { num: "01", title: "Bildung & Austausch", desc: "Workshops, Vorträge und interdisziplinäre Diskussionsformate für akademische Weiterentwicklung." },
-  { num: "02", title: "Kulturelle Identität", desc: "Wissenschaftliche und kulturelle Auseinandersetzung mit Geschichte, Sprache und Gegenwart des assyrischen Volkes." },
-  { num: "03", title: "Gemeinschaft & Netzwerk", desc: "Ein stabiles Netzwerk für assyrische Studierende und Akademiker, das über das Studium hinausträgt." },
-  { num: "04", title: "Respekt & Werte", desc: "Respektvoller Umgang als Grundprinzip. Wir distanzieren uns ausdrücklich von jeder Form von Diskriminierung." },
+  { title: "Bildung & Austausch", desc: "Workshops, Vorträge und interdisziplinäre Diskussionsformate für akademische Weiterentwicklung." },
+  { title: "Kulturelle Identität", desc: "Wissenschaftliche und kulturelle Auseinandersetzung mit Geschichte, Sprache und Gegenwart des assyrischen Volkes." },
+  { title: "Gemeinschaft & Netzwerk", desc: "Ein stabiles Netzwerk für assyrische Studierende und Akademiker, das über das Studium hinausträgt." },
+  { title: "Respekt & Werte", desc: "Respektvoller Umgang als Grundprinzip. Wir distanzieren uns ausdrücklich von jeder Form von Diskriminierung." },
 ];
 
 export default function Mission() {

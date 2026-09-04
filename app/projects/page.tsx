@@ -36,7 +36,7 @@ export default function ProjectsPage() {
           <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", maxWidth: 500, margin: "0 auto 2rem", lineHeight: 1.9 }}>
             Jede Spende ermöglicht neue Veranstaltungen, Bildungsreisen und kulturelle Projekte. Als eingetragener gemeinnütziger Verein verwenden wir alle Mittel zweckgebunden.
           </p>
-          <a href="https://paypal.me/ashorev" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: ".55rem", fontFamily: "'Jost', sans-serif", background: "var(--gold-dim)", color: "var(--gold)", padding: "1rem 2.5rem", borderRadius: 999, textDecoration: "none", fontWeight: 700, fontSize: ".8rem", letterSpacing: ".16em", textTransform: "uppercase", border: "1px solid var(--gold-line)" }}>
+          <a href="https://paypal.me/ashorev" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: ".55rem", fontFamily: "'Jost', sans-serif", background: "var(--gold-solid)", color: "#07090E", padding: "1rem 2.5rem", borderRadius: 999, textDecoration: "none", fontWeight: 700, fontSize: ".8rem", letterSpacing: ".16em", textTransform: "uppercase" }}>
             <HeartIcon size={13} /> Per PayPal spenden
           </a>
         </div>
