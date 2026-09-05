@@ -31,7 +31,7 @@ export default function ProjectsPreview() {
               style={{
                 display: "inline-flex", alignItems: "center", gap: ".55rem",
                 fontFamily: "'Jost', sans-serif", background: "transparent", color: "var(--muted)",
-                padding: ".9rem 1.6rem", borderRadius: 999, textDecoration: "none", fontWeight: 600,
+                padding: ".9rem 1.6rem", borderRadius: "var(--r-sm)", textDecoration: "none", fontWeight: 600,
                 fontSize: ".7rem", letterSpacing: ".16em", textTransform: "uppercase",
                 border: "1px solid var(--line-strong)", whiteSpace: "nowrap",
               }}
@@ -65,14 +65,7 @@ export default function ProjectsPreview() {
                   {p.short}
                 </p>
 
-                <span
-                  style={{
-                    alignSelf: "flex-start", marginTop: "1.3rem",
-                    fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".16em",
-                    textTransform: "uppercase", color: accent.text, background: accent.dim,
-                    padding: ".24rem .7rem", borderRadius: 999, border: `1px solid ${accent.line}`,
-                  }}
-                >
+                <span className={accent.cls} style={{ alignSelf: "flex-start", marginTop: "1.4rem" }}>
                   {p.badge}
                 </span>
               </RiseItem>

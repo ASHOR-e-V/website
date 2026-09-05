@@ -119,7 +119,7 @@ export default function Footer() {
               display: "inline-flex", alignItems: "center", gap: ".55rem",
               fontFamily: "'Jost', sans-serif", fontSize: ".68rem", letterSpacing: ".14em",
               textTransform: "uppercase", color: "rgba(228,218,200,0.5)", textDecoration: "none",
-              border: "1px solid rgba(255,255,255,0.1)", borderRadius: 999, padding: ".5rem 1.1rem",
+              border: "1px solid rgba(255,255,255,0.1)", borderRadius: "var(--r-sm)", padding: ".5rem 1.1rem",
             }}
           >
             <DownloadIcon size={13} /> Satzung als PDF · Fassung 14.03.2026

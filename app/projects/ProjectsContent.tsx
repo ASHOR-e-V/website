@@ -33,15 +33,7 @@ export default function ProjectsContent() {
               >
                 <span aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${accent.text}, transparent)` }} />
 
-                <span
-                  style={{
-                    alignSelf: "flex-start",
-                    fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".16em",
-                    textTransform: "uppercase", color: accent.text, background: accent.dim,
-                    padding: ".24rem .7rem", borderRadius: 999, border: `1px solid ${accent.line}`,
-                    marginBottom: "1.2rem",
-                  }}
-                >
+                <span className={accent.cls} style={{ alignSelf: "flex-start", marginBottom: "1.3rem" }}>
                   {p.badge}
                 </span>
 
@@ -77,7 +69,7 @@ export default function ProjectsContent() {
                 style={{
                   display: "inline-flex", alignItems: "center", gap: ".55rem",
                   fontFamily: "'Jost', sans-serif", background: "var(--gold-solid)", color: "var(--on-gold)",
-                  padding: "1rem 2.2rem", borderRadius: 999, textDecoration: "none", fontWeight: 700,
+                  padding: "1rem 2.2rem", borderRadius: "var(--r-sm)", textDecoration: "none", fontWeight: 700,
                   fontSize: ".74rem", letterSpacing: ".16em", textTransform: "uppercase",
                 }}
               >
@@ -89,7 +81,7 @@ export default function ProjectsContent() {
                 style={{
                   display: "inline-flex", alignItems: "center",
                   fontFamily: "'Jost', sans-serif", color: "var(--muted)",
-                  padding: "1rem 1.8rem", borderRadius: 999, textDecoration: "none", fontWeight: 600,
+                  padding: "1rem 1.8rem", borderRadius: "var(--r-sm)", textDecoration: "none", fontWeight: 600,
                   fontSize: ".74rem", letterSpacing: ".16em", textTransform: "uppercase",
                   border: "1px solid var(--line-strong)",
                 }}

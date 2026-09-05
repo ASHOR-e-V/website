@@ -22,7 +22,7 @@ const values = [
   },
   {
     title: "Respekt & Werte",
-    desc: "Ein respektvoller Umgang ist Grundprinzip. Wir dulden kein belästigendes, diskriminierendes oder übergriffiges Verhalten — schriftlich festgehalten.",
+    desc: "Wir vertreten unsere kulturellen Werte und dulden keine Diskriminierung, Belästigung sowie übergriffiges Verhalten.",
     ref: "§ 5",
   },
 ];

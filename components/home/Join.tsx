@@ -83,7 +83,7 @@ export default function Join() {
                       display: "inline-flex", alignItems: "center", gap: ".5rem",
                       fontFamily: "'Jost', sans-serif", fontSize: ".64rem", letterSpacing: ".14em",
                       textTransform: "uppercase", color: "var(--muted)", border: "1px solid var(--line-strong)",
-                      padding: ".5rem 1rem", borderRadius: 999, textDecoration: "none", fontWeight: 500,
+                      padding: ".5rem 1rem", borderRadius: "var(--r-sm)", textDecoration: "none", fontWeight: 500,
                     }}
                   >
                     <Icon size={13} /> {label}

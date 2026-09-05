@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MaskReveal, Rise } from "@/components/Reveal";
-import Shamash from "@/components/Shamash";
 import { ArrowRightIcon, UserPlusIcon } from "@/components/icons";
 
 export default function Hero() {
@@ -15,7 +14,6 @@ export default function Hero() {
   // Three parallax planes moving at different rates — the disc drifts slowly,
   // the texture behind it slower still, so depth reads without any jank.
   const discY = useTransform(scrollYProgress, [0, 1], [0, 130]);
-  const discRotate = useTransform(scrollYProgress, [0, 1], [0, 42]);
   const discScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
   const discOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.1]);
   const textureY = useTransform(scrollYProgress, [0, 1], [0, 55]);
@@ -93,7 +91,7 @@ export default function Hero() {
 
           <Rise delay={0.5} y={22}>
             <p style={{ fontFamily: "'Lora', Georgia, serif", color: "var(--muted)", fontSize: "1.08rem", lineHeight: 1.95, maxWidth: 500, marginBottom: "2.8rem" }}>
-              Wir verbinden assyrische Studierende und Akademiker in der Rhein-Main-Region — für akademischen Austausch, kulturelle Verortung und ein Netzwerk, das über das Studium hinaus trägt.
+              Wir verbinden assyrische Studierende und Akademiker in ganz Deutschland — für akademischen Austausch, kulturelle Verortung und ein Netzwerk, das über das Studium hinaus trägt.
             </p>
           </Rise>
 
@@ -105,7 +103,7 @@ export default function Hero() {
                 style={{
                   display: "inline-flex", alignItems: "center", gap: ".6rem",
                   fontFamily: "'Jost', sans-serif", background: "var(--gold-solid)", color: "var(--on-gold)",
-                  padding: "1rem 2.1rem", borderRadius: 999, textDecoration: "none", fontWeight: 700,
+                  padding: "1rem 2.1rem", borderRadius: "var(--r-sm)", textDecoration: "none", fontWeight: 700,
                   fontSize: ".72rem", letterSpacing: ".18em", textTransform: "uppercase", whiteSpace: "nowrap",
                 }}
               >
@@ -117,7 +115,7 @@ export default function Hero() {
                 style={{
                   display: "inline-flex", alignItems: "center", gap: ".55rem",
                   fontFamily: "'Jost', sans-serif", background: "transparent", color: "var(--muted)",
-                  padding: "1rem 1.7rem", borderRadius: 999, textDecoration: "none", fontWeight: 500,
+                  padding: "1rem 1.7rem", borderRadius: "var(--r-sm)", textDecoration: "none", fontWeight: 500,
                   fontSize: ".72rem", letterSpacing: ".18em", textTransform: "uppercase",
                   border: "1px solid var(--line-strong)", whiteSpace: "nowrap",
                 }}
@@ -138,19 +136,6 @@ export default function Hero() {
               y: discY, scale: discScale, opacity: discOpacity,
             }}
           >
-            {/* The sun disc sits concentric with the mark and far behind it —
-                an aura rather than a second emblem — and turns with the scroll. */}
-            <motion.div
-              aria-hidden="true"
-              style={{
-                position: "absolute", top: "50%", left: "50%",
-                x: "-50%", y: "-50%", rotate: discRotate,
-                opacity: 0.07, pointerEvents: "none", lineHeight: 0,
-              }}
-            >
-              <Shamash size={760} rayWidth={2.8} />
-            </motion.div>
-
             {/* Concentric rings hold the mark without decorating it. */}
             <div aria-hidden="true" style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--gold-line)", opacity: 0.45 }} />
             <div aria-hidden="true" style={{ position: "absolute", inset: 42, borderRadius: "50%", border: "1px solid var(--gold-line)", opacity: 0.28 }} />

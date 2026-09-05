@@ -1,6 +1,6 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useState, useEffect, useCallback, forwardRef } from "react";
+import { motion } from "framer-motion";
 import { MaskReveal, Rise } from "@/components/Reveal";
 import Shamash from "@/components/Shamash";
 import { easeOut } from "@/lib/motion";
@@ -233,27 +233,8 @@ function Scene({ kind, active }: { kind: Chapter["scene"]; active: boolean }) {
 
 /* ── Chapter ──────────────────────────────────────────────────────── */
 
-function ChapterBlock({
-  chapter,
-  index,
-  isLast,
-  onActive,
-}: {
-  chapter: Chapter;
-  index: number;
-  isLast: boolean;
-  onActive: (i: number) => void;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  // A tall, narrow band across the middle of the viewport decides which
-  // chapter is "current" — so the pinned diagram switches at a predictable
-  // point rather than whenever any part of a chapter grazes the edge.
-  const inView = useInView(ref, { margin: "-45% 0px -45% 0px" });
-
-  useEffect(() => {
-    if (inView) onActive(index);
-  }, [inView, index, onActive]);
-
+const ChapterBlock = forwardRef<HTMLDivElement, { chapter: Chapter; isLast: boolean }>(
+  function ChapterBlock({ chapter, isLast }, ref) {
   return (
     <div ref={ref} style={{ paddingBottom: isLast ? 0 : "clamp(4rem,12vh,9rem)" }}>
       {/* Inline diagram — narrow screens only; the pinned column covers desktop */}
@@ -283,12 +264,99 @@ function ChapterBlock({
       </Rise>
     </div>
   );
+});
+
+function ChapterArrow({ direction, onClick, disabled }: { direction: "prev" | "next"; onClick: () => void; disabled: boolean }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={direction === "prev" ? "Vorheriges Kapitel" : "Nächstes Kapitel"}
+      style={{
+        display: "inline-flex", alignItems: "center", justifyContent: "center",
+        width: 34, height: 34, flexShrink: 0,
+        background: "none", border: "1px solid var(--line-strong)",
+        color: disabled ? "var(--muted2)" : "var(--text)",
+        opacity: disabled ? 0.35 : 1,
+        cursor: disabled ? "default" : "pointer",
+        transition: "color .2s, border-color .2s, opacity .2s",
+      }}
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ transform: direction === "prev" ? "rotate(180deg)" : undefined }}>
+        <path d="M5 12h13M12.5 6l6 6-6 6" />
+      </svg>
+    </button>
+  );
 }
 
 /* ── Section ──────────────────────────────────────────────────────── */
 
 export default function Roots() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  /**
+   * One scroll handler decides which chapter is current, rather than four
+   * independent intersection observers.
+   *
+   * The previous version gave every chapter its own observer with a narrow
+   * band across the middle of the viewport. Two things went wrong with that:
+   * the generous spacing between chapters meant nobody was inside the band
+   * for part of the scroll, so the diagram froze on the previous chapter;
+   * and where two chapters overlapped the band, whichever observer fired
+   * last won, which is not the same as whichever chapter you are reading.
+   *
+   * Measuring all four against a single focus line removes both problems —
+   * there is always exactly one answer, and it is the same answer whichever
+   * direction you scroll from.
+   */
+  useEffect(() => {
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const focus = window.innerHeight * 0.42;
+      let best = 0;
+      let bestDistance = Infinity;
+      chapterRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const { top, height } = el.getBoundingClientRect();
+        // Distance from the focus line to the chapter's heading area, which
+        // is what the reader's eye is actually on.
+        const anchor = top + Math.min(height * 0.35, 220);
+        const distance = Math.abs(anchor - focus);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = i;
+        }
+      });
+      setActiveIndex(best);
+    };
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(measure);
+    };
+    measure();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  /**
+   * Manual navigation scrolls the chapter into place rather than setting the
+   * index directly. Scroll position stays the single source of truth, so
+   * clicking and scrolling can never disagree about which chapter is current.
+   */
+  const goTo = useCallback((i: number) => {
+    const el = chapterRefs.current[i];
+    if (!el) return;
+    const target = window.scrollY + el.getBoundingClientRect().top - window.innerHeight * 0.28;
+    window.scrollTo({ top: target, behavior: "smooth" });
+  }, []);
 
   return (
     <section
@@ -322,7 +390,7 @@ export default function Roots() {
         {/* Narrative */}
         <div className="roots-layout">
           {/* Pinned diagram column (desktop) */}
-          <div className="roots-sticky" aria-hidden="true">
+          <div className="roots-sticky">
             <div style={{ position: "sticky", top: 150 }}>
               <div
                 style={{
@@ -348,18 +416,35 @@ export default function Roots() {
                 ))}
               </div>
 
-              {/* Chapter position indicator */}
-              <div style={{ display: "flex", gap: ".4rem", justifyContent: "center", marginTop: "1.4rem" }}>
-                {CHAPTERS.map((ch, i) => (
-                  <span
-                    key={ch.id}
-                    style={{
-                      display: "block", height: 2, width: activeIndex === i ? 26 : 12, borderRadius: 999,
-                      background: activeIndex === i ? "var(--gold-solid)" : "var(--line-strong)",
-                      transition: "width .4s cubic-bezier(.16,1,.3,1), background .4s ease",
-                    }}
-                  />
-                ))}
+              {/* Chapter control: follows the scroll, and can drive it. */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginTop: "1.5rem" }}>
+                <ChapterArrow direction="prev" onClick={() => goTo(activeIndex - 1)} disabled={activeIndex === 0} />
+
+                <div style={{ display: "flex", gap: ".45rem", alignItems: "center" }}>
+                  {CHAPTERS.map((ch, i) => (
+                    <button
+                      key={ch.id}
+                      type="button"
+                      onClick={() => goTo(i)}
+                      aria-label={`Kapitel ${ch.ordinal}: ${ch.heading}`}
+                      aria-current={activeIndex === i}
+                      style={{
+                        background: "none", border: "none", cursor: "pointer",
+                        padding: ".55rem .2rem", lineHeight: 0,
+                      }}
+                    >
+                      <span
+                        style={{
+                          display: "block", height: 2, width: activeIndex === i ? 28 : 13,
+                          background: activeIndex === i ? "var(--gold-solid)" : "var(--line-strong)",
+                          transition: "width .4s cubic-bezier(.16,1,.3,1), background .3s ease",
+                        }}
+                      />
+                    </button>
+                  ))}
+                </div>
+
+                <ChapterArrow direction="next" onClick={() => goTo(activeIndex + 1)} disabled={activeIndex === CHAPTERS.length - 1} />
               </div>
             </div>
           </div>
@@ -367,7 +452,12 @@ export default function Roots() {
           {/* Chapters */}
           <div>
             {CHAPTERS.map((ch, i) => (
-              <ChapterBlock key={ch.id} chapter={ch} index={i} isLast={i === CHAPTERS.length - 1} onActive={setActiveIndex} />
+              <ChapterBlock
+                key={ch.id}
+                ref={(el) => { chapterRefs.current[i] = el; }}
+                chapter={ch}
+                isLast={i === CHAPTERS.length - 1}
+              />
             ))}
           </div>
         </div>

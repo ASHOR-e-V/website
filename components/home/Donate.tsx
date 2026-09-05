@@ -47,7 +47,7 @@ export default function Donate() {
               style={{
                 display: "inline-flex", alignItems: "center", gap: ".55rem",
                 fontFamily: "'Jost', sans-serif", background: "var(--gold-solid)", color: "var(--on-gold)",
-                padding: "1rem 2.1rem", borderRadius: 999, textDecoration: "none", fontWeight: 700,
+                padding: "1rem 2.1rem", borderRadius: "var(--r-sm)", textDecoration: "none", fontWeight: 700,
                 fontSize: ".76rem", letterSpacing: ".16em", textTransform: "uppercase", whiteSpace: "nowrap",
               }}
             >
@@ -98,10 +98,7 @@ export default function Donate() {
             <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".18em", textTransform: "uppercase", color: "var(--muted2)" }}>
               QR-Code scannen
             </span>
-            <Link
-              href="/satzung#p11"
-              style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)", textDecoration: "none", border: "1px solid var(--line)", borderRadius: 999, padding: ".28rem .8rem" }}
-            >
+            <Link href="/satzung#p11" className="tag">
               Mittelverwendung · § 11
             </Link>
           </div>

@@ -145,7 +145,7 @@ export default function ContactForm() {
           width: "100%", fontFamily: "'Jost', sans-serif", fontSize: ".7rem",
           letterSpacing: ".2em", textTransform: "uppercase", fontWeight: 700,
           background: "var(--gold-solid)", color: "var(--on-gold)", border: "none",
-          borderRadius: 999, padding: "1rem", cursor: status === "sending" ? "wait" : "pointer",
+          borderRadius: "var(--r-sm)", padding: "1rem", cursor: status === "sending" ? "wait" : "pointer",
           opacity: status === "sending" ? 0.7 : 1,
         }}
       >

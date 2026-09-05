@@ -25,7 +25,7 @@ export default function Dashboard({ user }: { user: User }) {
     textTransform: "uppercase" as const,
     fontWeight: 600,
     padding: ".6rem 1.2rem",
-    borderRadius: 999,
+    borderRadius: "var(--r-sm)",
     border: "1px solid",
     cursor: "pointer",
     borderColor: tab === t ? "var(--gold)" : "var(--line)",
@@ -42,10 +42,10 @@ export default function Dashboard({ user }: { user: User }) {
             <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.5rem,3vw,2.2rem)", fontWeight: 700 }}>Willkommen zurück</h1>
             <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".78rem", color: "var(--muted2)", marginTop: ".3rem" }}>
               {profile?.full_name ?? user.email}
-              {profile?.is_board && <span style={{ marginLeft: ".6rem", color: "var(--gold)", fontSize: ".65rem", border: "1px solid var(--gold-line)", padding: ".15rem .5rem", borderRadius: 999 }}>Vorstand</span>}
+              {profile?.is_board && <span style={{ marginLeft: ".6rem", color: "var(--gold)", fontSize: ".65rem", border: "1px solid var(--gold-line)", padding: ".15rem .5rem", borderRadius: "var(--r-sm)" }}>Vorstand</span>}
             </p>
           </div>
-          <button onClick={() => supabase.auth.signOut()} style={{ fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted)", background: "none", border: "1px solid var(--line)", padding: ".5rem 1rem", borderRadius: 999, cursor: "pointer" }}>
+          <button onClick={() => supabase.auth.signOut()} style={{ fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted)", background: "none", border: "1px solid var(--line)", padding: ".5rem 1rem", borderRadius: "var(--r-sm)", cursor: "pointer" }}>
             Abmelden
           </button>
         </div>
@@ -102,7 +102,7 @@ function AnnouncementsTab({ isBoard }: { isBoard: boolean }) {
           <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "1rem" }}>Neue Ankündigung</div>
           <input value={title} onChange={e => setTitle(e.target.value)} required placeholder="Titel" style={inputStyle} />
           <textarea value={content} onChange={e => setContent(e.target.value)} required placeholder="Inhalt…" rows={4} style={{ ...inputStyle, resize: "vertical" }} />
-          <button type="submit" disabled={posting} style={{ fontFamily: "'Jost', sans-serif", background: "var(--gold-dim)", color: "var(--gold)", padding: ".7rem 1.5rem", borderRadius: 999, border: "1px solid var(--gold-line)", cursor: "pointer", fontSize: ".72rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600 }}>
+          <button type="submit" disabled={posting} style={{ fontFamily: "'Jost', sans-serif", background: "var(--gold-dim)", color: "var(--gold)", padding: ".7rem 1.5rem", borderRadius: "var(--r-sm)", border: "1px solid var(--gold-line)", cursor: "pointer", fontSize: ".72rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600 }}>
             {posting ? "…" : "Veröffentlichen"}
           </button>
         </form>
@@ -152,7 +152,7 @@ function AnfragenTab() {
 
   const btnStyle = (active: boolean) => ({
     fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".14em", textTransform: "uppercase" as const,
-    fontWeight: 600, padding: ".4rem .9rem", borderRadius: 999, border: "1px solid",
+    fontWeight: 600, padding: ".4rem .9rem", borderRadius: "var(--r-sm)", border: "1px solid",
     cursor: "pointer", borderColor: active ? "var(--gold)" : "var(--line)",
     background: active ? "var(--gold-dim)" : "transparent", color: active ? "var(--gold)" : "var(--muted)",
   });
@@ -189,8 +189,8 @@ function AnfragenTab() {
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
-              <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--gold)", background: "var(--gold-dim)", padding: ".22rem .65rem", borderRadius: 999, border: "1px solid var(--gold-line)" }}>{s.type}</span>
-              {!s.read && <button onClick={() => markRead(s.id)} style={{ fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".12em", textTransform: "uppercase", color: "var(--muted)", background: "none", border: "1px solid var(--line)", padding: ".22rem .65rem", borderRadius: 999, cursor: "pointer" }}>Gelesen</button>}
+              <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--gold)", background: "var(--gold-dim)", padding: ".22rem .65rem", borderRadius: "var(--r-sm)", border: "1px solid var(--gold-line)" }}>{s.type}</span>
+              {!s.read && <button onClick={() => markRead(s.id)} style={{ fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".12em", textTransform: "uppercase", color: "var(--muted)", background: "none", border: "1px solid var(--line)", padding: ".22rem .65rem", borderRadius: "var(--r-sm)", cursor: "pointer" }}>Gelesen</button>}
             </div>
           </div>
           <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".9rem", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{s.message}</p>
@@ -240,7 +240,7 @@ function VerwaltungTab() {
           <button
             onClick={() => toggle(m.id, m.is_board)}
             disabled={saving === m.id}
-            style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", padding: ".5rem 1.1rem", borderRadius: 999, border: "1px solid", borderColor: m.is_board ? "var(--line)" : "var(--gold-line)", background: m.is_board ? "transparent" : "var(--gold-dim)", color: m.is_board ? "var(--muted)" : "var(--gold)" }}
+            style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", padding: ".5rem 1.1rem", borderRadius: "var(--r-sm)", border: "1px solid", borderColor: m.is_board ? "var(--line)" : "var(--gold-line)", background: m.is_board ? "transparent" : "var(--gold-dim)", color: m.is_board ? "var(--muted)" : "var(--gold)" }}
           >
             {saving === m.id ? "…" : m.is_board ? "Zu Mitglied" : "Zu Vorstand"}
           </button>
@@ -291,7 +291,7 @@ function ProtocolsTab({ isBoard }: { isBoard: boolean }) {
           <input value={title} onChange={e => setTitle(e.target.value)} required placeholder="Titel (z.B. Vorstandssitzung Mai 2025)" style={inputStyle} />
           <input type="date" value={date} onChange={e => setDate(e.target.value)} required style={inputStyle} />
           <input type="file" accept=".pdf,.docx" onChange={e => setFile(e.target.files?.[0] ?? null)} required style={{ ...inputStyle, cursor: "pointer" }} />
-          <button type="submit" disabled={posting} style={{ fontFamily: "'Jost', sans-serif", background: "var(--gold-dim)", color: "var(--gold)", padding: ".7rem 1.5rem", borderRadius: 999, border: "1px solid var(--gold-line)", cursor: "pointer", fontSize: ".72rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600 }}>
+          <button type="submit" disabled={posting} style={{ fontFamily: "'Jost', sans-serif", background: "var(--gold-dim)", color: "var(--gold)", padding: ".7rem 1.5rem", borderRadius: "var(--r-sm)", border: "1px solid var(--gold-line)", cursor: "pointer", fontSize: ".72rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600 }}>
             {posting ? "…" : "Hochladen"}
           </button>
         </form>
@@ -312,7 +312,7 @@ function ProtocolsTab({ isBoard }: { isBoard: boolean }) {
             <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.05rem", fontWeight: 700, color: "var(--text)" }}>{p.title}</h3>
           </div>
           {p.file_url && (
-            <a href={p.file_url} target="_blank" rel="noopener" style={{ fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--gold)", border: "1px solid var(--gold-line)", padding: ".5rem 1rem", borderRadius: 999, textDecoration: "none", background: "var(--gold-dim)", whiteSpace: "nowrap" }}>
+            <a href={p.file_url} target="_blank" rel="noopener" style={{ fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--gold)", border: "1px solid var(--gold-line)", padding: ".5rem 1rem", borderRadius: "var(--r-sm)", textDecoration: "none", background: "var(--gold-dim)", whiteSpace: "nowrap" }}>
               PDF öffnen
             </a>
           )}

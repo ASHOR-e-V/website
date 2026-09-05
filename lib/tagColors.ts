@@ -1,11 +1,11 @@
 // Category → accent mapping. Ties each recurring topic to one of the three
 // brand accents (gold / lapis / clay) so color carries real meaning instead
 // of decorating every tag identically.
-type Accent = { text: string; dim: string; line: string };
+type Accent = { text: string; dim: string; line: string; cls: string };
 
-const gold: Accent = { text: "var(--gold)", dim: "var(--gold-dim)", line: "var(--gold-line)" };
-const lapis: Accent = { text: "var(--lapis-text)", dim: "var(--lapis-dim)", line: "var(--lapis-line)" };
-const clay: Accent = { text: "var(--clay)", dim: "var(--clay-dim)", line: "var(--clay-line)" };
+const gold: Accent = { text: "var(--gold)", dim: "var(--gold-dim)", line: "var(--gold-line)", cls: "tag tag-gold" };
+const lapis: Accent = { text: "var(--lapis-text)", dim: "var(--lapis-dim)", line: "var(--lapis-line)", cls: "tag tag-lapis" };
+const clay: Accent = { text: "var(--clay)", dim: "var(--clay-dim)", line: "var(--clay-line)", cls: "tag tag-clay" };
 
 // Events — by event type.
 const eventMap: Record<string, Accent> = {
@@ -24,6 +24,8 @@ export function eventAccent(tag: string): Accent {
 const projectMap: Record<string, Accent> = {
   "ASHOR Talks": gold,
   "ASHORs Stammtisch": clay,
+  "ASHORs Gamenight": lapis,
+  "ASHORs Karaoke": clay,
   "Bildungsreisen & Symposien": lapis,
 };
 

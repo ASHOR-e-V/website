@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { GESCHAEFTSFUEHRENDER_VORSTAND, BEISITZENDE, SEATS_TOTAL, SEATS_FILLED, type BoardMember } from "@/lib/vorstand";
+import { GESCHAEFTSFUEHRENDER_VORSTAND, BEISITZENDE, type BoardMember } from "@/lib/vorstand";
 import { MaskReveal, Rise, RiseGroup, RiseItem } from "@/components/Reveal";
 import Shamash from "@/components/Shamash";
 import { ArrowRightIcon } from "@/components/icons";
@@ -82,12 +82,8 @@ function BoardCard({
       {ref && (
         <Link
           href={`/satzung#${ref.includes("8") ? "p8" : ref.includes("9") ? "p9" : ref.includes("7") ? "p7" : "p4"}`}
-          style={{
-            marginTop: "1.1rem", fontFamily: "'Jost', sans-serif", fontSize: ".58rem",
-            letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)",
-            textDecoration: "none", border: "1px solid var(--line)", borderRadius: 999,
-            padding: ".2rem .65rem", whiteSpace: "nowrap",
-          }}
+          className="tag"
+          style={{ marginTop: "1.2rem" }}
         >
           {ref}
         </Link>
@@ -128,7 +124,7 @@ export default function Board() {
 
         <Rise delay={0.18} y={18}>
           <p style={{ color: "var(--muted)", maxWidth: 620, marginBottom: "3.5rem", fontFamily: "'Lora', serif", lineHeight: 1.95, fontSize: ".98rem" }}>
-            Der Vorstand besteht satzungsgemäß aus sieben Mitgliedern und wird von der Mitgliederversammlung für zwei Semester gewählt. Derzeit sind {SEATS_FILLED} der {SEATS_TOTAL} Sitze besetzt.
+            Der Vorstand besteht satzungsgemäß aus sieben Mitgliedern und wird von der Mitgliederversammlung für zwei Semester gewählt.
           </p>
         </Rise>
 
@@ -158,7 +154,7 @@ export default function Board() {
               display: "inline-flex", alignItems: "center", gap: ".55rem", marginTop: "3rem",
               fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".16em",
               textTransform: "uppercase", color: "var(--muted)", textDecoration: "none",
-              border: "1px solid var(--line)", borderRadius: 999, padding: ".85rem 1.6rem", fontWeight: 600,
+              border: "1px solid var(--line)", borderRadius: "var(--r-sm)", padding: ".85rem 1.6rem", fontWeight: 600,
             }}
           >
             Aufgaben und Wahl des Vorstands in der Satzung <ArrowRightIcon size={13} />

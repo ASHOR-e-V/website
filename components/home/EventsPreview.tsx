@@ -39,7 +39,7 @@ export default function EventsPreview() {
               style={{
                 display: "inline-flex", alignItems: "center", gap: ".55rem",
                 fontFamily: "'Jost', sans-serif", background: "transparent", color: "var(--muted)",
-                padding: ".9rem 1.6rem", borderRadius: 999, textDecoration: "none", fontWeight: 600,
+                padding: ".9rem 1.6rem", borderRadius: "var(--r-sm)", textDecoration: "none", fontWeight: 600,
                 fontSize: ".7rem", letterSpacing: ".16em", textTransform: "uppercase",
                 border: "1px solid var(--line-strong)", whiteSpace: "nowrap",
               }}
@@ -63,7 +63,7 @@ export default function EventsPreview() {
                 }}
               >
                 <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: ".8rem", display: "flex", alignItems: "center", gap: ".55rem" }}>
-                  <span aria-hidden="true" style={{ display: "block", width: 14, height: 1, background: accent.text, borderRadius: 999 }} />
+                  <span aria-hidden="true" style={{ display: "block", width: 14, height: 1, background: accent.text, borderRadius: "var(--r-sm)" }} />
                   {e.date}
                 </div>
 
@@ -76,14 +76,7 @@ export default function EventsPreview() {
                   {e.desc}
                 </p>
 
-                <span
-                  style={{
-                    alignSelf: "flex-start", marginTop: "1.3rem",
-                    fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".16em",
-                    textTransform: "uppercase", color: accent.text, background: accent.dim,
-                    padding: ".24rem .7rem", borderRadius: 999, border: `1px solid ${accent.line}`,
-                  }}
-                >
+                <span className={accent.cls} style={{ alignSelf: "flex-start", marginTop: "1.4rem" }}>
                   {e.tag}
                 </span>
               </RiseItem>

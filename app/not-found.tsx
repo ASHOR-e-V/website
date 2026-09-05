@@ -42,7 +42,7 @@ export default function NotFound() {
                 display: "inline-flex", alignItems: "center", gap: ".5rem",
                 fontFamily: "'Jost', sans-serif", fontSize: ".68rem", letterSpacing: ".16em",
                 textTransform: "uppercase", fontWeight: i === 0 ? 700 : 500,
-                textDecoration: "none", borderRadius: 999, padding: ".8rem 1.5rem",
+                textDecoration: "none", borderRadius: "var(--r-sm)", padding: ".8rem 1.5rem",
                 background: i === 0 ? "var(--gold-solid)" : "transparent",
                 color: i === 0 ? "var(--on-gold)" : "var(--muted)",
                 border: i === 0 ? "none" : "1px solid var(--line-strong)",

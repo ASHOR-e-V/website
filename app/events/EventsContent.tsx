@@ -97,14 +97,7 @@ export default function EventsContent() {
                         <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.18rem", fontWeight: 700, color: "var(--text)", lineHeight: 1.3 }}>
                           {e.title}
                         </h2>
-                        <span
-                          style={{
-                            fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".16em",
-                            textTransform: "uppercase", color: accent.text, background: accent.dim,
-                            padding: ".22rem .65rem", borderRadius: 999, border: `1px solid ${accent.line}`,
-                            flexShrink: 0, whiteSpace: "nowrap",
-                          }}
-                        >
+                        <span className={accent.cls} style={{ flexShrink: 0 }}>
                           {e.tag}
                         </span>
                       </div>
@@ -138,7 +131,7 @@ export default function EventsContent() {
               style={{
                 display: "inline-flex", alignItems: "center", gap: ".55rem",
                 fontFamily: "'Jost', sans-serif", background: "var(--gold-solid)", color: "var(--on-gold)",
-                padding: ".9rem 1.9rem", borderRadius: 999, textDecoration: "none", fontWeight: 700,
+                padding: ".9rem 1.9rem", borderRadius: "var(--r-sm)", textDecoration: "none", fontWeight: 700,
                 fontSize: ".7rem", letterSpacing: ".16em", textTransform: "uppercase",
               }}
             >

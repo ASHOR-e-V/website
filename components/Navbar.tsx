@@ -84,7 +84,7 @@ export default function Navbar() {
               </li>
             ))}
             <li>
-              <Link href="/#spenden" style={{ display: "inline-flex", alignItems: "center", gap: ".4rem", fontFamily: "'Jost', sans-serif", color: "#07090E", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, background: "var(--gold-solid)", padding: ".45rem .95rem", borderRadius: 999, textDecoration: "none" }}>
+              <Link href="/#spenden" style={{ display: "inline-flex", alignItems: "center", gap: ".4rem", fontFamily: "'Jost', sans-serif", color: "#07090E", fontSize: ".72rem", letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600, background: "var(--gold-solid)", padding: ".45rem .95rem", borderRadius: "var(--r-sm)", textDecoration: "none" }}>
                 <HeartIcon size={12} /> Spenden
               </Link>
             </li>
@@ -98,7 +98,7 @@ export default function Navbar() {
                 style={{
                   fontFamily: "'Jost', sans-serif", color: navText, fontSize: ".72rem",
                   letterSpacing: ".1em", textTransform: "uppercase", fontWeight: 600,
-                  background: "transparent", padding: ".45rem .95rem", borderRadius: 999,
+                  background: "transparent", padding: ".45rem .95rem", borderRadius: "var(--r-sm)",
                   textDecoration: "none", border: `1px solid ${scrolled ? "rgba(232,220,200,.28)" : "var(--line-strong)"}`,
                   whiteSpace: "nowrap",
                 }}
@@ -125,9 +125,9 @@ export default function Navbar() {
             style={{ display: "none", flexDirection: "column", gap: 6, background: "none", border: "none", cursor: "pointer", padding: 6 }}
             className="nav-hamburger"
           >
-            <span style={{ display: "block", width: 24, height: 1.5, background: "linear-gradient(90deg,var(--lapis),var(--gold))", borderRadius: 999, transition: "all .35s", transform: menuOpen ? "translateY(7.5px) rotate(45deg)" : "none" }} />
-            <span style={{ display: "block", width: 24, height: 1.5, background: "linear-gradient(90deg,var(--lapis),var(--gold))", borderRadius: 999, opacity: menuOpen ? 0 : 1, transition: "all .35s" }} />
-            <span style={{ display: "block", width: 24, height: 1.5, background: "linear-gradient(90deg,var(--lapis),var(--gold))", borderRadius: 999, transition: "all .35s", transform: menuOpen ? "translateY(-7.5px) rotate(-45deg)" : "none" }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "linear-gradient(90deg,var(--lapis),var(--gold))", borderRadius: "var(--r-sm)", transition: "all .35s", transform: menuOpen ? "translateY(7.5px) rotate(45deg)" : "none" }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "linear-gradient(90deg,var(--lapis),var(--gold))", borderRadius: "var(--r-sm)", opacity: menuOpen ? 0 : 1, transition: "all .35s" }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "linear-gradient(90deg,var(--lapis),var(--gold))", borderRadius: "var(--r-sm)", transition: "all .35s", transform: menuOpen ? "translateY(-7.5px) rotate(-45deg)" : "none" }} />
           </button>
         </div>
 
@@ -159,7 +159,7 @@ export default function Navbar() {
               {l.icon && <HeartIcon size={22} />} {l.label}
             </Link>
           ))}
-          <button onClick={() => { toggle(); setMenuOpen(false); }} style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", background: "none", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(232,220,200,.5)", padding: ".4rem 1rem", borderRadius: 999, cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: ".75rem", letterSpacing: ".1em", marginTop: ".5rem", flexShrink: 0 }}>
+          <button onClick={() => { toggle(); setMenuOpen(false); }} style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", background: "none", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(232,220,200,.5)", padding: ".4rem 1rem", borderRadius: "var(--r-sm)", cursor: "pointer", fontFamily: "'Jost', sans-serif", fontSize: ".75rem", letterSpacing: ".1em", marginTop: ".5rem", flexShrink: 0 }}>
             {theme === "light" ? <MoonIcon size={13} /> : <SunIcon size={13} />} {theme === "light" ? "Dunkel" : "Hell"}
           </button>
         </div>

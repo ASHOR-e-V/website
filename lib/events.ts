@@ -19,7 +19,7 @@ export const EVENTS: VereinsEvent[] = [
     location: "Mainz",
   },
   {
-    date: "April 2025",
+    date: "Oktober 2025",
     year: "2025",
     title: "Spanienreise & Symposium Salamanca",
     desc: "Teilnahme am Niniveh Academic Chair of Salamanca 2025 – akademischer Austausch mit assyrischen Professoren und Akademikern aus der ganzen Welt.",
@@ -51,7 +51,7 @@ export const EVENTS: VereinsEvent[] = [
     location: "Mainz",
   },
   {
-    date: "Oktober 2024",
+    date: "16. November 2024",
     year: "2024",
     title: "Gründungsversammlung & Kickoff",
     desc: "Offizieller Start von ASHOR als anerkannte Hochschulgruppe der JGU Mainz. Wahl des ersten Vorstands.",

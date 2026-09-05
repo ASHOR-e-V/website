@@ -48,7 +48,7 @@ export default function SatzungContent() {
             style={{
               display: "inline-flex", alignItems: "center", gap: ".6rem", marginTop: "2.2rem",
               fontFamily: "'Jost', sans-serif", background: "var(--gold-solid)", color: "var(--on-gold)",
-              padding: ".95rem 1.9rem", borderRadius: 999, textDecoration: "none", fontWeight: 700,
+              padding: ".95rem 1.9rem", borderRadius: "var(--r-sm)", textDecoration: "none", fontWeight: 700,
               fontSize: ".72rem", letterSpacing: ".16em", textTransform: "uppercase",
             }}
           >
@@ -171,27 +171,30 @@ export default function SatzungContent() {
                 Änderungshistorie
               </div>
               <ol style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "1rem" }}>
-                {HISTORIE.map((h, i) => (
-                  <li key={h.date} style={{ display: "flex", gap: "1.1rem", alignItems: "baseline" }}>
-                    <span
-                      style={{
-                        fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: ".92rem",
-                        color: i === HISTORIE.length - 1 ? "var(--gold)" : "var(--muted2)",
-                        flexShrink: 0, fontVariantNumeric: "tabular-nums", minWidth: "5.6rem",
-                      }}
-                    >
-                      {h.date}
-                    </span>
-                    <span style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".9rem", lineHeight: 1.7 }}>
-                      {h.label}
-                      {i === HISTORIE.length - 1 && (
-                        <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--gold)", background: "var(--gold-dim)", border: "1px solid var(--gold-line)", borderRadius: 999, padding: ".18rem .6rem", marginLeft: ".7rem", whiteSpace: "nowrap" }}>
-                          Geltende Fassung
-                        </span>
-                      )}
-                    </span>
-                  </li>
-                ))}
+                {HISTORIE.map((h) => {
+                  // The newest entry that has actually been adopted is the one
+                  // in force; anything flagged upcoming is a scheduled date.
+                  const current = !h.upcoming && h === [...HISTORIE].reverse().find((x) => !x.upcoming);
+                  return (
+                    <li key={h.date} style={{ display: "flex", gap: "1.1rem", alignItems: "baseline" }}>
+                      <span
+                        style={{
+                          fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: ".92rem",
+                          color: current ? "var(--gold)" : "var(--muted2)",
+                          flexShrink: 0, fontVariantNumeric: "tabular-nums", minWidth: "5.6rem",
+                          fontStyle: h.upcoming ? "italic" : "normal",
+                        }}
+                      >
+                        {h.date}
+                      </span>
+                      <span style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".9rem", lineHeight: 1.7 }}>
+                        {h.label}
+                        {current && <span className="tag tag-gold" style={{ marginLeft: ".7rem" }}>Geltende Fassung</span>}
+                        {h.upcoming && <span className="tag tag-lapis" style={{ marginLeft: ".7rem" }}>Geplant</span>}
+                      </span>
+                    </li>
+                  );
+                })}
               </ol>
             </div>
           </Rise>

@@ -208,12 +208,12 @@ export const PARAGRAPHS: Paragraph[] = [
   },
 ];
 
-// Änderungshistorie. Hinweis: Das Quell-PDF listet zusätzlich eine
-// Mitgliederversammlung am 19.09.2026 auf — ein Datum, das zum Zeitpunkt
-// der aktuellen Fassung (14.03.2026) noch in der Zukunft liegt. Dieser
-// Eintrag ist hier bewusst nicht aufgeführt und sollte im PDF geprüft werden.
-export const HISTORIE: { date: string; label: string }[] = [
+// Änderungshistorie. Der letzte Eintrag liegt in der Zukunft und ist als
+// Termin markiert, nicht als beschlossene Fassung — geltend bleibt bis dahin
+// die Fassung vom 14.03.2026.
+export const HISTORIE: { date: string; label: string; upcoming?: boolean }[] = [
   { date: "16.11.2024", label: "Gründungssatzung" },
   { date: "06.09.2025", label: "Überarbeitet und angenommen auf der Mitgliederversammlung" },
   { date: "14.03.2026", label: "Überarbeitet und angenommen auf der Mitgliederversammlung" },
+  { date: "19.09.2026", label: "Nächste ordentliche Mitgliederversammlung", upcoming: true },
 ];

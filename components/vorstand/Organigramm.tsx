@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { ORGANE, SEATS_TOTAL, SEATS_FILLED } from "@/lib/vorstand";
+import { ORGANE } from "@/lib/vorstand";
 import { MaskReveal, Rise } from "@/components/Reveal";
 import Shamash from "@/components/Shamash";
 import { easeOut } from "@/lib/motion";
@@ -33,11 +33,10 @@ function Connector({ label, refText, delay = 0 }: { label: string; refText: stri
         viewport={{ once: true, margin: "-15% 0px" }}
         transition={{ duration: 0.5, delay: delay + 0.28, ease: easeOut }}
         style={{
-          display: "inline-flex", alignItems: "center", gap: ".5rem",
+          display: "inline-flex", alignItems: "center", gap: ".55rem",
           fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".18em",
           textTransform: "uppercase", color: "var(--muted2)",
-          border: "1px solid var(--line)", background: "var(--surface)",
-          padding: ".34rem .85rem", borderRadius: 999, whiteSpace: "nowrap",
+          background: "var(--surface2)", padding: ".2rem .7rem", whiteSpace: "nowrap",
         }}
       >
         {label}
@@ -92,25 +91,12 @@ function OrganCard({ organ, index }: { organ: (typeof ORGANE)[number]; index: nu
           <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".22em", textTransform: "uppercase", color: c.text, fontWeight: 600 }}>
             {organ.kicker}
           </span>
-          <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".1em", color: "var(--muted2)", border: "1px solid var(--line)", borderRadius: 999, padding: ".16rem .55rem", flexShrink: 0 }}>
-            {organ.ref}
-          </span>
+          <span className="tag" style={{ flexShrink: 0 }}>{organ.ref}</span>
         </div>
 
         <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.15rem,2vw,1.4rem)", fontWeight: 700, color: "var(--text)", lineHeight: 1.25, marginBottom: ".8rem", letterSpacing: "-.005em" }}>
           {organ.name}
         </h3>
-
-        {isVorstand && (
-          <div style={{ display: "flex", alignItems: "baseline", gap: ".5rem", marginBottom: ".9rem" }}>
-            <span style={{ fontFamily: "'Cinzel', serif", fontSize: "2.2rem", fontWeight: 700, color: "var(--gold)", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
-              {SEATS_FILLED}
-            </span>
-            <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".68rem", letterSpacing: ".12em", textTransform: "uppercase", color: "var(--muted2)" }}>
-              von {SEATS_TOTAL} Sitzen besetzt
-            </span>
-          </div>
-        )}
 
         <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".9rem", lineHeight: 1.85, marginBottom: "1.3rem" }}>
           {organ.desc}
