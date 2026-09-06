@@ -42,6 +42,7 @@ type Mode = "login" | "gate" | "register" | "no-member";
 export default function LoginCard() {
   const id = useId();
   const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [mode, setMode] = useState<Mode>("login");
   const [error, setError] = useState("");
@@ -102,10 +103,16 @@ export default function LoginCard() {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          // Without this the confirmation link points at whatever "Site URL"
-          // is configured in Supabase — often still localhost. The origin has
-          // to be listed under Authentication → URL Configuration.
-          options: { emailRedirectTo: `${window.location.origin}/members` },
+          options: {
+            // Without this the confirmation link points at whatever "Site
+            // URL" is configured in Supabase — often still localhost. The
+            // origin has to be listed under Authentication → URL Configuration.
+            emailRedirectTo: `${window.location.origin}/members`,
+            // Read by the sign-up hook to check the name against the
+            // Mitgliederliste when no e-mail address is on file yet — see
+            // supabase/mitgliederbereich-absichern.sql.
+            data: { full_name: fullName },
+          },
         });
 
         if (error) {
@@ -220,11 +227,28 @@ export default function LoginCard() {
           <>
             {mode === "register" && (
               <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".72rem", color: "var(--muted2)", lineHeight: 1.7, marginBottom: "1.6rem", paddingBottom: "1.2rem", borderBottom: "1px solid var(--line)" }}>
-                Bitte nimm die E-Mail-Adresse, die dem Verein als Mitglied bekannt ist. Andere Adressen weist das System ab.
+                Bitte gib den Namen an, mit dem du auf der Mitgliederliste stehst. Ist deine E-Mail-Adresse dem Verein bereits bekannt, nimm die — sonst reicht der Name. Andernfalls weist das System die Registrierung ab.
               </p>
             )}
 
             <form onSubmit={handleSubmit}>
+              {mode === "register" && (
+                <>
+                  <label htmlFor={`${id}-name`} style={labelStyle}>Vor- und Nachname</label>
+                  <input
+                    id={`${id}-name`}
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                    style={inputStyle}
+                    placeholder="Wie auf der Mitgliederliste"
+                  />
+                </>
+              )}
+
               <label htmlFor={`${id}-email`} style={labelStyle}>E-Mail</label>
               <input
                 id={`${id}-email`}
