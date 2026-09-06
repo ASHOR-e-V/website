@@ -4,45 +4,38 @@
 --  Im Supabase-Dashboard unter SQL Editor komplett einfügen und ausführen.
 --  Das Skript ist idempotent, kann also gefahrlos mehrfach laufen.
 --
---  WARUM DAS SERVERSEITIG PASSIEREN MUSS
---  Eine Abfrage im Browser („bist du Mitglied?") ist Nutzerführung, keine
---  Sicherheitsmaßnahme. Wer die Entwicklerkonsole öffnet oder die Supabase-
---  URL direkt anspricht, umgeht sie in Sekunden. Verlässlich ist allein,
---  was die Datenbank selbst durchsetzt. Deshalb zwei Schichten:
+--  WIE DIE PRÜFUNG JETZT LÄUFT (manuelle Freischaltung)
+--  Jede Registrierung wird technisch angenommen — niemand wird beim
+--  Registrieren automatisch abgewiesen. Neue Konten sehen aber
+--  schlicht nichts (profiles.is_approved = false per Default), bis der
+--  Vorstand im Mitgliederbereich unter „Verwaltung" manuell freischaltet.
+--  Das ist die eigentliche Absicherung, durchgesetzt über Row Level
+--  Security — eine Abfrage im Browser wäre nur Nutzerführung, keine
+--  Sicherheitsmaßnahme, weil sie sich mit der Entwicklerkonsole oder
+--  direkten Aufrufen der Supabase-URL umgehen liesse.
 --
---    1. Row Level Security auf jeder Tabelle. Selbst ein angelegtes Konto
---       sieht ohne Eintrag auf der Mitgliederliste schlicht nichts.
---    2. Ein Before-User-Created-Hook, der Registrierungen von Adressen
---       ablehnt, die nicht auf der Liste stehen.
---
---  Schicht 1 ist die eigentliche Absicherung. Schicht 2 ist Komfort und
---  zweite Verteidigungslinie — sie allein würde nicht genügen.
+--  Damit der Vorstand nicht rätseln muss: Bei jeder Registrierung geht
+--  eine Telegram-Nachricht raus (Funktion notify_new_registration,
+--  Abschnitt 2 — Zugangsdaten dafür in Abschnitt 6d), und member_allowlist
+--  (Abschnitt 6a/6b — E-Mail-Adresse oder Name, optional, nur als
+--  Gedächtnisstütze) vermerkt in profiles.matched_via, ob die Person
+--  mit bekannter E-Mail-Adresse oder bekanntem Namen registriert hat.
+--  Das entscheidet nichts automatisch mehr — nur der Vorstand schaltet
+--  frei — aber es macht die Prüfung beim Freischalten schneller.
 --
 --  REIHENFOLGE BEIM EINRICHTEN
 --    1. Dieses Skript ausführen.
---    2. In Abschnitt 6 eure Mitglieder eintragen — mit E-Mail-Adresse, wo
---       bekannt, sonst nur mit Namen (siehe Hinweis dort).
---    3. Dir selbst is_board = true setzen (Abschnitt 6).
---    4. ERST DANN den Hook aktivieren:
---       Authentication → Hooks → Before User Created →
---       public.hook_restrict_signup_to_members
---    Andersherum sperrt ihr euch selbst aus.
+--    2. Abschnitt 6d: Telegram-Bot anlegen und Token/Chat-ID eintragen,
+--       damit ihr bei jeder Registrierung benachrichtigt werdet.
+--    3. Optional, Abschnitt 6a/6b: eure Mitglieder eintragen (E-Mail
+--       oder Name) — rein informativ für profiles.matched_via.
+--    4. Dir selbst Vorstandsrechte und Freischaltung geben (Abschnitt 6c).
 --
---  ZUR PRÜFUNG PER NAME (statt oder zusätzlich zur E-Mail-Adresse)
---  Das ist eine bewusste, aber schwächere Variante als der reine
---  E-Mail-Abgleich: Namen sind nicht eindeutig, Schreibweisen können
---  abweichen, und die Namen des Vorstands stehen bereits öffentlich auf
---  der Website — wer sie kennt, kann sie beim Registrieren eintippen.
---  Jedes Konto, das nur über den Namen (nicht die E-Mail-Adresse) durch
---  die Prüfung kommt, wird in profiles.matched_via = 'name' vermerkt —
---  damit der Vorstand diese Fälle bei Gelegenheit gegenprüfen kann.
---
---  Ausserdem UNBEDINGT VOR DER AKTIVIERUNG live testen: ob Supabase den
---  beim Registrieren eingegebenen Namen zum Zeitpunkt dieses Hooks
---  überhaupt schon bereitstellt, ist in der Supabase-Dokumentation nicht
---  eindeutig belegt. Einmal mit einem Namen von der Liste und einer
---  E-Mail-Adresse, die NICHT auf der Liste steht, testregistrieren — geht
---  das durch, funktioniert es; wird es abgelehnt, bitte melden.
+--  Der Before-User-Created-Hook (Abschnitt 4) bleibt im Skript, ist aber
+--  NICHT mehr der empfohlene Weg und muss nirgends aktiviert werden — er
+--  würde Registrierungen automatisch anhand von member_allowlist ablehnen,
+--  was ihr bewusst nicht mehr wollt, weil ihr jede Anmeldung selbst sehen
+--  und freischalten wollt.
 -- ═══════════════════════════════════════════════════════════════════════
 
 
@@ -104,11 +97,24 @@ create table if not exists public.profiles (
   id          uuid primary key references auth.users (id) on delete cascade,
   full_name   text,
   is_board    boolean not null default false,
+  is_approved boolean not null default false,
   matched_via text,
   created_at  timestamptz not null default now()
 );
-alter table public.profiles add column if not exists is_board boolean not null default false;
+alter table public.profiles add column if not exists is_board    boolean not null default false;
+alter table public.profiles add column if not exists is_approved boolean not null default false;
 alter table public.profiles add column if not exists matched_via text;
+
+-- Zugangsdaten für die Telegram-Benachrichtigung bei neuen Registrierungen
+-- (Abschnitt 3b). Zwei Zeilen, vom Vorstand befüllt — siehe Abschnitt 6d.
+create table if not exists public.app_settings (
+  key   text primary key,
+  value text
+);
+insert into public.app_settings (key, value) values
+  ('telegram_bot_token', null),
+  ('telegram_chat_id', null)
+on conflict (key) do nothing;
 
 create table if not exists public.announcements (
   id          uuid primary key default gen_random_uuid(),
@@ -153,26 +159,77 @@ create trigger trg_normalize_allowlist_email
   before insert or update on public.member_allowlist
   for each row execute function public.normalize_allowlist_email();
 
+-- Schickt eine Telegram-Nachricht an den Vorstand, sobald sich jemand
+-- registriert. Setzt voraus, dass die pg_net-Extension aktiv ist (unten)
+-- und Abschnitt 6d ausgefüllt wurde — solange app_settings leer ist,
+-- passiert hier einfach nichts, die Registrierung läuft trotzdem normal
+-- weiter. Ein Fehler beim Versenden darf die Registrierung nie verhindern,
+-- daher der eigene exception-Block.
+create extension if not exists pg_net;
+
+create or replace function public.notify_new_registration(
+  p_email       text,
+  p_full_name   text,
+  p_matched_via text
+)
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  token   text;
+  chat_id text;
+  label   text;
+begin
+  select value into token   from public.app_settings where key = 'telegram_bot_token';
+  select value into chat_id from public.app_settings where key = 'telegram_chat_id';
+
+  if token is null or token = '' or chat_id is null or chat_id = '' then
+    return;
+  end if;
+
+  label := case p_matched_via
+    when 'email' then 'bekannte E-Mail-Adresse'
+    when 'name'  then 'bekannter Name'
+    else 'weder E-Mail noch Name erkannt — genau prüfen'
+  end;
+
+  perform net.http_post(
+    url     := 'https://api.telegram.org/bot' || token || '/sendMessage',
+    body    := jsonb_build_object(
+      'chat_id', chat_id,
+      'text',
+        'Neue Registrierung im Mitgliederbereich' || chr(10) ||
+        coalesce(nullif(p_full_name, ''), '(kein Name angegeben)') || ' — ' || coalesce(p_email, '') || chr(10) ||
+        'Abgleich: ' || label || chr(10) ||
+        'Freischalten unter Mitgliederbereich → Verwaltung.'
+    ),
+    headers := jsonb_build_object('Content-Type', 'application/json')
+  );
+exception when others then
+  null;
+end;
+$$;
+
 -- Profil automatisch anlegen, sobald ein Konto entsteht — und dabei
--- vermerken, worüber die Person durch die Mitgliedsprüfung kam, damit der
--- Vorstand die schwächeren Namens-Treffer bei Gelegenheit gegenprüfen kann.
+-- vermerken, worüber die Person schon bekannt war (matched_via), damit
+-- der Vorstand beim manuellen Freischalten nicht bei null anfängt.
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer set search_path = public as $$
 declare
   candidate_name text := coalesce(new.raw_user_meta_data->>'full_name', '');
+  matched        text;
 begin
   insert into public.profiles (id, full_name)
   values (new.id, candidate_name)
   on conflict (id) do nothing;
 
-  update public.profiles set matched_via = (
-    select case
-      when exists (select 1 from public.member_allowlist a where a.email = lower(new.email)) then 'email'
-      when exists (select 1 from public.member_allowlist a where a.normalized_name = public.normalize_name(candidate_name)) then 'name'
-      else null
-    end
-  )
-  where id = new.id;
+  select case
+    when exists (select 1 from public.member_allowlist a where a.email = lower(new.email)) then 'email'
+    when exists (select 1 from public.member_allowlist a where a.normalized_name = public.normalize_name(candidate_name)) then 'name'
+    else null
+  end into matched;
+
+  update public.profiles set matched_via = matched where id = new.id;
+
+  perform public.notify_new_registration(new.email, candidate_name, matched);
 
   return new;
 end;
@@ -197,21 +254,26 @@ returns boolean language sql stable security definer set search_path = public as
   );
 $$;
 
--- Steht die angemeldete Person auf der Mitgliederliste? Prüft beide Wege —
--- über die E-Mail-Adresse des Kontos oder über den bei der Registrierung
--- angegebenen Namen (siehe Hinweis oben zum Namensabgleich).
-create or replace function public.is_member()
+-- Wurde die angemeldete Person vom Vorstand freigeschaltet? Aus demselben
+-- Grund security definer wie is_board() oben.
+create or replace function public.is_approved()
 returns boolean language sql stable security definer set search_path = public as $$
-  select exists (
-    select 1
-    from public.member_allowlist a
-    where (a.email is not null and a.email = lower((select u.email from auth.users u where u.id = auth.uid())))
-       or (a.normalized_name is not null and a.normalized_name = public.normalize_name((select p.full_name from public.profiles p where p.id = auth.uid())))
+  select coalesce(
+    (select p.is_approved from public.profiles p where p.id = auth.uid()),
+    false
   );
 $$;
 
-grant execute on function public.is_board()  to authenticated;
-grant execute on function public.is_member() to authenticated;
+-- Historischer Name, damit die Policies unten unverändert bleiben —
+-- "Mitglied" heisst jetzt schlicht "vom Vorstand freigeschaltet".
+create or replace function public.is_member()
+returns boolean language sql stable security definer set search_path = public as $$
+  select public.is_approved();
+$$;
+
+grant execute on function public.is_board()     to authenticated;
+grant execute on function public.is_approved()  to authenticated;
+grant execute on function public.is_member()    to authenticated;
 
 
 -- ═══ 3. Row Level Security ═════════════════════════════════════════════
@@ -221,6 +283,13 @@ alter table public.profiles            enable row level security;
 alter table public.announcements       enable row level security;
 alter table public.protocols           enable row level security;
 alter table public.contact_submissions enable row level security;
+alter table public.app_settings        enable row level security;
+
+-- Telegram-Zugangsdaten: ausschliesslich Vorstand.
+drop policy if exists app_settings_board_all on public.app_settings;
+create policy app_settings_board_all on public.app_settings
+  for all to authenticated
+  using (public.is_board()) with check (public.is_board());
 
 
 -- Mitgliederliste: enthält die Adressen aller Mitglieder, daher nur Vorstand.
@@ -243,14 +312,15 @@ create policy profiles_select_own on public.profiles
 create policy profiles_select_board on public.profiles
   for select to authenticated using (public.is_board());
 
--- Das eigene Profil darf bearbeitet werden, aber is_board nicht selbst
--- gesetzt — sonst könnte sich jedes Konto zum Vorstand befördern. Der
--- Vergleich läuft über is_board(), nicht über eine Unterabfrage auf
--- profiles, weil letztere hier eine Rekursion auslösen würde.
+-- Das eigene Profil darf bearbeitet werden, aber weder is_board noch
+-- is_approved selbst gesetzt — sonst könnte sich jedes Konto selbst zum
+-- Vorstand machen oder sich selbst freischalten. Der Vergleich läuft über
+-- is_board()/is_approved(), nicht über eine Unterabfrage auf profiles,
+-- weil letztere hier eine Rekursion auslösen würde.
 create policy profiles_update_own on public.profiles
   for update to authenticated
   using (id = auth.uid())
-  with check (id = auth.uid() and is_board = public.is_board());
+  with check (id = auth.uid() and is_board = public.is_board() and is_approved = public.is_approved());
 
 create policy profiles_update_board on public.profiles
   for all to authenticated
@@ -302,9 +372,12 @@ create policy contact_write_board on public.contact_submissions
   using (public.is_board()) with check (public.is_board());
 
 
--- ═══ 4. Registrierung auf die Mitgliederliste beschränken ══════════════
--- Before-User-Created-Hook. Nach dem Ausführen im Dashboard aktivieren:
--- Authentication → Hooks → Before User Created → diese Funktion wählen.
+-- ═══ 4. Optional: Registrierung automatisch ablehnen (NICHT aktiv) ═════
+-- Before-User-Created-Hook. AKTUELL NICHT AKTIVIEREN — ihr habt euch für
+-- die manuelle Freischaltung entschieden (siehe oben), die diese
+-- Funktion überflüssig macht. Bleibt nur für den Fall im Skript, dass ihr
+-- später doch automatisch ablehnen wollt: dann in Authentication → Hooks
+-- → Before User Created → diese Funktion wählen.
 
 -- Prüft E-Mail-Adresse ODER Namen (aus dem bei der Registrierung
 -- mitgeschickten full_name) gegen die Mitgliederliste. Der Namensabgleich
@@ -343,38 +416,36 @@ grant usage on schema public to supabase_auth_admin;
 grant select on public.member_allowlist to supabase_auth_admin;
 
 
--- ═══ 5. Bestehende Konten aufräumen ════════════════════════════════════
--- Zeigt Konten, die es schon gibt, aber weder über E-Mail noch über den
--- Namen auf der Mitgliederliste stehen. Erst ansehen, dann entscheiden —
--- nicht blind löschen.
+-- ═══ 5. Ausstehende Registrierungen ════════════════════════════════════
+-- Wer schon ein Konto hat, aber noch nicht freigeschaltet ist. Dasselbe
+-- steht auch im Mitgliederbereich unter „Verwaltung" — hier zusätzlich
+-- die Info, ob E-Mail-Adresse oder Name aus Abschnitt 6a/6b bekannt war.
 
-select u.id, u.email, p.full_name, u.created_at
-from auth.users u
-left join public.profiles p on p.id = u.id
-left join public.member_allowlist a
-  on a.email = lower(u.email)
-  or (a.normalized_name is not null and a.normalized_name = public.normalize_name(p.full_name))
-where a.id is null
+select u.email, p.full_name, p.matched_via, u.created_at
+from public.profiles p
+join auth.users u on u.id = p.id
+where p.is_approved = false
 order by u.created_at;
+
+-- Freischalten — E-Mail-Adresse anpassen und ausführen (oder gleich im
+-- Mitgliederbereich unter „Verwaltung" auf „Freischalten" klicken):
+-- update public.profiles set is_approved = true
+-- where id = (select id from auth.users where lower(email) = 'person@adresse.de');
 
 
 -- ═══ 6. Hier eintragen ═════════════════════════════════════════════════
--- Vor dem Aktivieren des Hooks befüllen.
 
--- 6a. Mit bekannter E-Mail-Adresse — die starke Prüfung. Adressen in
--- Kleinschreibung.
+-- 6a. Optional — mit bekannter E-Mail-Adresse, rein informativ für
+-- profiles.matched_via beim Freischalten. Adressen in Kleinschreibung.
 insert into public.member_allowlist (email, full_name, note) values
   ('ashor.jgu@gmail.com', 'ASHOR Vorstand', 'Sammelpostfach')
   -- ('caroline...@...',  'Caroline Barsoum'),
   -- ('ninous...@...',    'Ninous Andersson')
 on conflict (email) where email is not null do nothing;
 
--- 6b. Nur mit Namen, ohne bekannte E-Mail-Adresse — die schwächere
--- Prüfung (siehe Hinweis ganz oben in dieser Datei). email bleibt bei
--- diesen Zeilen bewusst leer. Namen genau wie auf eurer Mitgliederliste
--- eintragen — Gross-/Kleinschreibung und einzelne/doppelte Leerzeichen
--- spielen keine Rolle, unterschiedliche Schreibweisen (z. B. Transliteration)
--- aber schon.
+-- 6b. Optional — nur mit Namen, ohne bekannte E-Mail-Adresse, ebenfalls
+-- rein informativ (siehe Hinweis ganz oben zu Schreibweisen). email
+-- bleibt bei diesen Zeilen bewusst leer.
 insert into public.member_allowlist (full_name) values
   ('Robina Lajin'),
   ('Severios Isac'),
@@ -383,30 +454,28 @@ insert into public.member_allowlist (full_name) values
   -- , ('Weiterer Name')
 on conflict (normalized_name) where email is null do nothing;
 
--- Vorstandsrechte vergeben — erst möglich, nachdem sich die Person
--- registriert hat. Adresse anpassen und die Zeile entkommentieren:
--- update public.profiles set is_board = true
+-- 6c. Dir selbst Vorstandsrechte UND Freischaltung geben — sonst siehst
+-- du nach dem Registrieren selbst nichts. E-Mail-Adresse anpassen:
+-- update public.profiles set is_board = true, is_approved = true
 -- where id = (select id from auth.users where lower(email) = 'deine@adresse.de');
+
+-- 6d. Telegram-Bot für die Benachrichtigung bei neuen Registrierungen.
+-- Einrichtung: bei Telegram @BotFather anschreiben, /newbot, Namen
+-- vergeben — man bekommt einen Token. Danach dem neuen Bot selbst kurz
+-- schreiben (irgendein Wort reicht), dann im Browser
+-- https://api.telegram.org/bot<TOKEN>/getUpdates öffnen — dort steht
+-- eure chat_id. Beides unten eintragen und die Zeilen entkommentieren —
+-- solange sie leer bleiben, passiert bei der Registrierung einfach
+-- nichts (keine Benachrichtigung, aber auch kein Fehler):
+-- update public.app_settings set value = 'HIER_DEN_BOT_TOKEN_EINTRAGEN' where key = 'telegram_bot_token';
+-- update public.app_settings set value = 'HIER_DIE_CHAT_ID_EINTRAGEN'   where key = 'telegram_chat_id';
 
 
 -- ═══ 7. Kontrolle ══════════════════════════════════════════════════════
--- Muss für jede der fünf Tabellen rowsecurity = true liefern.
+-- Muss für jede der sechs Tabellen rowsecurity = true liefern.
 
 select tablename, rowsecurity
 from pg_tables
 where schemaname = 'public'
-  and tablename in ('profiles','announcements','protocols','contact_submissions','member_allowlist')
+  and tablename in ('profiles','announcements','protocols','contact_submissions','member_allowlist','app_settings')
 order by tablename;
-
-
--- ═══ 8. Namens-Treffer gegenprüfen ═════════════════════════════════════
--- Jedes Konto, das nur über den Namen durch die Prüfung kam (nicht über
--- eine bekannte E-Mail-Adresse), taucht hier auf. Von Zeit zu Zeit gegen
--- die echte Mitgliederliste halten — das ist der Ausgleich dafür, dass
--- der Namensabgleich schwächer ist als der über die E-Mail-Adresse.
-
-select u.email, p.full_name, u.created_at
-from public.profiles p
-join auth.users u on u.id = p.id
-where p.matched_via = 'name'
-order by u.created_at desc;

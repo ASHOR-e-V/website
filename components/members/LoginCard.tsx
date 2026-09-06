@@ -108,9 +108,10 @@ export default function LoginCard() {
             // URL" is configured in Supabase — often still localhost. The
             // origin has to be listed under Authentication → URL Configuration.
             emailRedirectTo: `${window.location.origin}/members`,
-            // Read by the sign-up hook to check the name against the
-            // Mitgliederliste when no e-mail address is on file yet — see
-            // supabase/mitgliederbereich-absichern.sql.
+            // Landet in raw_user_meta_data und damit in profiles.full_name —
+            // der Vorstand bekommt den Namen mit der Registrierungs-
+            // Benachrichtigung und beim manuellen Freischalten angezeigt.
+            // Siehe supabase/mitgliederbereich-absichern.sql.
             data: { full_name: fullName },
           },
         });
@@ -119,9 +120,11 @@ export default function LoginCard() {
           setError(germanAuthError(error.message));
         } else if (data.session) {
           // A session came straight back, so e-mail confirmation is switched
-          // off for this project. Nothing was sent and nothing needs
-          // confirming — MembersArea picks the session up and swaps the view.
-          setInfo("Konto erstellt. Du bist angemeldet.");
+          // off for this project. MembersArea picks the session up and
+          // swaps to Dashboard, which shows its own "wird geprüft" screen
+          // until the board approves — so this message is only visible for
+          // a moment, but keep it accurate in case of a slow redirect.
+          setInfo("Danke für deine Registrierung. Zur Sicherheit wird kurz geprüft, ob du Mitglied bist. Danach wird der Login für dich freigeschaltet.");
         } else if (data.user && data.user.identities?.length === 0) {
           // Supabase returns success with an empty identities array when the
           // address already has an account, so sign-up cannot be used to probe
@@ -129,7 +132,7 @@ export default function LoginCard() {
           setError("Für diese E-Mail-Adresse gibt es bereits ein Konto. Melde dich an oder setz dein Passwort zurück.");
         } else {
           setSentTo(email);
-          setInfo("Bestätigungs-E-Mail gesendet. Bitte prüf dein Postfach — auch den Spam-Ordner.");
+          setInfo("Danke für deine Registrierung. Bitte bestätige zuerst den Link in deiner E-Mail (auch im Spam-Ordner nachsehen). Zur Sicherheit wird danach kurz geprüft, ob du Mitglied bist — anschliessend wird der Login für dich freigeschaltet.");
         }
       }
     } catch {

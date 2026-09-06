@@ -7,16 +7,45 @@ type Tab = "announcements" | "protocols" | "anfragen" | "verwaltung";
 
 type Announcement = { id: string; title: string; content: string; created_at: string };
 type Protocol = { id: string; title: string; date: string; file_url: string | null; created_at: string };
-type Profile = { is_board: boolean; full_name: string | null };
+type Profile = { is_board: boolean; is_approved: boolean; full_name: string | null };
 
 export default function Dashboard({ user }: { user: User }) {
   const [tab, setTab] = useState<Tab>("announcements");
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
-    supabase.from("profiles").select("is_board, full_name").eq("id", user.id).single()
-      .then(({ data }) => setProfile(data));
+    supabase.from("profiles").select("is_board, is_approved, full_name").eq("id", user.id).single()
+      .then(({ data }) => { setProfile(data); setLoadingProfile(false); });
   }, [user.id]);
+
+  // RLS already keeps unapproved accounts from reading anything, but a
+  // blank dashboard reads as broken — this explains why, and matches the
+  // message shown right after registering (see LoginCard.tsx).
+  if (!loadingProfile && profile && !profile.is_board && !profile.is_approved) {
+    return (
+      <div style={{ paddingTop: 74, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "6rem 1.5rem" }}>
+        <div style={{ width: "100%", maxWidth: 460, background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-lg)", padding: "2.8rem 2.5rem", textAlign: "center", position: "relative", overflow: "hidden" }}>
+          <div aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, var(--gold-solid), transparent)" }} />
+          <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".26em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "1.2rem" }}>
+            Wird geprüft
+          </div>
+          <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.3rem", fontWeight: 700, marginBottom: "1rem", letterSpacing: "-.005em" }}>
+            Danke für deine Registrierung
+          </h1>
+          <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".92rem", lineHeight: 1.85, marginBottom: "2rem" }}>
+            Zur Sicherheit prüft der Vorstand kurz, ob du Mitglied bist. Sobald das erledigt ist, wird der Login für dich freigeschaltet — meist geht das schnell.
+          </p>
+          <button
+            onClick={() => supabase.auth.signOut()}
+            style={{ fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted)", background: "none", border: "1px solid var(--line)", padding: ".7rem 1.4rem", borderRadius: "var(--r-sm)", cursor: "pointer" }}
+          >
+            Abmelden
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const tabStyle = (t: Tab) => ({
     fontFamily: "'Jost', sans-serif",
@@ -200,7 +229,10 @@ function AnfragenTab() {
   );
 }
 
-type ProfileEntry = { id: string; full_name: string | null; is_board: boolean };
+type ProfileEntry = { id: string; full_name: string | null; is_board: boolean; is_approved: boolean; matched_via: string | null; created_at: string };
+
+const matchLabel = (m: string | null) =>
+  m === "email" ? "E-Mail bekannt" : m === "name" ? "Name bekannt" : "nicht erkannt";
 
 function VerwaltungTab() {
   const [members, setMembers] = useState<ProfileEntry[]>([]);
@@ -208,44 +240,99 @@ function VerwaltungTab() {
   const [saving, setSaving] = useState<string | null>(null);
 
   const load = async () => {
-    const { data } = await supabase.from("profiles").select("id, full_name, is_board").order("full_name");
+    const { data } = await supabase.from("profiles").select("id, full_name, is_board, is_approved, matched_via, created_at").order("created_at", { ascending: false });
     setMembers(data ?? []);
     setLoading(false);
   };
 
   useEffect(() => { load(); }, []);
 
-  const toggle = async (id: string, current: boolean) => {
+  const toggleBoard = async (id: string, current: boolean) => {
     setSaving(id);
     await supabase.from("profiles").update({ is_board: !current }).eq("id", id);
     await load();
     setSaving(null);
   };
 
+  const approve = async (id: string) => {
+    setSaving(id);
+    await supabase.from("profiles").update({ is_approved: true }).eq("id", id);
+    await load();
+    setSaving(null);
+  };
+
+  const pending = members.filter(m => !m.is_approved);
+  const approved = members.filter(m => m.is_approved);
+
+  const rowStyle = (highlight: boolean) => ({
+    background: "var(--surface)",
+    border: `1px solid ${highlight ? "var(--gold-line)" : "var(--line)"}`,
+    borderRadius: "var(--r-md)",
+    padding: "1.2rem 1.8rem",
+    marginBottom: ".75rem",
+    display: "flex" as const,
+    alignItems: "center" as const,
+    justifyContent: "space-between" as const,
+    gap: "1rem",
+    flexWrap: "wrap" as const,
+  });
+
   return (
     <div>
       <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.3rem", fontWeight: 700, marginBottom: ".5rem" }}>Mitgliederverwaltung</h2>
-      <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".88rem", marginBottom: "2rem" }}>Hier kannst du Mitgliedern Vorstandsrechte geben oder entziehen.</p>
+      <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".88rem", marginBottom: "2rem" }}>Neue Registrierungen zuerst freischalten, danach bei Bedarf Vorstandsrechte vergeben oder entziehen.</p>
 
       {loading ? (
         <div style={{ color: "var(--muted2)", fontFamily: "'Jost', sans-serif", fontSize: ".78rem" }}>Laden…</div>
-      ) : members.map(m => (
-        <div key={m.id} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "1.2rem 1.8rem", marginBottom: ".75rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
-          <div>
-            <div style={{ fontFamily: "'Cinzel', serif", fontSize: ".95rem", fontWeight: 700, color: "var(--text)", marginBottom: ".2rem" }}>{m.full_name ?? "—"}</div>
-            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".15em", textTransform: "uppercase", color: m.is_board ? "var(--gold)" : "var(--muted2)" }}>
-              {m.is_board ? "Vorstand" : "Mitglied"}
+      ) : (
+        <>
+          {pending.length > 0 && (
+            <div style={{ marginBottom: "2.2rem" }}>
+              <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "1rem" }}>
+                Ausstehend · {pending.length}
+              </div>
+              {pending.map(m => (
+                <div key={m.id} style={rowStyle(true)}>
+                  <div>
+                    <div style={{ fontFamily: "'Cinzel', serif", fontSize: ".95rem", fontWeight: 700, color: "var(--text)", marginBottom: ".2rem" }}>{m.full_name || "(kein Name angegeben)"}</div>
+                    <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted2)" }}>
+                      {matchLabel(m.matched_via)} · {new Date(m.created_at).toLocaleDateString("de-DE")}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => approve(m.id)}
+                    disabled={saving === m.id}
+                    style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", padding: ".5rem 1.1rem", borderRadius: "var(--r-sm)", border: "1px solid var(--gold-line)", background: "var(--gold-dim)", color: "var(--gold)" }}
+                  >
+                    {saving === m.id ? "…" : "Freischalten"}
+                  </button>
+                </div>
+              ))}
             </div>
+          )}
+
+          <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: "1rem" }}>
+            Freigeschaltet · {approved.length}
           </div>
-          <button
-            onClick={() => toggle(m.id, m.is_board)}
-            disabled={saving === m.id}
-            style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", padding: ".5rem 1.1rem", borderRadius: "var(--r-sm)", border: "1px solid", borderColor: m.is_board ? "var(--line)" : "var(--gold-line)", background: m.is_board ? "transparent" : "var(--gold-dim)", color: m.is_board ? "var(--muted)" : "var(--gold)" }}
-          >
-            {saving === m.id ? "…" : m.is_board ? "Zu Mitglied" : "Zu Vorstand"}
-          </button>
-        </div>
-      ))}
+          {approved.map(m => (
+            <div key={m.id} style={rowStyle(false)}>
+              <div>
+                <div style={{ fontFamily: "'Cinzel', serif", fontSize: ".95rem", fontWeight: 700, color: "var(--text)", marginBottom: ".2rem" }}>{m.full_name || "—"}</div>
+                <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".15em", textTransform: "uppercase", color: m.is_board ? "var(--gold)" : "var(--muted2)" }}>
+                  {m.is_board ? "Vorstand" : "Mitglied"}
+                </div>
+              </div>
+              <button
+                onClick={() => toggleBoard(m.id, m.is_board)}
+                disabled={saving === m.id}
+                style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", padding: ".5rem 1.1rem", borderRadius: "var(--r-sm)", border: "1px solid", borderColor: m.is_board ? "var(--line)" : "var(--gold-line)", background: m.is_board ? "transparent" : "var(--gold-dim)", color: m.is_board ? "var(--muted)" : "var(--gold)" }}
+              >
+                {saving === m.id ? "…" : m.is_board ? "Zu Mitglied" : "Zu Vorstand"}
+              </button>
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 }
