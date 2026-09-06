@@ -16,13 +16,29 @@ export default function Dashboard({ user }: { user: User }) {
 
   useEffect(() => {
     supabase.from("profiles").select("is_board, is_approved, full_name").eq("id", user.id).single()
-      .then(({ data }) => { setProfile(data); setLoadingProfile(false); });
+      .then(({ data, error }) => {
+        if (error) console.error("profiles fetch failed:", error.message);
+        setProfile(data);
+        setLoadingProfile(false);
+      });
   }, [user.id]);
 
-  // RLS already keeps unapproved accounts from reading anything, but a
-  // blank dashboard reads as broken — this explains why, and matches the
-  // message shown right after registering (see LoginCard.tsx).
-  if (!loadingProfile && profile && !profile.is_board && !profile.is_approved) {
+  // Fail closed: a profile that hasn't loaded yet, or failed to load, is
+  // treated the same as "not approved" — never falls through to the full
+  // dashboard just because the fetch errored. RLS already keeps unapproved
+  // accounts from reading anything, but a blank dashboard reads as broken —
+  // this explains why, and matches the message shown right after
+  // registering (see LoginCard.tsx).
+  const isBoard = profile?.is_board ?? false;
+  const isApproved = profile?.is_approved ?? false;
+  if (loadingProfile) {
+    return (
+      <div style={{ paddingTop: 74, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ fontFamily: "'Jost', sans-serif", color: "var(--muted2)", fontSize: ".75rem", letterSpacing: ".2em", textTransform: "uppercase" }}>Laden…</div>
+      </div>
+    );
+  }
+  if (!isBoard && !isApproved) {
     return (
       <div style={{ paddingTop: 74, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "6rem 1.5rem" }}>
         <div style={{ width: "100%", maxWidth: 460, background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-lg)", padding: "2.8rem 2.5rem", textAlign: "center", position: "relative", overflow: "hidden" }}>
@@ -71,7 +87,7 @@ export default function Dashboard({ user }: { user: User }) {
             <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.5rem,3vw,2.2rem)", fontWeight: 700 }}>Willkommen zurück</h1>
             <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".78rem", color: "var(--muted2)", marginTop: ".3rem" }}>
               {profile?.full_name ?? user.email}
-              {profile?.is_board && <span style={{ marginLeft: ".6rem", color: "var(--gold)", fontSize: ".65rem", border: "1px solid var(--gold-line)", padding: ".15rem .5rem", borderRadius: "var(--r-sm)" }}>Vorstand</span>}
+              {isBoard && <span style={{ marginLeft: ".6rem", color: "var(--gold)", fontSize: ".65rem", border: "1px solid var(--gold-line)", padding: ".15rem .5rem", borderRadius: "var(--r-sm)" }}>Vorstand</span>}
             </p>
           </div>
           <button onClick={() => supabase.auth.signOut()} style={{ fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted)", background: "none", border: "1px solid var(--line)", padding: ".5rem 1rem", borderRadius: "var(--r-sm)", cursor: "pointer" }}>
@@ -80,17 +96,17 @@ export default function Dashboard({ user }: { user: User }) {
         </div>
         <div style={{ maxWidth: "var(--max)", margin: "1.5rem auto 0", display: "flex", gap: ".75rem", flexWrap: "wrap" }}>
           <button style={tabStyle("announcements")} onClick={() => setTab("announcements")}>Ankündigungen</button>
-          {profile?.is_board && <button style={tabStyle("protocols")} onClick={() => setTab("protocols")}>Protokolle</button>}
-          {profile?.is_board && <button style={tabStyle("anfragen")} onClick={() => setTab("anfragen")}>Anfragen</button>}
-          {profile?.is_board && <button style={tabStyle("verwaltung")} onClick={() => setTab("verwaltung")}>Verwaltung</button>}
+          {isBoard && <button style={tabStyle("protocols")} onClick={() => setTab("protocols")}>Protokolle</button>}
+          {isBoard && <button style={tabStyle("anfragen")} onClick={() => setTab("anfragen")}>Anfragen</button>}
+          {isBoard && <button style={tabStyle("verwaltung")} onClick={() => setTab("verwaltung")}>Verwaltung</button>}
         </div>
       </div>
 
       <div style={{ maxWidth: "var(--max)", margin: "0 auto", padding: "3rem 1.5rem" }}>
-        {tab === "announcements" && <AnnouncementsTab isBoard={profile?.is_board ?? false} />}
-        {tab === "protocols" && profile?.is_board && <ProtocolsTab isBoard={true} />}
-        {tab === "anfragen" && profile?.is_board && <AnfragenTab />}
-        {tab === "verwaltung" && profile?.is_board && <VerwaltungTab />}
+        {tab === "announcements" && <AnnouncementsTab isBoard={isBoard ?? false} />}
+        {tab === "protocols" && isBoard && <ProtocolsTab isBoard={true} />}
+        {tab === "anfragen" && isBoard && <AnfragenTab />}
+        {tab === "verwaltung" && isBoard && <VerwaltungTab />}
       </div>
     </div>
   );
