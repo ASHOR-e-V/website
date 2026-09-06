@@ -1,30 +1,39 @@
 -- ═══════════════════════════════════════════════════════════════════════
 --  ASHOR — Absicherung des Mitgliederbereichs
 --
---  Im Supabase-Dashboard unter SQL Editor ausführen. Das Skript ist
---  idempotent, kann also gefahrlos mehrfach laufen.
+--  Im Supabase-Dashboard unter SQL Editor komplett einfügen und ausführen.
+--  Das Skript ist idempotent, kann also gefahrlos mehrfach laufen.
 --
 --  WARUM DAS SERVERSEITIG PASSIEREN MUSS
---  Eine Abfrage im Browser ("bist du Mitglied?") ist reine Nutzerführung,
---  keine Sicherheitsmaßnahme. Wer die Entwicklerkonsole öffnet oder die
---  Supabase-URL direkt anspricht, umgeht sie in Sekunden. Verlässlich ist
---  allein, was die Datenbank selbst durchsetzt. Dieses Skript baut deshalb
---  zwei voneinander unabhängige Schichten:
+--  Eine Abfrage im Browser („bist du Mitglied?") ist Nutzerführung, keine
+--  Sicherheitsmaßnahme. Wer die Entwicklerkonsole öffnet oder die Supabase-
+--  URL direkt anspricht, umgeht sie in Sekunden. Verlässlich ist allein,
+--  was die Datenbank selbst durchsetzt. Deshalb zwei Schichten:
 --
 --    1. Row Level Security auf jeder Tabelle. Selbst ein angelegtes Konto
---       sieht ohne freigeschaltete Mitgliedschaft schlicht nichts.
---    2. Ein Before-User-Created-Hook, der die Registrierung von Adressen
---       ablehnt, die nicht auf der Mitgliederliste stehen.
+--       sieht ohne Eintrag auf der Mitgliederliste schlicht nichts.
+--    2. Ein Before-User-Created-Hook, der Registrierungen von Adressen
+--       ablehnt, die nicht auf der Liste stehen.
 --
 --  Schicht 1 ist die eigentliche Absicherung. Schicht 2 ist Komfort und
 --  zweite Verteidigungslinie — sie allein würde nicht genügen.
+--
+--  REIHENFOLGE BEIM EINRICHTEN
+--    1. Dieses Skript ausführen.
+--    2. In Abschnitt 6 eure echten Mitgliedsadressen eintragen.
+--    3. Dir selbst is_board = true setzen (Abschnitt 6).
+--    4. ERST DANN den Hook aktivieren:
+--       Authentication → Hooks → Before User Created →
+--       public.hook_restrict_signup_to_members
+--    Andersherum sperrt ihr euch selbst aus.
 -- ═══════════════════════════════════════════════════════════════════════
 
 
--- ── 1. Mitgliederliste ─────────────────────────────────────────────────
--- Die Liste der Adressen, die sich registrieren dürfen. Pflege durch den
--- Vorstand, entweder hier per SQL oder später über den Mitgliederbereich.
+-- ═══ 1. Tabellen ═══════════════════════════════════════════════════════
+-- Zuerst alle Tabellen, danach die Funktionen, erst zum Schluss die
+-- Policies — Policies dürfen nur auf Dinge verweisen, die es schon gibt.
 
+-- Die Adressen, die sich registrieren dürfen. Pflege durch den Vorstand.
 create table if not exists public.member_allowlist (
   email       text primary key,
   full_name   text,
@@ -32,7 +41,44 @@ create table if not exists public.member_allowlist (
   created_at  timestamptz not null default now()
 );
 
--- Gross-/Kleinschreibung darf nie den Unterschied machen.
+create table if not exists public.profiles (
+  id          uuid primary key references auth.users (id) on delete cascade,
+  full_name   text,
+  is_board    boolean not null default false,
+  created_at  timestamptz not null default now()
+);
+alter table public.profiles add column if not exists is_board boolean not null default false;
+
+create table if not exists public.announcements (
+  id          uuid primary key default gen_random_uuid(),
+  title       text not null,
+  content     text,
+  created_at  timestamptz not null default now()
+);
+
+create table if not exists public.protocols (
+  id          uuid primary key default gen_random_uuid(),
+  title       text not null,
+  date        date,
+  file_url    text,
+  created_at  timestamptz not null default now()
+);
+
+create table if not exists public.contact_submissions (
+  id           uuid primary key default gen_random_uuid(),
+  name         text,
+  email        text,
+  institution  text,
+  type         text,
+  message      text,
+  read         boolean not null default false,
+  created_at   timestamptz not null default now()
+);
+
+
+-- ═══ 2. Funktionen ═════════════════════════════════════════════════════
+
+-- Gross-/Kleinschreibung darf bei E-Mail-Adressen nie den Unterschied machen.
 create or replace function public.normalize_allowlist_email()
 returns trigger language plpgsql as $$
 begin
@@ -45,28 +91,6 @@ drop trigger if exists trg_normalize_allowlist_email on public.member_allowlist;
 create trigger trg_normalize_allowlist_email
   before insert or update on public.member_allowlist
   for each row execute function public.normalize_allowlist_email();
-
-alter table public.member_allowlist enable row level security;
-
--- Die Liste ist bewusst für niemanden per API lesbar: sie enthält die
--- E-Mail-Adressen aller Mitglieder. Nur der Vorstand darf sie sehen.
-drop policy if exists allowlist_board_all on public.member_allowlist;
-create policy allowlist_board_all on public.member_allowlist
-  for all to authenticated
-  using (public.is_board())
-  with check (public.is_board());
-
-
--- ── 2. Profile ─────────────────────────────────────────────────────────
-
-create table if not exists public.profiles (
-  id          uuid primary key references auth.users (id) on delete cascade,
-  full_name   text,
-  is_board    boolean not null default false,
-  created_at  timestamptz not null default now()
-);
-
-alter table public.profiles add column if not exists is_board boolean not null default false;
 
 -- Profil automatisch anlegen, sobald ein Konto entsteht.
 create or replace function public.handle_new_user()
@@ -84,11 +108,12 @@ create trigger trg_handle_new_user
   after insert on auth.users
   for each row execute function public.handle_new_user();
 
-
--- ── 3. Hilfsfunktionen ─────────────────────────────────────────────────
--- security definer, damit die Prüfung selbst nicht wieder an RLS scheitert.
-
 -- Ist die angemeldete Person Vorstand?
+--
+-- security definer ist hier zwingend, nicht bequem: die Funktion wird in
+-- den Policies der profiles-Tabelle selbst benutzt. Als normale Funktion
+-- würde ihre Abfrage wieder gegen dieselben Policies laufen — Postgres
+-- bricht das mit „infinite recursion detected in policy" ab.
 create or replace function public.is_board()
 returns boolean language sql stable security definer set search_path = public as $$
   select coalesce(
@@ -111,11 +136,24 @@ grant execute on function public.is_board()  to authenticated;
 grant execute on function public.is_member() to authenticated;
 
 
--- ── 4. Row Level Security ──────────────────────────────────────────────
+-- ═══ 3. Row Level Security ═════════════════════════════════════════════
 
--- Profile: jede*r sieht das eigene, der Vorstand alle.
-alter table public.profiles enable row level security;
+alter table public.member_allowlist    enable row level security;
+alter table public.profiles            enable row level security;
+alter table public.announcements       enable row level security;
+alter table public.protocols           enable row level security;
+alter table public.contact_submissions enable row level security;
 
+
+-- Mitgliederliste: enthält die Adressen aller Mitglieder, daher nur Vorstand.
+drop policy if exists allowlist_board_all on public.member_allowlist;
+create policy allowlist_board_all on public.member_allowlist
+  for all to authenticated
+  using (public.is_board())
+  with check (public.is_board());
+
+
+-- Profile: eigenes Profil sichtbar, Vorstand sieht alle.
 drop policy if exists profiles_select_own   on public.profiles;
 drop policy if exists profiles_select_board on public.profiles;
 drop policy if exists profiles_update_own   on public.profiles;
@@ -127,27 +165,21 @@ create policy profiles_select_own on public.profiles
 create policy profiles_select_board on public.profiles
   for select to authenticated using (public.is_board());
 
--- Wichtig: das eigene Profil darf man bearbeiten, aber is_board nicht
--- selbst setzen — sonst könnte sich jedes Konto zum Vorstand befördern.
+-- Das eigene Profil darf bearbeitet werden, aber is_board nicht selbst
+-- gesetzt — sonst könnte sich jedes Konto zum Vorstand befördern. Der
+-- Vergleich läuft über is_board(), nicht über eine Unterabfrage auf
+-- profiles, weil letztere hier eine Rekursion auslösen würde.
 create policy profiles_update_own on public.profiles
   for update to authenticated
   using (id = auth.uid())
-  with check (id = auth.uid() and is_board = (select p.is_board from public.profiles p where p.id = auth.uid()));
+  with check (id = auth.uid() and is_board = public.is_board());
 
 create policy profiles_update_board on public.profiles
-  for update to authenticated
+  for all to authenticated
   using (public.is_board()) with check (public.is_board());
 
 
--- Ankündigungen: lesen dürfen freigeschaltete Mitglieder, schreiben der Vorstand.
-create table if not exists public.announcements (
-  id          uuid primary key default gen_random_uuid(),
-  title       text not null,
-  content     text,
-  created_at  timestamptz not null default now()
-);
-alter table public.announcements enable row level security;
-
+-- Ankündigungen: Mitglieder lesen, Vorstand schreibt.
 drop policy if exists announcements_read  on public.announcements;
 drop policy if exists announcements_write on public.announcements;
 
@@ -160,15 +192,6 @@ create policy announcements_write on public.announcements
 
 
 -- Protokolle: dito.
-create table if not exists public.protocols (
-  id          uuid primary key default gen_random_uuid(),
-  title       text not null,
-  date        date,
-  file_url    text,
-  created_at  timestamptz not null default now()
-);
-alter table public.protocols enable row level security;
-
 drop policy if exists protocols_read  on public.protocols;
 drop policy if exists protocols_write on public.protocols;
 
@@ -180,24 +203,12 @@ create policy protocols_write on public.protocols
   using (public.is_board()) with check (public.is_board());
 
 
--- Kontaktanfragen: das öffentliche Formular muss schreiben dürfen,
--- lesen darf sie ausschliesslich der Vorstand.
+-- Kontaktanfragen: das öffentliche Formular muss schreiben dürfen, lesen
+-- darf ausschliesslich der Vorstand.
 --
--- ACHTUNG: Ohne diese Policies konnte bisher jede*r mit dem öffentlichen
--- anon-Key sämtliche Kontaktanfragen samt Namen und E-Mail-Adressen
--- auslesen. Bitte nach dem Ausführen einmal gegenprüfen.
-create table if not exists public.contact_submissions (
-  id           uuid primary key default gen_random_uuid(),
-  name         text,
-  email        text,
-  institution  text,
-  type         text,
-  message      text,
-  read         boolean not null default false,
-  created_at   timestamptz not null default now()
-);
-alter table public.contact_submissions enable row level security;
-
+-- ACHTUNG: Ohne diese Policies konnte bislang jede*r mit dem öffentlichen
+-- anon-Key — der im JavaScript jeder Seite steht — sämtliche Anfragen samt
+-- Namen und E-Mail-Adressen auslesen. Bitte nach dem Ausführen gegenprüfen.
 drop policy if exists contact_insert_public on public.contact_submissions;
 drop policy if exists contact_read_board    on public.contact_submissions;
 drop policy if exists contact_write_board   on public.contact_submissions;
@@ -213,9 +224,9 @@ create policy contact_write_board on public.contact_submissions
   using (public.is_board()) with check (public.is_board());
 
 
--- ── 5. Registrierung auf die Mitgliederliste beschränken ───────────────
+-- ═══ 4. Registrierung auf die Mitgliederliste beschränken ══════════════
 -- Before-User-Created-Hook. Nach dem Ausführen im Dashboard aktivieren:
--- Authentication → Hooks → "Before User Created" → diese Funktion wählen.
+-- Authentication → Hooks → Before User Created → diese Funktion wählen.
 
 create or replace function public.hook_restrict_signup_to_members(event jsonb)
 returns jsonb language plpgsql security definer set search_path = public as $$
@@ -242,31 +253,43 @@ $$;
 grant execute on function public.hook_restrict_signup_to_members to supabase_auth_admin;
 revoke execute on function public.hook_restrict_signup_to_members from authenticated, anon, public;
 
--- Der Hook muss die Liste lesen dürfen.
 grant usage on schema public to supabase_auth_admin;
 grant select on public.member_allowlist to supabase_auth_admin;
 
 
--- ── 6. Erste Einträge ──────────────────────────────────────────────────
--- Vor dem Aktivieren des Hooks unbedingt befüllen — sonst sperrt ihr euch
--- selbst aus. Adressen in Kleinschreibung, eine Zeile pro Mitglied.
+-- ═══ 5. Bestehende Konten aufräumen ════════════════════════════════════
+-- Zeigt Konten, die es schon gibt, aber nicht auf der Mitgliederliste
+-- stehen. Erst ansehen, dann entscheiden — nicht blind löschen.
+
+select u.id, u.email, u.created_at
+from auth.users u
+left join public.member_allowlist a on a.email = lower(u.email)
+where a.email is null
+order by u.created_at;
+
+
+-- ═══ 6. Hier eintragen ═════════════════════════════════════════════════
+-- Vor dem Aktivieren des Hooks befüllen. Adressen in Kleinschreibung.
 
 insert into public.member_allowlist (email, full_name, note) values
   ('ashor.jgu@gmail.com', 'ASHOR Vorstand', 'Sammelpostfach')
+  -- ('caroline...@...',  'Caroline Barsoum'),
+  -- ('robina...@...',    'Robina Lajin'),
+  -- ('severios...@...',  'Severios Isac'),
+  -- ('ninous...@...',    'Ninous Andersson'),
+  -- ('dalia...@...',     'Dalia Abdo'),
+  -- ('roben...@...',     'Roben Lajin')
 on conflict (email) do nothing;
 
--- Bestehende Konten, die schon existieren, hier ergänzen:
--- insert into public.member_allowlist (email, full_name) values
---   ('vorname.nachname@example.com', 'Vorname Nachname')
--- on conflict (email) do nothing;
-
--- Vorstandsrechte vergeben (nachdem sich die Person registriert hat):
+-- Vorstandsrechte vergeben — erst möglich, nachdem sich die Person
+-- registriert hat. Adresse anpassen und die Zeile entkommentieren:
 -- update public.profiles set is_board = true
--- where id = (select id from auth.users where lower(email) = 'ninous...@...');
+-- where id = (select id from auth.users where lower(email) = 'deine@adresse.de');
 
 
--- ── 7. Kontrolle ───────────────────────────────────────────────────────
--- Sollte für jede Tabelle rowsecurity = true liefern.
+-- ═══ 7. Kontrolle ══════════════════════════════════════════════════════
+-- Muss für jede der fünf Tabellen rowsecurity = true liefern.
+
 select tablename, rowsecurity
 from pg_tables
 where schemaname = 'public'
