@@ -25,7 +25,7 @@ export default function EventsContent() {
   return (
     <div style={{ paddingTop: 74 }}>
       <PageHeader
-        kicker="Seit Oktober 2024"
+        kicker="Seit November 2024"
         title="Was bisher geschah"
         lede="Jede Veranstaltung, die ASHOR seit der Gründung organisiert hat — Vorträge, Debatten, Tanzabende und Reisen."
       />
