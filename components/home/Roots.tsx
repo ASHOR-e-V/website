@@ -28,7 +28,7 @@ const CHAPTERS: Chapter[] = [
     id: "mesopotamien",
     ordinal: "01",
     heading: "Ein Erbe aus dem Zweistromland",
-    body: "Das heutige assyrische Volk hat seine Wurzeln in Mesopotamien — einer Region, die Teile des heutigen Irak, Syrien, der Türkei und des Iran umfasst. Assyrer*innen sind die Nachfahren der antiken Zivilisationen des Zweistromlandes: Assyrien, Akkad, Babylon, Sumer und die Aramäer*innen.",
+    body: "Das heutige assyrische Volk hat seine Wurzeln in Mesopotamien — einer Region, die Teile des heutigen Irak, Syrien, der Türkei und des Iran umfasst. Assyrer*innen sehen sich in der Tradition der antiken Kulturen des Zweistromlandes: von Sumer und Akkad über Assyrien und Babylon bis zu den Aramäer*innen — Kulturen, die über Jahrhunderte nebeneinander bestanden, nicht strikt nacheinander.",
     scene: "orte",
   },
   {
@@ -56,43 +56,61 @@ const CHAPTERS: Chapter[] = [
 
 /* ── Scene primitives ─────────────────────────────────────────────── */
 
-const CIVS = ["Sumer", "Akkad", "Babylon", "Assyrien"];
+const CIVS = ["Sumer", "Akkad", "Assyrien", "Babylon", "Aramäer*innen"];
 
+/**
+ * Deliberately NOT a chain of dots-and-lines: an earlier version connected
+ * these with one continuous line top-to-bottom, which read as "Sumer led to
+ * Akkad led to Babylon led to Assyria" — a tidy succession these cultures
+ * never actually had. Sumer and Akkad overlapped, and Babylon and Assyria
+ * coexisted (often as rivals) for over a thousand years. A loose cluster of
+ * equal, unconnected labels under one shared heading makes no claim about
+ * order or causation — only that all five feed into the same heritage.
+ */
 function SceneOrte({ active }: { active: boolean }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 0, alignItems: "flex-start", margin: "0 auto" }}>
-      {CIVS.map((c, i) => (
-        <div key={c} style={{ display: "flex", alignItems: "center", gap: "1.1rem", minHeight: 62 }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", alignSelf: "stretch" }}>
-            <motion.span
-              style={{ width: 1, flex: 1, background: "var(--gold-line)", transformOrigin: "top", opacity: i === 0 ? 0 : 1 }}
-              initial={{ scaleY: 0 }}
-              animate={active ? { scaleY: 1 } : { scaleY: 0 }}
-              transition={{ duration: 0.35, delay: 0.1 + i * 0.14, ease: easeOut }}
-            />
-            <motion.span
-              style={{ width: 9, height: 9, borderRadius: "50%", border: "1.5px solid var(--gold-solid)", background: "var(--bg)", flexShrink: 0 }}
-              initial={{ scale: 0 }}
-              animate={active ? { scale: 1 } : { scale: 0 }}
-              transition={{ duration: 0.4, delay: 0.18 + i * 0.14, ease: easeOut }}
-            />
-            <motion.span
-              style={{ width: 1, flex: 1, background: "var(--gold-line)", transformOrigin: "top", opacity: i === CIVS.length - 1 ? 0 : 1 }}
-              initial={{ scaleY: 0 }}
-              animate={active ? { scaleY: 1 } : { scaleY: 0 }}
-              transition={{ duration: 0.35, delay: 0.24 + i * 0.14, ease: easeOut }}
-            />
-          </div>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.15rem", maxWidth: 300 }}>
+      <motion.div
+        initial={{ opacity: 0, y: -6 }}
+        animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: -6 }}
+        transition={{ duration: 0.5, ease: easeOut }}
+        style={{
+          fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".22em",
+          textTransform: "uppercase", color: "var(--gold)", textAlign: "center",
+        }}
+      >
+        Ein gemeinsames Erbe
+      </motion.div>
+
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: ".55rem .6rem" }}>
+        {CIVS.map((c, i) => (
           <motion.span
-            style={{ fontFamily: "'Cinzel', serif", fontSize: "1.32rem", fontWeight: 700, color: "var(--text)", letterSpacing: "-.005em" }}
-            initial={{ opacity: 0, x: -10 }}
-            animate={active ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-            transition={{ duration: 0.55, delay: 0.24 + i * 0.14, ease: easeOut }}
+            key={c}
+            style={{
+              fontFamily: "'Cinzel', serif", fontSize: ".92rem", fontWeight: 700, color: "var(--text)",
+              letterSpacing: "-.005em", border: "1px solid var(--gold-line)", borderRadius: "999px",
+              padding: ".5rem 1.05rem", background: "var(--bg)", lineHeight: 1, whiteSpace: "nowrap",
+            }}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={active ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.85 }}
+            transition={{ duration: 0.45, delay: 0.15 + i * 0.09, ease: easeOut }}
           >
             {c}
           </motion.span>
-        </div>
-      ))}
+        ))}
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={active ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.5, delay: 0.62, ease: easeOut }}
+        style={{
+          fontFamily: "'Lora', serif", fontStyle: "italic", fontSize: ".72rem",
+          color: "var(--muted2)", textAlign: "center", lineHeight: 1.5, maxWidth: 250,
+        }}
+      >
+        Jahrhundertelang nebeneinander bestehende Kulturen — keine strikte Abfolge.
+      </motion.div>
     </div>
   );
 }
