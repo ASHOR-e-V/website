@@ -28,7 +28,7 @@ const CHAPTERS: Chapter[] = [
     id: "mesopotamien",
     ordinal: "01",
     heading: "Ein Erbe aus dem Zweistromland",
-    body: "Das heutige assyrische Volk hat seine Wurzeln in Mesopotamien — einer Region, die Teile des heutigen Irak, Syrien, der Türkei und des Iran umfasst. Assyrer*innen sehen sich in der Tradition der antiken Kulturen des Zweistromlandes: von Sumer und Akkad über Assyrien und Babylon bis zu den Aramäer*innen — Kulturen, die über Jahrhunderte nebeneinander bestanden, nicht strikt nacheinander.",
+    body: "Das heutige assyrische Volk hat seine Wurzeln in Mesopotamien — einer Region, die Teile des heutigen Irak, Syrien, der Türkei und des Iran umfasst. Assyrer*innen sehen sich in der Tradition der antiken Kulturen des Zweistromlandes: Sumer, Akkad, Assyrien, Babylon und die Aramäer*innen.",
     scene: "orte",
   },
   {
@@ -56,61 +56,124 @@ const CHAPTERS: Chapter[] = [
 
 /* ── Scene primitives ─────────────────────────────────────────────── */
 
-const CIVS = ["Sumer", "Akkad", "Assyrien", "Babylon", "Aramäer*innen"];
-
 /**
- * Deliberately NOT a chain of dots-and-lines: an earlier version connected
- * these with one continuous line top-to-bottom, which read as "Sumer led to
- * Akkad led to Babylon led to Assyria" — a tidy succession these cultures
- * never actually had. Sumer and Akkad overlapped, and Babylon and Assyria
- * coexisted (often as rivals) for over a thousand years. A loose cluster of
- * equal, unconnected labels under one shared heading makes no claim about
- * order or causation — only that all five feed into the same heritage.
+ * Root positions along the base of the diagram, left to right. Left-to-right
+ * order here is purely visual balance, not a timeline: unlike an earlier
+ * version that chained these with one continuous line (which read as "Sumer
+ * led to Akkad led to Babylon led to Assyria" — a succession these cultures
+ * never actually had, since Sumer/Akkad overlapped and Babylon/Assyria
+ * coexisted, often as rivals, for over a thousand years), every root here
+ * runs independently up to the one shared trunk. The drawing makes a single
+ * claim — these five feed the same heritage — and no claim about order.
  */
+const ROOTS = [
+  { lines: ["Sumer"], x: 26 },
+  { lines: ["Akkad"], x: 124 },
+  { lines: ["Assyrien"], x: 222 },
+  { lines: ["Babylon"], x: 320 },
+  { lines: ["Aramäer*", "innen"], x: 418 },
+];
+
+const VB_W = 444;
+const TRUNK_X = 222;
+const TOP_Y = 54; // trunk node
+const MERGE_Y = 158; // where the roots gather before the trunk
+const BASE_Y = 250; // root tips / civilisation labels
+
+function rootPath(x: number) {
+  // A gentle S-curve from the shared point up to each root tip, so the
+  // bundle reads as one system branching apart rather than separate lines
+  // that happen to touch.
+  const midY = (MERGE_Y + BASE_Y) / 2;
+  return `M ${TRUNK_X} ${MERGE_Y} C ${TRUNK_X} ${midY}, ${x} ${midY}, ${x} ${BASE_Y}`;
+}
+
+// Root labels sit inside the SVG itself (as <text>, not an HTML overlay), so
+// they scale in lockstep with the paths at every container width — an
+// earlier HTML-overlay version drifted out of sync with the drawing on
+// narrow screens and let the last label run past the card edge.
 function SceneOrte({ active }: { active: boolean }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.15rem", maxWidth: 300 }}>
-      <motion.div
-        initial={{ opacity: 0, y: -6 }}
-        animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: -6 }}
-        transition={{ duration: 0.5, ease: easeOut }}
-        style={{
-          fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".22em",
-          textTransform: "uppercase", color: "var(--gold)", textAlign: "center",
-        }}
-      >
-        Ein gemeinsames Erbe
-      </motion.div>
-
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: ".55rem .6rem" }}>
-        {CIVS.map((c, i) => (
-          <motion.span
-            key={c}
-            style={{
-              fontFamily: "'Cinzel', serif", fontSize: ".92rem", fontWeight: 700, color: "var(--text)",
-              letterSpacing: "-.005em", border: "1px solid var(--gold-line)", borderRadius: "999px",
-              padding: ".5rem 1.05rem", background: "var(--bg)", lineHeight: 1, whiteSpace: "nowrap",
-            }}
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={active ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.85 }}
-            transition={{ duration: 0.45, delay: 0.15 + i * 0.09, ease: easeOut }}
-          >
-            {c}
-          </motion.span>
+    <div style={{ width: "100%", maxWidth: 420, margin: "0 auto" }}>
+      <svg viewBox={`0 0 ${VB_W} 300`} width="100%" height="auto" style={{ display: "block", overflow: "visible" }} role="img" aria-label="Assyrer*innen heute, mit Wurzeln in Sumer, Akkad, Assyrien, Babylon und den Aramäer*innen">
+        {/* Trunk: the shared present growing out of the gathered roots */}
+        <motion.path
+          d={`M ${TRUNK_X} ${TOP_Y} L ${TRUNK_X} ${MERGE_Y}`}
+          stroke="var(--gold-solid)" strokeWidth={1.8} fill="none" strokeLinecap="round"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={active ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+          transition={{ duration: 0.5, delay: 0.75, ease: easeOut }}
+        />
+        {/* Roots: one independent curve per civilisation, none touching another */}
+        {ROOTS.map((r, i) => (
+          <motion.path
+            key={r.x}
+            d={rootPath(r.x)}
+            stroke="var(--gold-line)" strokeWidth={1.4} fill="none" strokeLinecap="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={active ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.18 + i * 0.1, ease: easeOut }}
+          />
         ))}
-      </div>
+        {/* Root tips */}
+        {ROOTS.map((r, i) => (
+          <motion.circle
+            key={r.x}
+            cx={r.x} cy={BASE_Y} r={4.5}
+            stroke="var(--gold-solid)" strokeWidth={1.4} fill="var(--bg)"
+            initial={{ scale: 0 }}
+            animate={active ? { scale: 1 } : { scale: 0 }}
+            transition={{ duration: 0.35, delay: 0.1 + i * 0.1, ease: easeOut }}
+            style={{ transformOrigin: `${r.x}px ${BASE_Y}px` }}
+          />
+        ))}
+        {/* Trunk node */}
+        <motion.circle
+          cx={TRUNK_X} cy={TOP_Y} r={6}
+          fill="var(--gold-solid)"
+          initial={{ scale: 0 }}
+          animate={active ? { scale: 1 } : { scale: 0 }}
+          transition={{ duration: 0.4, delay: 1.05, ease: easeOut }}
+          style={{ transformOrigin: `${TRUNK_X}px ${TOP_Y}px` }}
+        />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={active ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.5, delay: 0.62, ease: easeOut }}
-        style={{
-          fontFamily: "'Lora', serif", fontStyle: "italic", fontSize: ".72rem",
-          color: "var(--muted2)", textAlign: "center", lineHeight: 1.5, maxWidth: 250,
-        }}
-      >
-        Jahrhundertelang nebeneinander bestehende Kulturen — keine strikte Abfolge.
-      </motion.div>
+        {/*
+          Label offsets animate on a wrapping <motion.g>, never on <text>
+          directly: <text> owns x/y as real positioning attributes, and
+          framer-motion animates SVG x/y as those same attributes rather
+          than a transform — animating y on the text itself fought with its
+          actual vertical position. A <g> has no such attribute, so motion
+          falls back to a transform there, leaving the text's own x/y alone.
+        */}
+        <motion.g
+          initial={{ opacity: 0, y: -6 }}
+          animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: -6 }}
+          transition={{ duration: 0.5, delay: 1.15, ease: easeOut }}
+        >
+          <text x={TRUNK_X} y={20} textAnchor="middle" style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: 19, fill: "var(--gold)" }}>
+            Assyrer*innen
+          </text>
+          <text x={TRUNK_X} y={35} textAnchor="middle" style={{ fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: 1.6, fill: "var(--muted2)" }}>
+            HEUTE
+          </text>
+        </motion.g>
+
+        {/* Root labels, one or two lines each */}
+        {ROOTS.map((r, i) => (
+          <motion.g
+            key={r.x}
+            initial={{ opacity: 0, y: 8 }}
+            animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+            transition={{ duration: 0.5, delay: 0.32 + i * 0.1, ease: easeOut }}
+          >
+            <text x={r.x} y={BASE_Y + 22} textAnchor="middle" style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: 13, fill: "var(--text)" }}>
+              {r.lines.map((line, li) => (
+                <tspan key={li} x={r.x} dy={li === 0 ? 0 : 15}>{line}</tspan>
+              ))}
+            </text>
+          </motion.g>
+        ))}
+      </svg>
     </div>
   );
 }
