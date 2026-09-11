@@ -68,7 +68,12 @@ export default function EventsContent() {
                 <div className="timeline-date" style={{ position: "relative", display: "flex", justifyContent: "flex-end", paddingRight: "1.6rem", alignSelf: "stretch" }}>
                   <div className="timeline-date-inner" style={{ textAlign: "right", paddingTop: ".15rem" }}>
                     <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".72rem", fontWeight: 600, letterSpacing: ".08em", color: "var(--text)", whiteSpace: "nowrap" }}>
-                      {e.date.split(" ")[0]}
+                      {/* Day + month, year dropped (it's already the section header above).
+                          Every event now carries an exact date rather than the odd
+                          month-only placeholder, so showing just the first token — a bare
+                          "22." with no month — would make unrelated dates across different
+                          months look like consecutive days on the rail. */}
+                      {e.date.replace(/\s+\d{4}$/, "")}
                     </div>
                     <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)", marginTop: ".3rem" }}>
                       {e.location}

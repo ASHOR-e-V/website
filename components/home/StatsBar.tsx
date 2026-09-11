@@ -1,12 +1,15 @@
 "use client";
 import { useCountUp } from "@/lib/useCountUp";
 import { Rise, RiseGroup, RiseItem } from "@/components/Reveal";
+import { EVENTS } from "@/lib/events";
 
 type Stat = { target?: number; text?: string; suffix?: string; label: string; sub: string; color: string };
 
 const stats: Stat[] = [
   { target: 2024, label: "Gründungsjahr", sub: "16. November", color: "var(--gold)" },
-  { target: 20, suffix: "+", label: "Veranstaltungen", sub: "seit der Gründung", color: "var(--lapis-text)" },
+  // Derived from the chronicle itself so this never drifts out of sync
+  // with events.ts again, the way the old hardcoded "20+" did.
+  { target: EVENTS.length, suffix: "+", label: "Veranstaltungen", sub: "seit der Gründung", color: "var(--lapis-text)" },
   { target: 7, label: "Vorstandssitze", sub: "gewählt für 2 Semester", color: "var(--clay)" },
   { text: "JGU", label: "Mainz", sub: "anerkannte Hochschulgruppe", color: "var(--gold)" },
 ];
