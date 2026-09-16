@@ -27,11 +27,11 @@ export default function EventsContent() {
       <PageHeader
         kicker="Seit November 2024"
         title="Was bisher geschah"
-        lede="Jede Veranstaltung, die ASHOR seit der Gründung organisiert hat — Vorträge, Debatten, Tanzabende und Reisen."
+        lede="Jede Veranstaltung, die ASHOR seit der Gründung organisiert hat: Vorträge, Debatten, Tanzabende und Reisen."
       />
 
       {/* Timeline */}
-      <div style={{ maxWidth: 940, margin: "0 auto", padding: "5rem 1.5rem 6rem" }}>
+      <div style={{ maxWidth: 940, margin: "0 auto", padding: "4rem 1.5rem 5rem" }}>
         <div ref={listRef} style={{ position: "relative" }}>
         {/* The rail — one continuous spine behind every row. Its horizontal
             position matches the grid column width set in globals.css. */}
@@ -98,13 +98,10 @@ export default function EventsContent() {
                       className="card-hover timeline-card"
                       style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: "var(--r-lg)", padding: "1.9rem 2rem" }}
                     >
-                      <div style={{ display: "flex", alignItems: "baseline", gap: ".9rem", marginBottom: ".7rem", flexWrap: "wrap" }}>
+                      <div style={{ marginBottom: ".7rem" }}>
                         <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "1.18rem", fontWeight: 700, color: "var(--text)", lineHeight: 1.3 }}>
                           {e.title}
                         </h2>
-                        <span className={accent.cls} style={{ flexShrink: 0 }}>
-                          {e.tag}
-                        </span>
                       </div>
                       <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".94rem", lineHeight: 1.9, margin: 0 }}>
                         {e.desc}
