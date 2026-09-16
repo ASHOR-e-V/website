@@ -1,18 +1,15 @@
 // Wortgetreue Transkription der Satzung, Fassung vom 14.03.2026.
 //
-// WICHTIG: Dieser Text ist bewusst 1:1 aus dem Satzungs-PDF übernommen —
-// auch dort, wo das PDF selbst Fehler enthält (siehe unten). Eine Satzung
-// ist ein Rechtsdokument; stillschweigende Korrekturen auf der Website
-// würden die veröffentlichte Fassung von der beschlossenen abweichen lassen.
-//
-// Bekannte Fehler im Quell-PDF, die der Vorstand korrigieren sollte:
-//   1. § 4 (3): „für maximal ein zwei Semester" und „Ab dem zweiten dritten
-//      aufeinanderfolgenden Semester" — offenkundig nicht angenommene
-//      Änderungsmarkierungen; gemeint ist vermutlich „zwei" bzw. „dritten".
-//   2. § 8 (11): „entscheidet die Stimme der*des Präsident*in hat." —
-//      überzähliges „hat".
+// Das ursprüngliche Satzungs-PDF enthielt an drei Stellen Fehler, die
+// erkennbar nicht angenommene Änderungsmarkierungen aus dem Beschlussprozess
+// waren (Textmarker-Reste), keine inhaltlichen Entscheidungen der
+// Mitgliederversammlung. Sie wurden hier und im neu erzeugten PDF bereinigt:
+//   1. § 4 (3): „für maximal ein zwei Semester" / „Ab dem zweiten dritten
+//      aufeinanderfolgenden Semester" → „zwei" bzw. „dritten" (die jeweils
+//      nicht durchgestrichene, angenommene Fassung).
+//   2. § 8 (11): „entscheidet die Stimme der*des Präsident*in hat." →
+//      überzähliges „hat" entfernt.
 //   3. § 2 (3): „unteranderem" → „unter anderem".
-// Sobald eine bereinigte Fassung vorliegt, hier ersetzen.
 
 export const SATZUNG_FASSUNG = "Fassung vom 14. März 2026";
 
@@ -52,7 +49,7 @@ export const PARAGRAPHS: Paragraph[] = [
     c. Politische und gesellschaftliche Themen
     d. Persönliche Weiterentwicklung und vielfältige Interessen
 
-(3) Die Hochschulgruppe fördert den Dialog zu gesellschaftlichen und kulturellen Themen sowie die persönliche und akademische Weiterentwicklung der Mitglieder*innen. Dies geschieht unteranderem, aber nicht ausschließlich durch regelmäßige Austauschformate, Kooperationen mit anderen Gruppen und interkulturelle Projekte.
+(3) Die Hochschulgruppe fördert den Dialog zu gesellschaftlichen und kulturellen Themen sowie die persönliche und akademische Weiterentwicklung der Mitglieder*innen. Dies geschieht unter anderem, aber nicht ausschließlich durch regelmäßige Austauschformate, Kooperationen mit anderen Gruppen und interkulturelle Projekte.
 
 (4) Die Hochschulgruppe vertritt die Belange assyrischer Studierender.`,
   },
@@ -76,7 +73,7 @@ export const PARAGRAPHS: Paragraph[] = [
 
 (2) Die Mitgliedschaft beginnt mit einem schriftlichen Beitritt, über den der Vorstand entscheidet und endet durch Austritt, Ausschluss oder Tod.
 
-(3) Wird ein Mitglied ohne einen erfolgreich absolvierten Studienabschluss exmatrikuliert oder ist für ein Semester nicht immatrikuliert, bleibt die Mitgliedschaft für maximal ein zwei Semester bestehen, sofern das Mitglied zuvor mindestens zwei Semester studiert hat. Ab dem zweiten dritten aufeinanderfolgenden Semester ohne Immatrikulation erlischt die Mitgliedschaft automatisch.
+(3) Wird ein Mitglied ohne einen erfolgreich absolvierten Studienabschluss exmatrikuliert oder ist für ein Semester nicht immatrikuliert, bleibt die Mitgliedschaft für maximal zwei Semester bestehen, sofern das Mitglied zuvor mindestens zwei Semester studiert hat. Ab dem dritten aufeinanderfolgenden Semester ohne Immatrikulation erlischt die Mitgliedschaft automatisch.
 
 (4) Die Mitgliedschaft unterscheidet sich in Vollmitgliedschaft und Teilmitgliedschaft. Vollmitglieder sind diejenigen, die mindestens zwei Veranstaltungen pro Semester besucht haben. Dies wird vom Vorstand schriftlich festgehalten. Teilmitglieder haben weniger als zwei Veranstaltungen besucht und besitzen daher kein Stimmrecht bei Wahlen und Abstimmungen innerhalb der Mitgliederversammlung.
 
@@ -154,7 +151,7 @@ export const PARAGRAPHS: Paragraph[] = [
 
 (10) Der gesamte Vorstand vertritt den Verein nach außen und ist für die Organisation der Veranstaltungen verantwortlich. Ihm obliegt die Entscheidung über Inhalte, Aktionen und Maßnahmen der Hochschulgruppe im Rahmen der Beschlüsse der Mitgliederversammlung. Er kann Referent*innen und Arbeitskreise für bestimmte Aufgaben einsetzen und abberufen.
 
-(11) Der Vorstand fasst seine Beschlüsse im Allgemeinen in Vorstandssitzungen, die von dem Vorsitzenden, bei dessen Verhinderung von den stellvertretenden Vorsitzenden, schriftlich einberufen werden. Einer Mitteilung der Tagesordnung bedarf es nicht. Der Vorstand ist beschlussfähig, wenn mindestens vier Vorstandsmitglieder, darunter der*die Präsident*in oder eine*r der Vize-Präsident*innen anwesend sind. Bei der Beschlussfassung entscheidet die Mehrheit der abgegebenen gültigen Stimmen. Bei Stimmengleichheit entscheidet die Stimme der*des Präsident*in hat. Die Beschlüsse des Vorstands sind zu protokollieren und von der*dem Sitzungsleiter*in zu unterschreiben. Die Niederschrift soll Ort und Zeit der Vorstandssitzung, die Namen der Teilnehmer, die gefassten Beschlüsse und das Abstimmungsergebnis enthalten. Vorstandsbeschlüsse können in Sitzungen oder im schriftlichen Verfahren (z. B. per E-Mail oder elektronischem Kommunikationsmittel) gefasst werden. Schriftliche Beschlüsse sind wirksam, wenn die Mehrheit der amtierenden Vorstandsmitglieder innerhalb einer vom Vorstand gesetzten angemessenen Frist zustimmt. Näheres kann in einer vom Vorstand beschlossenen Geschäftsordnung geregelt werden.
+(11) Der Vorstand fasst seine Beschlüsse im Allgemeinen in Vorstandssitzungen, die von dem Vorsitzenden, bei dessen Verhinderung von den stellvertretenden Vorsitzenden, schriftlich einberufen werden. Einer Mitteilung der Tagesordnung bedarf es nicht. Der Vorstand ist beschlussfähig, wenn mindestens vier Vorstandsmitglieder, darunter der*die Präsident*in oder eine*r der Vize-Präsident*innen anwesend sind. Bei der Beschlussfassung entscheidet die Mehrheit der abgegebenen gültigen Stimmen. Bei Stimmengleichheit entscheidet die Stimme der*des Präsident*in. Die Beschlüsse des Vorstands sind zu protokollieren und von der*dem Sitzungsleiter*in zu unterschreiben. Die Niederschrift soll Ort und Zeit der Vorstandssitzung, die Namen der Teilnehmer, die gefassten Beschlüsse und das Abstimmungsergebnis enthalten. Vorstandsbeschlüsse können in Sitzungen oder im schriftlichen Verfahren (z. B. per E-Mail oder elektronischem Kommunikationsmittel) gefasst werden. Schriftliche Beschlüsse sind wirksam, wenn die Mehrheit der amtierenden Vorstandsmitglieder innerhalb einer vom Vorstand gesetzten angemessenen Frist zustimmt. Näheres kann in einer vom Vorstand beschlossenen Geschäftsordnung geregelt werden.
 
 (12) Jeder vertritt allein.
 

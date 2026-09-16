@@ -417,6 +417,10 @@ a.tag:hover { color: var(--text); }
   gap: 4.5rem;
   align-items: start;
 }
+/* The TOC column has to span the full row height, otherwise its sticky
+   child has no travel and detaches from view partway down the (long)
+   document — the same fix already applied to .roots-sticky below. */
+.satzung-toc { align-self: stretch; }
 
 /* Roots narrative — pinned diagram beside scrolling text */
 .roots-layout {

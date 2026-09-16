@@ -37,7 +37,7 @@ export default function SatzungContent() {
       <PageHeader
         kicker="Assyrische Hochschulgruppe Rhein-Main e.V."
         title="Satzung"
-        lede={`Die vollständige, geltende Satzung des Vereins — ${SATZUNG_FASSUNG}, beschlossen von der Mitgliederversammlung.`}
+        lede={`Die vollständige, geltende Satzung des Vereins: ${SATZUNG_FASSUNG}, beschlossen von der Mitgliederversammlung.`}
       >
         <Rise delay={0.38} y={16}>
           <a
@@ -62,7 +62,7 @@ export default function SatzungContent() {
         <motion.div style={{ height: "100%", background: "var(--gold-solid)", transformOrigin: "0% 50%", scaleX: progress }} />
       </div>
 
-      <div ref={docRef} className="satzung-layout" style={{ maxWidth: "var(--max)", margin: "0 auto", padding: "4.5rem 1.5rem 6rem" }}>
+      <div ref={docRef} className="satzung-layout" style={{ maxWidth: "var(--max)", margin: "0 auto", padding: "3.5rem 1.5rem 5rem" }}>
         {/* ── Sticky index ── */}
         <nav className="satzung-toc" aria-label="Inhaltsverzeichnis der Satzung">
           <div style={{ position: "sticky", top: 118 }}>
