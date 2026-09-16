@@ -14,7 +14,7 @@ export default function Donate() {
   return (
     <section
       id="spenden"
-      style={{ padding: "6.5rem 1.5rem", background: "var(--bg)", borderTop: "1px solid var(--line)", scrollMarginTop: 100 }}
+      style={{ padding: "5rem 1.5rem", background: "var(--bg)", borderTop: "1px solid var(--line)", scrollMarginTop: 100 }}
       className="section-pad"
     >
       <div className="donate-flex" style={{ maxWidth: "var(--max)", margin: "0 auto", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "3rem", flexWrap: "wrap" }}>
@@ -34,7 +34,7 @@ export default function Donate() {
 
           <Rise delay={0.18} y={18}>
             <p style={{ color: "var(--muted)", fontSize: ".95rem", maxWidth: 520, marginBottom: "1.9rem", fontFamily: "'Lora', serif", lineHeight: 1.95 }}>
-              Jede Spende unterstützt unsere Veranstaltungen, Bildungsreisen und kulturellen Projekte. Der Verein ist selbstlos tätig und verwendet alle Mittel ausschließlich für die satzungsgemäßen Zwecke — per PayPal oder Banküberweisung.
+              Jede Spende unterstützt unsere Veranstaltungen, Bildungsreisen und kulturellen Projekte. Der Verein ist selbstlos tätig und verwendet alle Mittel ausschließlich für die satzungsgemäßen Zwecke: per PayPal oder Banküberweisung.
             </p>
           </Rise>
 
@@ -84,18 +84,24 @@ export default function Donate() {
         </div>
 
         <Rise delay={0.2} y={20} style={{ flexShrink: 0 }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: ".9rem" }}>
-            <a href="https://paypal.me/ashorev" target="_blank" rel="noopener" aria-label="Per PayPal an ASHOR e.V. spenden">
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.1rem" }}>
+            <a
+              href="https://paypal.me/ashorev"
+              target="_blank"
+              rel="noopener"
+              aria-label="Per PayPal an ASHOR e.V. spenden"
+              style={{ display: "block", padding: "1.1rem", borderRadius: "var(--r-lg)", border: "1px solid var(--gold-line)", background: "#fff", boxShadow: "var(--shadow-card)" }}
+            >
               <Image
                 src="/qr-paypal.png"
                 alt="QR-Code zur PayPal-Spendenseite von ASHOR e.V."
-                width={168}
-                height={168}
-                sizes="168px"
-                style={{ borderRadius: "var(--r-md)", border: "1px solid var(--line)", display: "block", background: "#fff", padding: 6 }}
+                width={260}
+                height={260}
+                sizes="260px"
+                style={{ display: "block" }}
               />
             </a>
-            <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".58rem", letterSpacing: ".18em", textTransform: "uppercase", color: "var(--muted2)" }}>
+            <span style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".18em", textTransform: "uppercase", color: "var(--muted2)", fontWeight: 600 }}>
               QR-Code scannen
             </span>
             <Link href="/satzung#p11" className="tag">

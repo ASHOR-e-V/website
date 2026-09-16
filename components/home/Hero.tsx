@@ -46,7 +46,7 @@ export default function Hero() {
         style={{
           position: "absolute", inset: 0,
           background:
-            "radial-gradient(ellipse 900px 560px at 74% 42%, rgba(61,111,170,.17), transparent 66%), radial-gradient(ellipse 640px 420px at 8% 72%, rgba(209,162,74,.11), transparent 66%), radial-gradient(ellipse 520px 400px at 32% 12%, rgba(201,106,69,.075), transparent 66%)",
+            "radial-gradient(ellipse 900px 560px at 74% 42%, rgba(61,111,170,.11), transparent 66%), radial-gradient(ellipse 640px 420px at 8% 72%, rgba(209,162,74,.07), transparent 66%), radial-gradient(ellipse 520px 400px at 32% 12%, rgba(201,106,69,.05), transparent 66%)",
         }}
       />
 
@@ -56,7 +56,7 @@ export default function Hero() {
       <motion.div
         style={{
           position: "relative", zIndex: 2, maxWidth: "var(--max)", margin: "0 auto",
-          padding: "8.5rem 1.5rem 5.5rem", width: "100%",
+          padding: "7rem 1.5rem 4.5rem", width: "100%",
           y: copyY, opacity: copyOpacity,
         }}
         className="grid-hero hero-pad"
@@ -91,7 +91,7 @@ export default function Hero() {
 
           <Rise delay={0.5} y={22}>
             <p style={{ fontFamily: "'Lora', Georgia, serif", color: "var(--muted)", fontSize: "1.08rem", lineHeight: 1.95, maxWidth: 500, marginBottom: "2.8rem" }}>
-              Wir verbinden assyrische Studierende und Akademiker in ganz Deutschland — für akademischen Austausch, kulturelle Verortung und ein Netzwerk, das über das Studium hinaus trägt.
+              Wir verbinden assyrische Studierende und Akademiker in ganz Deutschland für akademischen Austausch, kulturelle Verortung und ein Netzwerk, das über das Studium hinaus trägt.
             </p>
           </Rise>
 
@@ -131,22 +131,23 @@ export default function Hero() {
         <div className="hero-visual" style={{ alignItems: "center", justifyContent: "center" }}>
           <motion.div
             style={{
-              position: "relative", width: 400, height: 400,
+              position: "relative", width: 460, height: 460,
               display: "flex", alignItems: "center", justifyContent: "center",
               y: discY, scale: discScale, opacity: discOpacity,
             }}
           >
-            {/* Concentric rings hold the mark without decorating it. */}
-            <div aria-hidden="true" style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--gold-line)", opacity: 0.45 }} />
-            <div aria-hidden="true" style={{ position: "absolute", inset: 42, borderRadius: "50%", border: "1px solid var(--gold-line)", opacity: 0.28 }} />
-            <div aria-hidden="true" style={{ position: "absolute", inset: 70, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(61,111,170,0.15), transparent 70%)" }} />
+            {/* Concentric rings hold the mark without decorating it. Kept
+                faint so they frame the logo rather than compete with it. */}
+            <div aria-hidden="true" style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--gold-line)", opacity: 0.25 }} />
+            <div aria-hidden="true" style={{ position: "absolute", inset: 48, borderRadius: "50%", border: "1px solid var(--gold-line)", opacity: 0.15 }} />
+            <div aria-hidden="true" style={{ position: "absolute", inset: 80, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(61,111,170,0.1), transparent 70%)" }} />
 
             <Image
               src="/logo.png"
-              alt="ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V."
-              width={232}
-              height={232}
-              sizes="232px"
+              alt="ASHOR (Assyrische Hochschulgruppe Rhein-Main e.V.)"
+              width={288}
+              height={288}
+              sizes="288px"
               className="logo-img"
               style={{ objectFit: "contain", position: "relative", zIndex: 1 }}
               priority
