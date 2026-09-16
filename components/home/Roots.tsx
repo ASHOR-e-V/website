@@ -28,7 +28,7 @@ const CHAPTERS: Chapter[] = [
     id: "mesopotamien",
     ordinal: "01",
     heading: "Ein Erbe aus dem Zweistromland",
-    body: "Das heutige assyrische Volk hat seine Wurzeln in Mesopotamien — einer Region, die Teile des heutigen Irak, Syrien, der Türkei und des Iran umfasst. Assyrer*innen sehen sich in der Tradition der antiken Kulturen des Zweistromlandes: Sumer, Akkad, Assyrien, Babylon und die Aramäer*innen.",
+    body: "Das heutige assyrische Volk hat seine Wurzeln in Mesopotamien, einer Region, die Teile des heutigen Irak, Syrien, der Türkei und des Iran umfasst. Assyrer*innen sehen sich in der Tradition der antiken Kulturen des Zweistromlandes: Sumer, Akkad, Assyrien, Babylon und Aram.",
     scene: "orte",
   },
   {
@@ -42,14 +42,14 @@ const CHAPTERS: Chapter[] = [
     id: "namen",
     ordinal: "03",
     heading: "Wie wir uns nennen",
-    body: "Selbst nennen sich Assyrer*innen Suraye/Suroye oder Suryaye/Suryoye. In der Fremdbezeichnung werden Assyrer*in, Chaldäer*in und Aramäer*in verwendet — aus unserer Perspektive bezeichnen alle drei dasselbe Volk. Wir vereinheitlichen zu Assyrer*innen und erkennen alle drei Begriffe als gleichwertig an.",
+    body: "Selbst nennen sich Assyrer*innen Suraye/Suroye oder Suryaye/Suryoye. In der Fremdbezeichnung werden Assyrer*in, Chaldäer*in und Aramäer*in verwendet. Aus unserer Perspektive bezeichnen alle drei dasselbe Volk. Wir vereinheitlichen zu Assyrer*innen und erkennen alle drei Begriffe als gleichwertig an.",
     scene: "namen",
   },
   {
     id: "heute",
     ordinal: "04",
     heading: "Und heute, in Mainz",
-    body: "Als Studierende der Universität Mainz und der umliegenden Region erforschen wir diese Identität auf wissenschaftlicher und kultureller Ebene weiter. Ziel ist es, die antiken Wurzeln und modernen Einflüsse unseres Volkes besser zu verstehen — und dieses Wissen zu teilen.",
+    body: "Als Studierende der Universität Mainz und der umliegenden Region erforschen wir diese Identität auf wissenschaftlicher und kultureller Ebene weiter. Ziel ist es, die antiken Wurzeln und modernen Einflüsse unseres Volkes besser zu verstehen und dieses Wissen zu teilen.",
     scene: "heute",
   },
 ];
@@ -60,18 +60,23 @@ const CHAPTERS: Chapter[] = [
  * Root positions along the base of the diagram, left to right. Left-to-right
  * order here is purely visual balance, not a timeline: unlike an earlier
  * version that chained these with one continuous line (which read as "Sumer
- * led to Akkad led to Babylon led to Assyria" — a succession these cultures
+ * led to Akkad led to Babylon led to Assyria", a succession these cultures
  * never actually had, since Sumer/Akkad overlapped and Babylon/Assyria
  * coexisted, often as rivals, for over a thousand years), every root here
  * runs independently up to the one shared trunk. The drawing makes a single
- * claim — these five feed the same heritage — and no claim about order.
+ * claim, that these five feed the same heritage, and no claim about order.
+ *
+ * All five labels name the ancient realm/culture itself (not a modern
+ * demonym), so "Aram" sits alongside Sumer, Akkad, Assyrien and Babylon
+ * rather than "Aramäer*innen" (a people-name, not a realm-name) — the
+ * inconsistency an earlier version had.
  */
 const ROOTS = [
   { lines: ["Sumer"], x: 26 },
   { lines: ["Akkad"], x: 124 },
   { lines: ["Assyrien"], x: 222 },
   { lines: ["Babylon"], x: 320 },
-  { lines: ["Aramäer*", "innen"], x: 418 },
+  { lines: ["Aram"], x: 418 },
 ];
 
 const VB_W = 444;
@@ -95,7 +100,7 @@ function rootPath(x: number) {
 function SceneOrte({ active }: { active: boolean }) {
   return (
     <div style={{ width: "100%", maxWidth: 420, margin: "0 auto" }}>
-      <svg viewBox={`0 0 ${VB_W} 300`} width="100%" height="auto" style={{ display: "block", overflow: "visible" }} role="img" aria-label="Assyrer*innen heute, mit Wurzeln in Sumer, Akkad, Assyrien, Babylon und den Aramäer*innen">
+      <svg viewBox={`0 0 ${VB_W} 300`} width="100%" height="auto" style={{ display: "block", overflow: "visible" }} role="img" aria-label="Assyrer*innen heute, mit Wurzeln in Sumer, Akkad, Assyrien, Babylon und Aram">
         {/* Trunk: the shared present growing out of the gathered roots */}
         <motion.path
           d={`M ${TRUNK_X} ${TOP_Y} L ${TRUNK_X} ${MERGE_Y}`}
@@ -260,7 +265,7 @@ function SceneNamen({ active }: { active: boolean }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: ".9rem" }}>
-      {group("Autoethnonym — wie wir uns selbst nennen", ["Suraye", "Suroye", "Suryaye", "Suryoye"], "var(--lapis-text)", "var(--lapis-line)", 0.1)}
+      {group("Autoethnonym: wie wir uns selbst nennen", ["Suraye", "Suroye", "Suryaye", "Suryoye"], "var(--lapis-text)", "var(--lapis-line)", 0.1)}
       <motion.div
         initial={{ opacity: 0 }}
         animate={active ? { opacity: 1 } : { opacity: 0 }}
@@ -273,7 +278,7 @@ function SceneNamen({ active }: { active: boolean }) {
         </span>
         <span style={{ flex: 1, height: 1, background: "var(--line)" }} />
       </motion.div>
-      {group("Xenonym — Bezeichnungen von außen", ["Assyrer*in", "Chaldäer*in", "Aramäer*in"], "var(--clay)", "var(--clay-line)", 0.44)}
+      {group("Xenonym: Bezeichnungen von außen", ["Assyrer*in", "Chaldäer*in", "Aramäer*in"], "var(--clay)", "var(--clay-line)", 0.44)}
     </div>
   );
 }
@@ -442,7 +447,7 @@ export default function Roots() {
   return (
     <section
       id="wurzeln"
-      style={{ padding: "8rem 1.5rem", position: "relative", background: "var(--surface2)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", scrollMarginTop: 100 }}
+      style={{ padding: "5.5rem 1.5rem", position: "relative", background: "var(--surface2)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", scrollMarginTop: 100 }}
       className="section-pad"
     >
       <div style={{ maxWidth: "var(--max)", margin: "0 auto" }}>
