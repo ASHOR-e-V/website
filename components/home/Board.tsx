@@ -44,15 +44,19 @@ function BoardCard({
       >
         {vacant ? (
           <Shamash size={44} outline rayWidth={3} opacity={0.4} />
-        ) : (
+        ) : photo ? (
           <Image
-            src={photo!}
-            alt={`${name} — ${role} bei ASHOR e.V.`}
+            src={photo}
+            alt={`${name}, ${role} bei ASHOR e.V.`}
             width={108}
             height={108}
             sizes="108px"
             style={{ objectFit: "cover", width: "100%", height: "100%", transform: photoZoom ? `scale(${photoZoom})` : undefined }}
           />
+        ) : (
+          <span style={{ fontFamily: "'Cinzel', serif", fontSize: "1.6rem", fontWeight: 700, color: accent }}>
+            {member.initials}
+          </span>
         )}
       </div>
 
@@ -110,7 +114,7 @@ function SectionLabel({ children, count }: { children: React.ReactNode; count: s
 
 export default function Board() {
   return (
-    <section id="vorstand" style={{ padding: "7.5rem 1.5rem", scrollMarginTop: 100 }} className="section-pad">
+    <section id="vorstand" style={{ padding: "5.5rem 1.5rem", scrollMarginTop: 100 }} className="section-pad">
       <div style={{ maxWidth: "var(--max)", margin: "0 auto" }}>
         <Rise y={16}>
           <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".6rem", letterSpacing: ".26em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "1.2rem" }}>

@@ -25,11 +25,10 @@ export type BoardMember = {
 
 export const GESCHAEFTSFUEHRENDER_VORSTAND: BoardMember[] = [
   {
-    name: "Caroline Barsoum",
+    name: "Caroline Somi",
     role: "Präsidentin",
-    initials: "CB",
+    initials: "CS",
     desc: "Leitet den Verein, vertritt ASHOR nach außen und koordiniert die strategische Ausrichtung. Führt gemeinsam mit dem Finanzdirektor das Vereinskonto.",
-    photo: "/team/caroline.jpeg",
     ref: "§ 8 (5)",
   },
   {

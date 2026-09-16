@@ -6,14 +6,14 @@ export const metadata = {
 const sections = [
   {
     title: "Angaben gemäß § 5 TMG",
-    content: "ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V.\nJohannes Gutenberg-Universität Mainz\n55099 Mainz",
+    content: "ASHOR (Assyrische Hochschulgruppe Rhein-Main e.V.)\nJohannes Gutenberg-Universität Mainz\n55099 Mainz",
   },
   {
     // § 8 (2) und (12) der Satzung: der geschäftsführende Vorstand bildet den
     // Vorstand im Sinne des § 26 BGB, und jedes Mitglied vertritt allein.
     title: "Vertretungsberechtigter Vorstand (§ 26 BGB)",
     content:
-      "Caroline Barsoum (Präsidentin)\nRobina Lajin (Vizepräsidentin)\nSeverios Isac (Protokolldirektor)\nNinous Andersson (Finanzdirektor)\n\nJedes Mitglied des geschäftsführenden Vorstands vertritt den Verein allein (§ 8 Abs. 12 der Satzung).",
+      "Caroline Somi (Präsidentin)\nRobina Lajin (Vizepräsidentin)\nSeverios Isac (Protokolldirektor)\nNinous Andersson (Finanzdirektor)\n\nJedes Mitglied des geschäftsführenden Vorstands vertritt den Verein allein (§ 8 Abs. 12 der Satzung).",
   },
   {
     title: "Kontakt",
@@ -25,7 +25,7 @@ const sections = [
   },
   {
     title: "Redaktionell verantwortlich",
-    content: "Caroline Barsoum\nJohannes Gutenberg-Universität Mainz\n55099 Mainz",
+    content: "Caroline Somi\nJohannes Gutenberg-Universität Mainz\n55099 Mainz",
   },
   {
     title: "Streitbeilegung",
@@ -37,7 +37,7 @@ const sections = [
 export default function Impressum() {
   return (
     <div style={{ paddingTop: 74 }}>
-      <div style={{ maxWidth: 760, margin: "0 auto", padding: "5.5rem 1.5rem 6rem" }}>
+      <div style={{ maxWidth: 760, margin: "0 auto", padding: "4.5rem 1.5rem 5rem" }}>
         <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2rem,4.5vw,2.8rem)", fontWeight: 700, marginBottom: "3rem", letterSpacing: "-.015em" }}>
           Impressum
         </h1>

@@ -42,7 +42,7 @@
 -- ═══ 0. Hilfsfunktion ══════════════════════════════════════════════════
 -- Vor den Tabellen, weil eine der Tabellen sie in einer generierten
 -- Spalte braucht. Vereinheitlicht Gross-/Kleinschreibung und Leerzeichen,
--- damit "Caroline  Barsoum" und "caroline barsoum" als derselbe Name
+-- damit "Caroline  Somi" und "caroline somi" als derselbe Name
 -- gelten.
 create or replace function public.normalize_name(raw text)
 returns text language sql immutable as $$
@@ -439,7 +439,7 @@ order by u.created_at;
 -- profiles.matched_via beim Freischalten. Adressen in Kleinschreibung.
 insert into public.member_allowlist (email, full_name, note) values
   ('ashor.jgu@gmail.com', 'ASHOR Vorstand', 'Sammelpostfach')
-  -- ('caroline...@...',  'Caroline Barsoum'),
+  -- ('caroline...@...',  'Caroline Somi'),
   -- ('ninous...@...',    'Ninous Andersson')
 on conflict (email) where email is not null do nothing;
 
