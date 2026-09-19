@@ -119,7 +119,7 @@ export default function Organigramm() {
   const [mv, vorstand, mitglieder] = ORGANE;
 
   return (
-    <section id="organe" style={{ padding: "7rem 1.5rem", position: "relative", overflow: "hidden", scrollMarginTop: 100 }} className="section-pad">
+    <section id="organe" style={{ padding: "5.5rem 1.5rem", position: "relative", overflow: "hidden", scrollMarginTop: 100 }} className="section-pad">
       {/* Faint sun disc anchoring the section */}
       <div aria-hidden="true" style={{ position: "absolute", top: "12%", left: "-8%", opacity: 0.035, pointerEvents: "none" }}>
         <Shamash size={520} outline rayWidth={1.5} />
@@ -163,7 +163,7 @@ export default function Organigramm() {
                 <path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1" />
                 <path d="M18.4 2.6v3.6h-3.6" />
               </svg>
-              <span>Vollmitglieder bilden wiederum die Mitgliederversammlung — der Kreis schließt sich.</span>
+              <span>Vollmitglieder bilden wiederum die Mitgliederversammlung. Der Kreis schließt sich.</span>
             </div>
           </Rise>
         </div>

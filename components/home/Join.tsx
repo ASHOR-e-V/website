@@ -26,7 +26,7 @@ export default function Join() {
   return (
     <section
       id="mitmachen"
-      style={{ padding: "8rem 1.5rem", position: "relative", scrollMarginTop: 100, background: "var(--surface2)", borderTop: "1px solid var(--line)" }}
+      style={{ padding: "5.5rem 1.5rem", position: "relative", scrollMarginTop: 100, background: "var(--surface2)", borderTop: "1px solid var(--line)" }}
       className="section-pad"
     >
       <div style={{ maxWidth: "var(--max)", margin: "0 auto", position: "relative", zIndex: 1 }}>
@@ -50,7 +50,7 @@ export default function Join() {
 
             <Rise delay={0.22} y={18}>
               <p style={{ color: "var(--muted)", lineHeight: 2, marginBottom: "2.2rem", maxWidth: 440, fontFamily: "'Lora', serif", fontSize: ".97rem" }}>
-                Mitglied werden können eingeschriebene Studierende und Alumni sowie Personen mit einem Bachelor Professional oder Master Professional, die die Ziele des Vereins unterstützen. Die Mitgliedschaft ist beitragsfrei — über die Aufnahme entscheidet der Vorstand.
+                Mitglied werden können eingeschriebene Studierende und Alumni sowie Personen mit einem Bachelor Professional oder Master Professional, die die Ziele des Vereins unterstützen. Die Mitgliedschaft ist beitragsfrei. Über die Aufnahme entscheidet der Vorstand.
               </p>
             </Rise>
 

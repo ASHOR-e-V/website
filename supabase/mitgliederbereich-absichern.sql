@@ -278,6 +278,22 @@ grant execute on function public.is_member()    to authenticated;
 
 -- ═══ 3. Row Level Security ═════════════════════════════════════════════
 
+-- Grundrechte für die Rollen — WICHTIG, sonst greifen die Policies unten
+-- nie: RLS filtert nur, WELCHE Zeilen eine Rolle sieht, aber ohne diese
+-- Grants lehnt PostgREST den Zugriff auf die Tabelle schon vorher komplett
+-- ab ("permission denied for table ..."), bevor RLS überhaupt geprüft
+-- wird. Tabellen, die über den Dashboard-Tabelleneditor angelegt werden,
+-- bekommen das automatisch — über den SQL Editor angelegte nicht, deshalb
+-- hier explizit.
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on public.member_allowlist       to authenticated;
+grant select, insert, update, delete on public.profiles               to authenticated;
+grant select, insert, update, delete on public.announcements          to authenticated;
+grant select, insert, update, delete on public.protocols              to authenticated;
+grant select, insert, update          on public.contact_submissions   to authenticated;
+grant insert                          on public.contact_submissions   to anon;
+grant select, insert, update          on public.app_settings          to authenticated;
+
 alter table public.member_allowlist    enable row level security;
 alter table public.profiles            enable row level security;
 alter table public.announcements       enable row level security;
@@ -369,6 +385,111 @@ create policy contact_read_board on public.contact_submissions
 
 create policy contact_write_board on public.contact_submissions
   for update to authenticated
+  using (public.is_board()) with check (public.is_board());
+
+
+-- ═══ 3b. Forum ═════════════════════════════════════════════════════════
+-- Ein einfaches Forum für den Mitgliederbereich: Themen ohne Kategorien,
+-- jedes Thema mit Antworten darunter — kein Bearbeiten im Nachhinein,
+-- nur Anlegen und Löschen, das hält die Rechte einfach. author_name wird
+-- beim Erstellen als Schnappschuss gespeichert (wie profiles.full_name
+-- bei der Registrierung), damit ein Beitrag lesbar bleibt, falls das
+-- zugehörige Profil später gelöscht wird — author_id ist dann null, der
+-- Name bleibt stehen.
+
+alter table public.profiles add column if not exists forum_banned boolean not null default false;
+
+create table if not exists public.forum_threads (
+  id          uuid primary key default gen_random_uuid(),
+  title       text not null,
+  body        text not null,
+  author_id   uuid references public.profiles (id) on delete set null,
+  author_name text not null,
+  pinned      boolean not null default false,
+  locked      boolean not null default false,
+  created_at  timestamptz not null default now()
+);
+
+create table if not exists public.forum_replies (
+  id          uuid primary key default gen_random_uuid(),
+  thread_id   uuid not null references public.forum_threads (id) on delete cascade,
+  body        text not null,
+  author_id   uuid references public.profiles (id) on delete set null,
+  author_name text not null,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists forum_replies_thread_idx on public.forum_replies (thread_id);
+
+-- Wurde die angemeldete Person vom Schreiben im Forum ausgeschlossen?
+-- security definer aus demselben Grund wie is_board()/is_approved() oben.
+create or replace function public.is_forum_banned()
+returns boolean language sql stable security definer set search_path = public as $$
+  select coalesce(
+    (select p.forum_banned from public.profiles p where p.id = auth.uid()),
+    false
+  );
+$$;
+
+grant execute on function public.is_forum_banned() to authenticated;
+
+grant select, insert, update, delete on public.forum_threads to authenticated;
+grant select, insert, update, delete on public.forum_replies to authenticated;
+
+alter table public.forum_threads enable row level security;
+alter table public.forum_replies enable row level security;
+
+-- Themen: alle freigeschalteten Mitglieder lesen und (ohne Forum-Sperre)
+-- eigene Themen anlegen. Löschen: eigenes Thema oder Vorstand. Anpinnen
+-- und Sperren (locked) laufen über dieselbe Zeile wie Löschen/Ändern
+-- durch den Vorstand — nur er hat überhaupt eine Update-Policy, ein
+-- Mitglied kann also serverseitig nicht mal versuchen, Titel, Text,
+-- pinned oder locked nachträglich zu ändern.
+drop policy if exists forum_threads_read         on public.forum_threads;
+drop policy if exists forum_threads_insert       on public.forum_threads;
+drop policy if exists forum_threads_delete_own   on public.forum_threads;
+drop policy if exists forum_threads_moderate     on public.forum_threads;
+
+create policy forum_threads_read on public.forum_threads
+  for select to authenticated using (public.is_member() or public.is_board());
+
+create policy forum_threads_insert on public.forum_threads
+  for insert to authenticated
+  with check (public.is_member() and not public.is_forum_banned() and author_id = auth.uid());
+
+create policy forum_threads_delete_own on public.forum_threads
+  for delete to authenticated using (author_id = auth.uid());
+
+create policy forum_threads_moderate on public.forum_threads
+  for all to authenticated
+  using (public.is_board()) with check (public.is_board());
+
+-- Antworten: gleiches Muster. Zusätzlich blockiert ein gesperrtes Thema
+-- neue Antworten für alle außer dem Vorstand (der so trotz Sperre noch
+-- eine abschließende Notiz hinterlassen kann).
+drop policy if exists forum_replies_read         on public.forum_replies;
+drop policy if exists forum_replies_insert       on public.forum_replies;
+drop policy if exists forum_replies_delete_own   on public.forum_replies;
+drop policy if exists forum_replies_moderate     on public.forum_replies;
+
+create policy forum_replies_read on public.forum_replies
+  for select to authenticated using (public.is_member() or public.is_board());
+
+create policy forum_replies_insert on public.forum_replies
+  for insert to authenticated
+  with check (
+    public.is_member() and not public.is_forum_banned() and author_id = auth.uid()
+    and (
+      public.is_board()
+      or exists (select 1 from public.forum_threads t where t.id = thread_id and not t.locked)
+    )
+  );
+
+create policy forum_replies_delete_own on public.forum_replies
+  for delete to authenticated using (author_id = auth.uid());
+
+create policy forum_replies_moderate on public.forum_replies
+  for all to authenticated
   using (public.is_board()) with check (public.is_board());
 
 
@@ -477,5 +598,5 @@ on conflict (normalized_name) where email is null do nothing;
 select tablename, rowsecurity
 from pg_tables
 where schemaname = 'public'
-  and tablename in ('profiles','announcements','protocols','contact_submissions','member_allowlist','app_settings')
+  and tablename in ('profiles','announcements','protocols','contact_submissions','member_allowlist','app_settings','forum_threads','forum_replies')
 order by tablename;

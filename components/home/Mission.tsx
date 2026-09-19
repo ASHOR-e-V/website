@@ -7,7 +7,7 @@ import { ArrowRightIcon } from "@/components/icons";
 const values = [
   {
     title: "Bildung & Austausch",
-    desc: "Workshops, Vorträge und interdisziplinäre Diskussionsformate — plus Studienberatung für Schüler*innen, Berufstätige und Fachwechsler*innen.",
+    desc: "Workshops, Vorträge und interdisziplinäre Diskussionsformate, plus Studienberatung für Schüler*innen, Berufstätige und Fachwechsler*innen.",
     ref: "§ 2 (1–2)",
   },
   {
@@ -17,7 +17,7 @@ const values = [
   },
   {
     title: "Gemeinschaft & Netzwerk",
-    desc: "Ein Netzwerk für assyrische Studierende und Alumni, das über das Studium hinausträgt — mit Kooperationen in der ganzen Region.",
+    desc: "Ein Netzwerk für assyrische Studierende und Alumni, das über das Studium hinausträgt, mit Kooperationen in der ganzen Region.",
     ref: "§ 2 (3)",
   },
   {
@@ -31,7 +31,7 @@ export default function Mission() {
   return (
     <>
       {/* A line from the association's own Präambel, given the whole width. */}
-      <section style={{ padding: "8rem 1.5rem 4.5rem", scrollMarginTop: 100 }} className="section-pad">
+      <section style={{ padding: "5.5rem 1.5rem 3.5rem", scrollMarginTop: 100 }} className="section-pad">
         <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
           <MaskReveal
             as="blockquote"
@@ -67,7 +67,7 @@ export default function Mission() {
         </div>
       </section>
 
-      <section id="ueber-uns" style={{ padding: "3.5rem 1.5rem 8rem", scrollMarginTop: 100 }} className="section-pad">
+      <section id="ueber-uns" style={{ padding: "3rem 1.5rem 5.5rem", scrollMarginTop: 100 }} className="section-pad">
         <div style={{ maxWidth: "var(--max)", margin: "0 auto" }}>
           <div className="grid-mission" style={{ gap: "5rem" }}>
             {/* Left: what the association is for */}
@@ -90,7 +90,7 @@ export default function Mission() {
 
               <Rise delay={0.24} y={20}>
                 <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", lineHeight: 2.05, marginBottom: "1.2rem", fontSize: ".99rem" }}>
-                  ASHOR ist die anerkannte assyrische Hochschulgruppe der Johannes Gutenberg-Universität Mainz. Wir organisieren Vorträge, Debatten, Bildungsreisen und kulturelle Formate — und schaffen einen Ort, an dem fachlicher Austausch und kulturelle Verortung zusammengehören.
+                  ASHOR ist die anerkannte assyrische Hochschulgruppe der Johannes Gutenberg-Universität Mainz. Wir organisieren Vorträge, Debatten, Bildungsreisen und kulturelle Formate und schaffen einen Ort, an dem fachlicher Austausch und kulturelle Verortung zusammengehören.
                 </p>
                 <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", lineHeight: 2.05, fontSize: ".99rem" }}>
                   Offen ist die Gruppe für alle, die sich für das moderne assyrische Volk interessieren. Mitglied werden können eingeschriebene Studierende, Alumni sowie Personen mit Bachelor oder Master Professional. Die Mitgliedschaft ist beitragsfrei.
@@ -122,7 +122,7 @@ export default function Mission() {
                     paddingBottom: ".8rem", borderBottom: "1px solid var(--line)",
                   }}
                 >
-                  Unsere Ziele — und wo sie festgeschrieben sind
+                  Unsere Ziele und wo sie festgeschrieben sind
                 </div>
               </Rise>
 

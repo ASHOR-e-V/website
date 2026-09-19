@@ -27,7 +27,7 @@ export default function PageHeader({
         <Shamash size={440} outline rayWidth={1.7} />
       </div>
 
-      <div style={{ position: "relative", zIndex: 1, maxWidth: "var(--max)", margin: "0 auto", padding: "6.5rem 1.5rem 4rem" }}>
+      <div style={{ position: "relative", zIndex: 1, maxWidth: "var(--max)", margin: "0 auto", padding: "5rem 1.5rem 3rem" }}>
         <Rise duration={0.7} y={14}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: ".85rem", marginBottom: "1.4rem" }}>
             <span aria-hidden="true" style={{ display: "block", width: 26, height: 1, background: "var(--gold-solid)", flexShrink: 0 }} />

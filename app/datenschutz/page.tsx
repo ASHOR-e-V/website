@@ -1,6 +1,6 @@
 export const metadata = {
   title: "Datenschutz",
-  description: "Datenschutzerklärung der Assyrischen Hochschulgruppe Rhein-Main e.V. (ASHOR) — keine Tracking-Tools, keine Cookies, keine Drittanbieter-Schriftarten.",
+  description: "Datenschutzerklärung der Assyrischen Hochschulgruppe Rhein-Main e.V. (ASHOR): keine Tracking-Tools, keine Cookies, keine Drittanbieter-Schriftarten.",
 };
 
 const sections = [
@@ -12,12 +12,12 @@ const sections = [
   {
     title: "2. Verantwortliche Stelle",
     content:
-      "ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V.\nJohannes Gutenberg-Universität Mainz\n55099 Mainz\nE-Mail: ashor.jgu@gmail.com",
+      "ASHOR (Assyrische Hochschulgruppe Rhein-Main e.V.)\nJohannes Gutenberg-Universität Mainz\n55099 Mainz\nE-Mail: ashor.jgu@gmail.com",
   },
   {
     title: "3. Erhebung und Verarbeitung personenbezogener Daten",
     content:
-      "Wir erheben und verarbeiten personenbezogene Daten (z. B. Name, E-Mail-Adresse, Hochschule) nur dann, wenn du sie uns freiwillig mitteilst — etwa per E-Mail oder über das Kontaktformular. Diese Daten verwenden wir ausschließlich zur Bearbeitung deiner Anfrage und geben sie nicht an Dritte weiter. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen).",
+      "Wir erheben und verarbeiten personenbezogene Daten (z. B. Name, E-Mail-Adresse, Hochschule) nur dann, wenn du sie uns freiwillig mitteilst, etwa per E-Mail oder über das Kontaktformular. Diese Daten verwenden wir ausschließlich zur Bearbeitung deiner Anfrage und geben sie nicht an Dritte weiter. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen).",
   },
   {
     title: "4. Schriftarten",
@@ -44,7 +44,7 @@ const sections = [
 export default function Datenschutz() {
   return (
     <div style={{ paddingTop: 74 }}>
-      <div style={{ maxWidth: 760, margin: "0 auto", padding: "5.5rem 1.5rem 6rem" }}>
+      <div style={{ maxWidth: 760, margin: "0 auto", padding: "4.5rem 1.5rem 5rem" }}>
         <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2rem,4.5vw,2.8rem)", fontWeight: 700, marginBottom: "3rem", letterSpacing: "-.015em" }}>
           Datenschutzerklärung
         </h1>

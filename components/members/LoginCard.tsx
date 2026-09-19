@@ -132,7 +132,7 @@ export default function LoginCard() {
           setError("Für diese E-Mail-Adresse gibt es bereits ein Konto. Melde dich an oder setz dein Passwort zurück.");
         } else {
           setSentTo(email);
-          setInfo("Danke für deine Registrierung. Bitte bestätige zuerst den Link in deiner E-Mail (auch im Spam-Ordner nachsehen). Zur Sicherheit wird danach kurz geprüft, ob du Mitglied bist — anschliessend wird der Login für dich freigeschaltet.");
+          setInfo("Danke für deine Registrierung. Bitte bestätige zuerst den Link in deiner E-Mail (auch im Spam-Ordner nachsehen). Zur Sicherheit wird danach kurz geprüft, ob du Mitglied bist. Anschliessend wird der Login für dich freigeschaltet.");
         }
       }
     } catch {
@@ -202,7 +202,7 @@ export default function LoginCard() {
         {mode === "no-member" && (
           <div>
             <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".92rem", lineHeight: 1.85, marginBottom: "1.8rem" }}>
-              Kein Problem — die Mitgliedschaft ist beitragsfrei und steht eingeschriebenen Studierenden, Alumni sowie Personen mit Bachelor oder Master Professional offen. Stell einfach einen Antrag, der Vorstand meldet sich bei dir.
+              Kein Problem: Die Mitgliedschaft ist beitragsfrei und steht eingeschriebenen Studierenden, Alumni sowie Personen mit Bachelor oder Master Professional offen. Stell einfach einen Antrag, der Vorstand meldet sich bei dir.
             </p>
             <a
               href={MITGLIEDSANTRAG_URL}
@@ -230,7 +230,7 @@ export default function LoginCard() {
           <>
             {mode === "register" && (
               <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".72rem", color: "var(--muted2)", lineHeight: 1.7, marginBottom: "1.6rem", paddingBottom: "1.2rem", borderBottom: "1px solid var(--line)" }}>
-                Bitte gib den Namen an, mit dem du auf der Mitgliederliste stehst. Ist deine E-Mail-Adresse dem Verein bereits bekannt, nimm die — sonst reicht der Name. Andernfalls weist das System die Registrierung ab.
+                Bitte gib den Namen an, mit dem du auf der Mitgliederliste stehst. Ist deine E-Mail-Adresse dem Verein bereits bekannt, nimm die, sonst reicht der Name. Andernfalls weist das System die Registrierung ab.
               </p>
             )}
 

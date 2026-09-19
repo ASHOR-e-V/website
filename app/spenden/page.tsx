@@ -4,7 +4,7 @@ import PageHeader from "@/components/PageHeader";
 export const metadata = {
   title: "Spenden",
   description:
-    "ASHOR e.V. unterstützen — per PayPal oder Banküberweisung. Als gemeinnütziger Verein verwenden wir alle Mittel ausschließlich für die satzungsgemäßen Zwecke.",
+    "ASHOR e.V. unterstützen: per PayPal oder Banküberweisung. Als gemeinnütziger Verein verwenden wir alle Mittel ausschließlich für die satzungsgemäßen Zwecke.",
 };
 
 export default function SpendenPage() {

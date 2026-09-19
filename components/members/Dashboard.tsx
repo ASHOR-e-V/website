@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 
@@ -50,7 +51,7 @@ export default function Dashboard({ user }: { user: User }) {
             Danke für deine Registrierung
           </h1>
           <p style={{ fontFamily: "'Lora', serif", color: "var(--muted)", fontSize: ".92rem", lineHeight: 1.85, marginBottom: "2rem" }}>
-            Zur Sicherheit prüft der Vorstand kurz, ob du Mitglied bist. Sobald das erledigt ist, wird der Login für dich freigeschaltet — meist geht das schnell.
+            Zur Sicherheit prüft der Vorstand kurz, ob du Mitglied bist. Sobald das erledigt ist, wird der Login für dich freigeschaltet. Das geht meist schnell.
           </p>
           <button
             onClick={() => supabase.auth.signOut()}
@@ -78,6 +79,15 @@ export default function Dashboard({ user }: { user: User }) {
     color: tab === t ? "var(--gold)" : "var(--muted)",
   });
 
+  // Same shape as an inactive tabStyle button, but for a real page link
+  // (the Forum lives at its own route, not a local tab) so it never
+  // falsely lights up as "active" just because tab === "announcements".
+  const navLinkStyle = {
+    fontFamily: "'Jost', sans-serif", fontSize: ".7rem", letterSpacing: ".18em", textTransform: "uppercase" as const,
+    fontWeight: 600, padding: ".6rem 1.2rem", borderRadius: "var(--r-sm)", border: "1px solid var(--line)",
+    background: "transparent", color: "var(--muted)", textDecoration: "none", display: "inline-block",
+  };
+
   return (
     <div style={{ paddingTop: 74 }}>
       <div style={{ background: "var(--surface2)", borderBottom: "1px solid var(--line)", padding: "3rem 1.5rem 2rem" }}>
@@ -99,6 +109,7 @@ export default function Dashboard({ user }: { user: User }) {
           {isBoard && <button style={tabStyle("protocols")} onClick={() => setTab("protocols")}>Protokolle</button>}
           {isBoard && <button style={tabStyle("anfragen")} onClick={() => setTab("anfragen")}>Anfragen</button>}
           {isBoard && <button style={tabStyle("verwaltung")} onClick={() => setTab("verwaltung")}>Verwaltung</button>}
+          <Link href="/members/forum" style={navLinkStyle}>Forum</Link>
         </div>
       </div>
 
@@ -245,7 +256,7 @@ function AnfragenTab() {
   );
 }
 
-type ProfileEntry = { id: string; full_name: string | null; is_board: boolean; is_approved: boolean; matched_via: string | null; created_at: string };
+type ProfileEntry = { id: string; full_name: string | null; is_board: boolean; is_approved: boolean; forum_banned: boolean; matched_via: string | null; created_at: string };
 
 const matchLabel = (m: string | null) =>
   m === "email" ? "E-Mail bekannt" : m === "name" ? "Name bekannt" : "nicht erkannt";
@@ -256,7 +267,7 @@ function VerwaltungTab() {
   const [saving, setSaving] = useState<string | null>(null);
 
   const load = async () => {
-    const { data } = await supabase.from("profiles").select("id, full_name, is_board, is_approved, matched_via, created_at").order("created_at", { ascending: false });
+    const { data } = await supabase.from("profiles").select("id, full_name, is_board, is_approved, forum_banned, matched_via, created_at").order("created_at", { ascending: false });
     setMembers(data ?? []);
     setLoading(false);
   };
@@ -266,6 +277,13 @@ function VerwaltungTab() {
   const toggleBoard = async (id: string, current: boolean) => {
     setSaving(id);
     await supabase.from("profiles").update({ is_board: !current }).eq("id", id);
+    await load();
+    setSaving(null);
+  };
+
+  const toggleForumBan = async (id: string, current: boolean) => {
+    setSaving(id);
+    await supabase.from("profiles").update({ forum_banned: !current }).eq("id", id);
     await load();
     setSaving(null);
   };
@@ -336,15 +354,25 @@ function VerwaltungTab() {
                 <div style={{ fontFamily: "'Cinzel', serif", fontSize: ".95rem", fontWeight: 700, color: "var(--text)", marginBottom: ".2rem" }}>{m.full_name || "—"}</div>
                 <div style={{ fontFamily: "'Jost', sans-serif", fontSize: ".62rem", letterSpacing: ".15em", textTransform: "uppercase", color: m.is_board ? "var(--gold)" : "var(--muted2)" }}>
                   {m.is_board ? "Vorstand" : "Mitglied"}
+                  {m.forum_banned && <span style={{ marginLeft: ".5rem", color: "var(--clay)" }}>· Forum gesperrt</span>}
                 </div>
               </div>
-              <button
-                onClick={() => toggleBoard(m.id, m.is_board)}
-                disabled={saving === m.id}
-                style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", padding: ".5rem 1.1rem", borderRadius: "var(--r-sm)", border: "1px solid", borderColor: m.is_board ? "var(--line)" : "var(--gold-line)", background: m.is_board ? "transparent" : "var(--gold-dim)", color: m.is_board ? "var(--muted)" : "var(--gold)" }}
-              >
-                {saving === m.id ? "…" : m.is_board ? "Zu Mitglied" : "Zu Vorstand"}
-              </button>
+              <div style={{ display: "flex", gap: ".6rem", flexWrap: "wrap" }}>
+                <button
+                  onClick={() => toggleForumBan(m.id, m.forum_banned)}
+                  disabled={saving === m.id}
+                  style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", padding: ".5rem 1.1rem", borderRadius: "var(--r-sm)", border: "1px solid", borderColor: m.forum_banned ? "var(--clay-line)" : "var(--line)", background: m.forum_banned ? "var(--clay-dim)" : "transparent", color: m.forum_banned ? "var(--clay)" : "var(--muted)" }}
+                >
+                  {saving === m.id ? "…" : m.forum_banned ? "Forum entsperren" : "Forum sperren"}
+                </button>
+                <button
+                  onClick={() => toggleBoard(m.id, m.is_board)}
+                  disabled={saving === m.id}
+                  style={{ fontFamily: "'Jost', sans-serif", fontSize: ".65rem", letterSpacing: ".14em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", padding: ".5rem 1.1rem", borderRadius: "var(--r-sm)", border: "1px solid", borderColor: m.is_board ? "var(--line)" : "var(--gold-line)", background: m.is_board ? "transparent" : "var(--gold-dim)", color: m.is_board ? "var(--muted)" : "var(--gold)" }}
+                >
+                  {saving === m.id ? "…" : m.is_board ? "Zu Mitglied" : "Zu Vorstand"}
+                </button>
+              </div>
             </div>
           ))}
         </>

@@ -7,7 +7,7 @@ import { ArrowRightIcon } from "@/components/icons";
 
 export default function ProjectsPreview() {
   return (
-    <section style={{ padding: "8rem 1.5rem" }} className="section-pad">
+    <section style={{ padding: "5.5rem 1.5rem" }} className="section-pad">
       <div style={{ maxWidth: "var(--max)", margin: "0 auto" }}>
         <div className="section-header-flex" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1.4rem", marginBottom: "3rem" }}>
           <div>

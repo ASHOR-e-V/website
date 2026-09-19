@@ -19,13 +19,12 @@ export function eventAccent(tag: string): Accent {
   return eventMap[tag] ?? gold;
 }
 
-// Projects — by project identity (two formats share the "Laufende Serie"
-// badge, so the badge text alone can't tell them apart).
+// Projects — by project identity (several formats share the "Laufende
+// Serie" badge, so the badge text alone can't tell them apart).
 const projectMap: Record<string, Accent> = {
   "ASHOR Talks": gold,
   "ASHORs Stammtisch": clay,
   "ASHORs Gamenight": lapis,
-  "ASHORs Karaoke": clay,
   "Bildungsreisen & Symposien": lapis,
 };
 

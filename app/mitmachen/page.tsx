@@ -13,7 +13,7 @@ export default function MitmachenPage() {
       <PageHeader
         kicker="Mitgliedschaft"
         title="Komm dazu"
-        lede="Die Mitgliedschaft ist beitragsfrei und offen für alle, die die Ziele des Vereins unterstützen. Schreib uns — der Vorstand entscheidet über die Aufnahme."
+        lede="Die Mitgliedschaft ist beitragsfrei und offen für alle, die die Ziele des Vereins unterstützen. Schreib uns, der Vorstand entscheidet über die Aufnahme."
       />
       <Join />
     </div>

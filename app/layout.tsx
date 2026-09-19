@@ -4,18 +4,18 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/lib/theme";
 
-const BASE_URL = "https://website-7yd.pages.dev";
+const BASE_URL = "https://ashor-ev.de";
 
 export const metadata: Metadata = {
   title: {
-    default: "ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V.",
+    default: "ASHOR (Assyrische Hochschulgruppe Rhein-Main e.V.)",
     template: "%s – ASHOR",
   },
-  description: "ASHOR ist die offizielle assyrische Hochschulgruppe der JGU Mainz. Akademischer Austausch, kulturelle Identität und Gemeinschaft für assyrische Studierende und Akademiker in der Rhein-Main-Region. Mitgliedschaft kostenlos.",
+  description: "ASHOR ist die offizielle assyrische Hochschulgruppe der JGU Mainz. Akademischer Austausch, kulturelle Identität und Gemeinschaft für assyrische Studierende und Akademiker in ganz Deutschland. Mitgliedschaft kostenlos.",
   keywords: ["ASHOR", "Assyrische Hochschulgruppe", "JGU Mainz", "Johannes Gutenberg Universität", "Assyrisch", "Assyrian", "Rhein-Main", "Frankfurt", "Studierende", "Akademiker", "Hochschulgruppe", "assyrische Kultur"],
-  authors: [{ name: "ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V." }],
+  authors: [{ name: "ASHOR (Assyrische Hochschulgruppe Rhein-Main e.V.)" }],
   creator: "ASHOR e.V.",
-  publisher: "ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V.",
+  publisher: "ASHOR (Assyrische Hochschulgruppe Rhein-Main e.V.)",
   metadataBase: new URL(BASE_URL),
   alternates: { canonical: "/" },
   openGraph: {
@@ -23,13 +23,13 @@ export const metadata: Metadata = {
     locale: "de_DE",
     url: BASE_URL,
     siteName: "ASHOR e.V.",
-    title: "ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V.",
-    description: "Offizielle assyrische Hochschulgruppe der JGU Mainz. Akademischer Austausch, kulturelle Identität und nachhaltige Vernetzung — kostenlose Mitgliedschaft.",
+    title: "ASHOR (Assyrische Hochschulgruppe Rhein-Main e.V.)",
+    description: "Offizielle assyrische Hochschulgruppe der JGU Mainz. Akademischer Austausch, kulturelle Identität und nachhaltige Vernetzung, kostenlose Mitgliedschaft.",
     images: [{ url: "/logo.png", width: 400, height: 400, alt: "ASHOR Logo" }],
   },
   twitter: {
     card: "summary",
-    title: "ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V.",
+    title: "ASHOR (Assyrische Hochschulgruppe Rhein-Main e.V.)",
     description: "Offizielle assyrische Hochschulgruppe der JGU Mainz. Akademischer Austausch, kulturelle Identität, kostenlose Mitgliedschaft.",
     images: ["/logo.png"],
   },
@@ -48,7 +48,7 @@ export const viewport = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V.",
+  name: "ASHOR (Assyrische Hochschulgruppe Rhein-Main e.V.)",
   alternateName: "ASHOR e.V.",
   url: BASE_URL,
   logo: `${BASE_URL}/logo.png`,

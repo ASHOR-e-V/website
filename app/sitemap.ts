@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 // Required by `output: export` — these are emitted as static files.
 export const dynamic = "force-static";
 
-const BASE_URL = "https://website-7yd.pages.dev";
+const BASE_URL = "https://ashor-ev.de";
 
 const routes = [
   { path: "", priority: 1.0, changeFrequency: "monthly" as const },

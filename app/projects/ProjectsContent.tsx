@@ -13,10 +13,10 @@ export default function ProjectsContent() {
       <PageHeader
         kicker="Unsere Formate"
         title="Was bei uns läuft"
-        lede="Drei wiederkehrende Formate bilden das Rückgrat unserer Arbeit — von der Debattenreihe bis zur jährlichen Bildungsreise."
+        lede="Vier wiederkehrende Formate bilden das Rückgrat unserer Arbeit: von der Debattenreihe bis zur jährlichen Bildungsreise."
       />
 
-      <div style={{ padding: "5rem 1.5rem 6rem", maxWidth: "var(--max)", margin: "0 auto" }}>
+      <div style={{ padding: "4rem 1.5rem 5rem", maxWidth: "var(--max)", margin: "0 auto" }}>
         <RiseGroup className="grid-3col" style={{ marginBottom: "5rem", alignItems: "stretch" }}>
           {PROJECTS.map((p) => {
             const accent = projectAccent(p.title);

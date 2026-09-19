@@ -72,7 +72,7 @@ export default function Footer() {
               Assyrische Hochschulgruppe Rhein-Main e.V.
             </div>
             <p style={{ fontFamily: "'Lora', serif", color: "rgba(228,218,200,0.5)", fontSize: ".86rem", lineHeight: 1.85, maxWidth: 290 }}>
-              Anerkannte Hochschulgruppe der Johannes Gutenberg-Universität Mainz. Identität, Bildung und Gemeinschaft — seit 2024.
+              Anerkannte Hochschulgruppe der Johannes Gutenberg-Universität Mainz. Identität, Bildung und Gemeinschaft seit 2024.
             </p>
 
             <div style={{ display: "flex", gap: ".6rem", marginTop: "1.4rem", flexWrap: "wrap" }}>
@@ -128,7 +128,7 @@ export default function Footer() {
 
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
           <p style={{ fontFamily: "'Jost', sans-serif", fontSize: ".68rem", color: "rgba(228,218,200,0.25)", letterSpacing: ".08em" }}>
-            © {new Date().getFullYear()} ASHOR – Assyrische Hochschulgruppe Rhein-Main e.V.
+            © {new Date().getFullYear()} ASHOR (Assyrische Hochschulgruppe Rhein-Main e.V.)
           </p>
           <div style={{ display: "flex", gap: "1.5rem" }}>
             <Link href="/impressum" style={{ fontFamily: "'Jost', sans-serif", fontSize: ".68rem", color: "rgba(228,218,200,0.25)", textDecoration: "none" }}>

@@ -7,7 +7,7 @@ import { ArrowRightIcon } from "@/components/icons";
 
 export default function EventsPreview() {
   return (
-    <section style={{ padding: "8rem 1.5rem", position: "relative", overflow: "hidden" }} className="section-pad">
+    <section style={{ padding: "5.5rem 1.5rem", position: "relative", overflow: "hidden" }} className="section-pad">
       <div
         aria-hidden="true"
         style={{
