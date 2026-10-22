@@ -24,6 +24,7 @@ export const GESCHAEFTSFUEHRENDER_VORSTAND: BoardMember[] = [
     name: "Caroline Somi",
     role: "Präsidentin",
     initials: "CS",
+    photo: "/team/caroline.jpeg",
     desc: "Leitet den Verein, vertritt ASHOR nach außen und koordiniert die strategische Ausrichtung. Führt gemeinsam mit dem Finanzdirektor das Vereinskonto.",
     ref: "§ 8 (5)",
   },
