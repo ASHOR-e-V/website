@@ -1,17 +1,24 @@
-// Wortgetreue Transkription der Satzung, Fassung vom 14.03.2026.
+// Wortgetreue Transkription der Satzung, Fassung vom 19.09.2026.
 //
-// Das ursprüngliche Satzungs-PDF enthielt an drei Stellen Fehler, die
-// erkennbar nicht angenommene Änderungsmarkierungen aus dem Beschlussprozess
-// waren (Textmarker-Reste), keine inhaltlichen Entscheidungen der
-// Mitgliederversammlung. Sie wurden hier und im neu erzeugten PDF bereinigt:
-//   1. § 4 (3): „für maximal ein zwei Semester" / „Ab dem zweiten dritten
-//      aufeinanderfolgenden Semester" → „zwei" bzw. „dritten" (die jeweils
-//      nicht durchgestrichene, angenommene Fassung).
-//   2. § 8 (11): „entscheidet die Stimme der*des Präsident*in hat." →
-//      überzähliges „hat" entfernt.
-//   3. § 2 (3): „unteranderem" → „unter anderem".
+// Die Mitgliederversammlung vom 19.09.2026 hat die Satzung inhaltlich
+// unverändert erneut beschlossen (bestätigt via Textvergleich mit der
+// Fassung vom 14.03.2026 — einzige Unterschiede sind die beiden Punkte
+// unten plus rein typografische Kleinigkeiten wie "30%" vs. "30 %").
+//
+// Das von der Vereinsführung bereitgestellte PDF dieser Fassung (liegt
+// unverändert unter /public/ASHOR-Satzung-19-09-2026.pdf, wie angefragt)
+// enthält an zwei Stellen weiterhin dieselben Tippfehler wie frühere
+// Rohfassungen — vermutlich nie an der Quelle korrigiert:
+//   1. § 8 (11): „entscheidet die Stimme der*des Präsident*in hat." —
+//      überzähliges „hat".
+//   2. § 2 (3): „unteranderem" statt „unter anderem".
+// Der Text unten (PRAEAMBEL/PARAGRAPHS, massgeblich für die Darstellung
+// auf der Seite) ist an beiden Stellen bereits bereinigt; nur das PDF
+// selbst trägt die Fehler noch mit sich. Wert, das an der Quelle (dem
+// Dokument, aus dem der Vorstand exportiert) zu beheben, damit künftige
+// Fassungen sie nicht wieder mitschleppen.
 
-export const SATZUNG_FASSUNG = "Fassung vom 14. März 2026";
+export const SATZUNG_FASSUNG = "Fassung vom 19. September 2026";
 
 export const PRAEAMBEL: string[] = [
   "Das heutige assyrische Volk hat seine Wurzeln in Mesopotamien, einer Region, die Teile des heutigen Irak, Syrien, der Türkei und des Iran umfasst. Sie sind die Nachfahren der antiken Zivilisationen und Reiche des Zweistromlandes, darunter Assyrien, Akkad, Babylon, Sumer und die Aramäer*innen. Als Nachfahren des letzten existierenden Reiches des antiken assyrischen Imperiums, das die Geschichte Mesopotamiens maßgeblich prägte, verwenden sie den Begriff ‚Assyrer*innen' als identitätsstiftende Bezeichnung, die ihr historisches und kulturelles Erbe widerspiegelt.",
@@ -205,12 +212,11 @@ export const PARAGRAPHS: Paragraph[] = [
   },
 ];
 
-// Änderungshistorie. Der letzte Eintrag liegt in der Zukunft und ist als
-// Termin markiert, nicht als beschlossene Fassung — geltend bleibt bis dahin
-// die Fassung vom 14.03.2026.
+// Änderungshistorie — alle vier Fassungen inzwischen beschlossen, keine
+// liegt mehr in der Zukunft.
 export const HISTORIE: { date: string; label: string; upcoming?: boolean }[] = [
   { date: "16.11.2024", label: "Gründungssatzung" },
   { date: "06.09.2025", label: "Überarbeitet und angenommen auf der Mitgliederversammlung" },
   { date: "14.03.2026", label: "Überarbeitet und angenommen auf der Mitgliederversammlung" },
-  { date: "19.09.2026", label: "Nächste ordentliche Mitgliederversammlung", upcoming: true },
+  { date: "19.09.2026", label: "Überarbeitet und angenommen auf der Mitgliederversammlung" },
 ];

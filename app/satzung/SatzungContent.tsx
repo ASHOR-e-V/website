@@ -41,7 +41,7 @@ export default function SatzungContent() {
       >
         <Rise delay={0.38} y={16}>
           <a
-            href="/ASHOR-Satzung-14-03-2026.pdf"
+            href="/ASHOR-Satzung-19-09-2026.pdf"
             target="_blank"
             rel="noopener"
             className="btn-solid"

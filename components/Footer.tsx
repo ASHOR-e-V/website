@@ -112,7 +112,7 @@ export default function Footer() {
             else on the site refers back to. */}
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: "1.6rem", marginBottom: "1.6rem" }}>
           <a
-            href="/ASHOR-Satzung-14-03-2026.pdf"
+            href="/ASHOR-Satzung-19-09-2026.pdf"
             target="_blank"
             rel="noopener"
             style={{
@@ -122,7 +122,7 @@ export default function Footer() {
               border: "1px solid rgba(255,255,255,0.1)", borderRadius: "var(--r-sm)", padding: ".5rem 1.1rem",
             }}
           >
-            <DownloadIcon size={13} /> Satzung als PDF · Fassung 14.03.2026
+            <DownloadIcon size={13} /> Satzung als PDF · Fassung 19.09.2026
           </a>
         </div>
 
