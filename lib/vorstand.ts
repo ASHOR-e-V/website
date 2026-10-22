@@ -33,7 +33,7 @@ export const GESCHAEFTSFUEHRENDER_VORSTAND: BoardMember[] = [
     role: "Vizepräsident",
     initials: "NA",
     desc: "Unterstützt die Präsidentin, koordiniert interne Prozesse und trägt zur inhaltlichen Weiterentwicklung des Vereins bei.",
-    photo: "/team/ninous.jpeg",
+    photo: "/team/ninous-2026.jpeg",
   },
   {
     name: "Severios Isac",
