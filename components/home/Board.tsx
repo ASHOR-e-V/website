@@ -137,7 +137,7 @@ export default function Board() {
         </SectionLabel>
         <RiseGroup className="grid-5col" style={{ marginBottom: "3.5rem" }}>
           {GESCHAEFTSFUEHRENDER_VORSTAND.map((m) => (
-            <BoardCard key={m.role} member={m} />
+            <BoardCard key={m.name} member={m} />
           ))}
         </RiseGroup>
 

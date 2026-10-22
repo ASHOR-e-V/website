@@ -13,7 +13,7 @@ const sections = [
     // Vorstand im Sinne des § 26 BGB, und jedes Mitglied vertritt allein.
     title: "Vertretungsberechtigter Vorstand (§ 26 BGB)",
     content:
-      "Caroline Somi (Präsidentin)\nRobina Lajin (Vizepräsidentin)\nSeverios Isac (Protokolldirektor)\nNinous Andersson (Finanzdirektor)\n\nJedes Mitglied des geschäftsführenden Vorstands vertritt den Verein allein (§ 8 Abs. 12 der Satzung).",
+      "Caroline Somi (Präsidentin)\nNinous Andersson (Vizepräsident)\nSeverios Isac (Vizepräsident)\nJanette Bitinjan (Protokolldirektorin)\nGeorge Oshana (Finanzdirektor)\n\nJedes Mitglied des geschäftsführenden Vorstands vertritt den Verein allein (§ 8 Abs. 12 der Satzung).",
   },
   {
     title: "Kontakt",

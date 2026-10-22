@@ -4,11 +4,7 @@
  * Die Struktur folgt § 6 und § 8 der Satzung: der Vorstand besteht aus
  * sieben Mitgliedern, davon fünf im geschäftsführenden Vorstand
  * (Präsident*in, zwei Vize-Präsident*innen, Protokolldirektor*in,
- * Finanzdirektor*in) und zwei Beisitzer*innen.
- *
- * Eine Vize-Präsidentschaft ist derzeit vakant. Nach § 8 (9) bleibt der
- * Vorstand dadurch handlungsfähig; nach § 9 (4) übernimmt der übrige
- * Vorstand die Aufgaben, bis die Position neu besetzt wird.
+ * Finanzdirektor*in) und zwei Beisitzer*innen. Alle sieben Sitze sind besetzt.
  */
 
 export type BoardMember = {
@@ -32,53 +28,50 @@ export const GESCHAEFTSFUEHRENDER_VORSTAND: BoardMember[] = [
     ref: "§ 8 (5)",
   },
   {
-    name: "Robina Lajin",
-    role: "Vizepräsidentin",
-    initials: "RL",
+    name: "Ninous Andersson",
+    role: "Vizepräsident",
+    initials: "NA",
     desc: "Unterstützt die Präsidentin, koordiniert interne Prozesse und trägt zur inhaltlichen Weiterentwicklung des Vereins bei.",
-    photo: "/team/robina.jpeg",
-    photoZoom: 1.8,
-  },
-  {
-    name: "Vakant",
-    role: "Zweite Vizepräsidentschaft",
-    initials: "—",
-    desc: "Diese Position ist seit einem Rücktritt unbesetzt. Der Vorstand bleibt handlungsfähig und übernimmt die Aufgaben, bis die Position nachbesetzt wird.",
-    vacant: true,
-    ref: "§ 8 (9), § 9 (4)",
+    photo: "/team/ninous.jpeg",
   },
   {
     name: "Severios Isac",
-    role: "Protokolldirektor",
+    role: "Vizepräsident",
     initials: "SI",
+    desc: "Unterstützt die Präsidentin, koordiniert interne Prozesse und trägt zur inhaltlichen Weiterentwicklung des Vereins bei.",
+    photo: "/team/severios.jpeg",
+  },
+  {
+    name: "Janette Bitinjan",
+    role: "Protokolldirektorin",
+    initials: "JB",
+    photo: "/team/janette.jpeg",
     desc: "Erstellt und verwaltet die Protokolle von Vorstandssitzungen und Mitgliederversammlungen und sichert die Transparenz der Vereinsarbeit.",
-    photo: "/team/severios.png",
     ref: "§ 7 (11)",
   },
   {
-    name: "Ninous Andersson",
+    name: "George Oshana",
     role: "Finanzdirektor",
-    initials: "NA",
+    initials: "GO",
+    photo: "/team/george.jpeg",
     desc: "Verantwortet Finanzen, Mittelverwendung und Finanzberichte. Führt gemeinsam mit der Präsidentin das Vereinskonto.",
-    photo: "/team/ninous.jpeg",
     ref: "§ 8 (5)",
   },
 ];
 
 export const BEISITZENDE: BoardMember[] = [
   {
-    name: "Dalia Abdo",
+    name: "Lea Walter",
     role: "Beisitzerin",
-    initials: "DA",
+    initials: "LW",
     desc: "Unterstützt den Vorstand bei Planung und Durchführung der Veranstaltungen und bringt eigene Formate ein.",
-    photo: "/team/dalia.jpeg",
   },
   {
-    name: "Roben Lajin",
-    role: "Beisitzer",
-    initials: "RL",
+    name: "Natalie Loka-Namrod",
+    role: "Beisitzerin",
+    initials: "NL",
+    photo: "/team/natalie.jpeg",
     desc: "Unterstützt den Vorstand bei Planung und Durchführung der Veranstaltungen und bringt eigene Formate ein.",
-    photo: "/team/roben.jpeg",
   },
 ];
 
