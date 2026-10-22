@@ -65,6 +65,7 @@ export const BEISITZENDE: BoardMember[] = [
     name: "Lea Walter",
     role: "Beisitzerin",
     initials: "LW",
+    photo: "/team/lea.jpeg",
     desc: "Unterstützt den Vorstand bei Planung und Durchführung der Veranstaltungen und bringt eigene Formate ein.",
   },
   {
